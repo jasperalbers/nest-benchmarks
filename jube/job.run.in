@@ -36,13 +36,13 @@ cd ${SCRATCH_DIRECTORY}
 
 # You can copy everything you need to the scratch directory
 # ${SLURM_SUBMIT_DIR} points to the path where this script was submitted from
-cp -r /home/hakmork/NEST/bld_master ${SCRATCH_DIRECTORY}
-cp /home/hakmork/NEST/benchmark/hpc_benchmark.sli ${SCRATCH_DIRECTORY}
+cp -r /home/${USER}/NEST/bld_master ${SCRATCH_DIRECTORY}/bld
+cp /home/${USER}/benchmarks/scripts/hpc_benchmark.sli ${SCRATCH_DIRECTORY}
 
 # This is where the actual work is done.
 cd $SCRATCH_DIRECTORY
 
-bld_master/install/bin/nest --userargs={{SCALE}},{{CPUS_PER_TASK}},{{SIMTIME}},1000,true,1.5,1.5 hpc_benchmark.sli
+bld/install/bin/nest --userargs={{SCALE}},{{CPUS_PER_TASK}},{{SIMTIME}},1000,true,1.5,1.5 hpc_benchmark.sli
 
 # After the job is done we copy our output back to $SLURM_SUBMIT_DIR
 #cp ${SCRATCH_DIRECTORY}/my_output ${SLURM_SUBMIT_DIR}
