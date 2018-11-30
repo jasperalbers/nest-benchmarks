@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jube>
+
+  <include-path>
+    <path>../jube_config/</path>
+  </include-path>
+
+  <benchmark name="build_nest" outpath="../../../../BenchWork/jube_bisect/NEST-Github">
+    
+    <step name="build">
+      <use from="dir_config.xml">dir_config</use>
+      <use from="system_descriptions.xml">system_sdv_gcc</use>
+      <use from="packages.xml">nest_github,nest_base_O3_KO1</use>
+      <use from="build_jobs.xml">build_base,bisect_build_nest,files,sub_build_job</use>
+      <do done_file="$ready_file">$submit_cmd $job_file</do> <!-- shell command -->
+    </step>
+    
+  </benchmark>
+</jube>

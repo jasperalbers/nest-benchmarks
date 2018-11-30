@@ -1,0 +1,12 @@
+#___________________________
+# Compile
+module load intel-studio-2018
+#for numa.h, need yum install libnuma-devel 
+icpc -D__AVX512__ -no-offload -qno-openmp-offload -wd3180 -qopenmp -mcmodel=large -mavx -g -O3 Pipeline.cc -w -mkl -Xlinker -lnuma
+
+#___________________________
+# RUN on Megware system
+#(scatter on AMD)
+export KMP_AFFINITY=granularity=fine,compact,1,0  
+export OMP_NUM_THREADS=56
+

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jube>
+
+  <include-path>
+    <path>../jube_config/</path>
+  </include-path>
+
+
+  <benchmark name="arbor_pyr_nonspiking_6252_gcc_vec_nompi" outpath="../../../../BenchWork/jube_arbor/pyr_nonspiking_6252_gcc_vec_nompi">
+    <!-- Load jobfile -->
+    <fileset name="files">
+      <copy>../jube_config/${job_file}.in</copy>
+    </fileset>
+    
+    <!-- Substitute jobfile -->
+    <substituteset name="sub_job">
+      <iofile in="${job_file}.in" out="$job_file" />
+      <sub source="#PARTITION#" dest="$partition" />
+      <sub source="#NODES#" dest="$nodes" />
+      <sub source="#NTASKS#" dest="$num_tasks" />
+      <sub source="#NTASKS_PER_NODE#" dest="$ppn" />
+      <sub source="#CPUS_PER_TASK#" dest="$cpus_per_task" />
+      <sub source="#TIME#" dest="$walltime" />
+      <sub source="#ERRPATH#" dest="$err_file" />
+      <sub source="#OUTPATH#" dest="$out_file" />
+      <sub source="#COMMANDS#" dest="$exec" />
+      <sub source="#READY#" dest="$ready_file" />
+      <sub source="#JOB_NAME#" dest="$job_name" />
+    </substituteset> 
+
+    <parameterset name="executeset">
+      <parameter name="submit_cmd">sbatch</parameter>
+      <parameter name="job_file">job.slurm</parameter>
+      <parameter name="num_neurons" type="int" mode="python">int(${SCALE}*11250)</parameter>
+      <parameter name="nodes" type="int">$NUMBER_OF_NODES</parameter>
+      <parameter name="ppn" type="int">$TASKS_PER_NODE</parameter>
+      <parameter name="num_tasks" type="int" mode="python">$TASKS_PER_NODE*$NUMBER_OF_NODES</parameter>
+      <parameter name="cpus_per_task" type="int">$THREADS_PER_TASK</parameter>
+      <parameter name="totVPs" type="int" mode="python">$THREADS_PER_TASK*$TASKS_PER_NODE*$NUMBER_OF_NODES</parameter>
+      <parameter name="job_name" type="string">Arbor-$system_name</parameter>      
+      <parameter name="walltime">00:30:00</parameter>
+      <parameter name="ready_file">ready</parameter>
+      <parameter name="err_file">stderr</parameter>
+      <parameter name="out_file">stdout</parameter>
+      <parameter name="exec">
+	source /etc/profile.d/modules.sh 
+	module purge;
+	module load $gcc_module;
+	module load $modules;
+	export OMP_NUM_THREADS=$THREADS_PER_TASK
+	${ARBOR_INSTALL_DIR}/bin/miniapp -n $num_neurons \
+   	     -c $NUM_COMPARTMENTS -s $NUM_SYNAPSES -t $SIMTIME -d $DT \
+	     --report-compartments --verbose --morphologies ${ARBOR_DATA_DIR}/51-2b-ss-${GEOM_SCALE}.CNG.swc
+      </parameter>
+    </parameterset>
+
+
+    <parameterset name="scale_check">
+      <parameter name="SCALE" type="float">0.5</parameter>
+      <parameter name="NUM_COMPARTMENTS" type="int">7</parameter> <!-- compartments per segment, total is ca 1000 for 7 here -->
+      <parameter name="GEOM_SCALE" type="string">001</parameter>
+      <parameter name="NUM_SYNAPSES" type="int">2000</parameter>
+      <parameter name="SIMTIME" type="float">500</parameter>
+      <parameter name="DT" type="float">0.025</parameter>
+      <parameter name="NUMBER_OF_NODES" type="int">1</parameter>
+      <parameter name="TASKS_PER_NODE" type="int">1</parameter>
+      <parameter name="THREADS_PER_TASK" type="int">24,48</parameter>
+    </parameterset>
+
+    <step name="scaling">
+      <use from="dir_config.xml">dir_config</use>
+      <use from="packages.xml">arbor,arbor_vec_nompi</use>
+      <use from="system_descriptions.xml">system_8260_q6252_puregcc</use>
+      <use>scale_check</use>
+      <use>executeset</use>
+      <use>files,sub_job</use>
+      <do done_file="$ready_file">$submit_cmd $job_file</do>
+    </step>
+
+    <!-- Regex pattern -->
+    <patternset name="pattern_stdcout">
+      <pattern mode="pattern" name="T_simulate" type="float">^model-simulate\s*$jube_pat_fp</pattern>
+      <pattern mode="pattern" name="T_setup" type="float">^setup\s*$jube_pat_fp</pattern>
+      <pattern mode="pattern" name="T_init" type="float">^model-init\s*$jube_pat_fp</pattern>
+      <pattern mode="pattern" name="n_spikes" type="int">there were\s*${jube_pat_int}\s*spikes</pattern>
+    </patternset>
+    
+    <!-- Analyse -->
+    <analyser name="analyse_scale_check">
+      <use>pattern_stdcout</use> <!-- use existing patternset -->
+      <analyse step="scaling">
+	<file>stdout</file> <!-- file which should be scanned -->
+      </analyse>
+    </analyser>
+    
+    <!-- Create result table -->
+    <result>
+      <use>analyse_scale_check</use> <!-- use existing analyser -->
+      <table name="ARBOR PYRAMIDAL NONSPIKING 6252 GCC VEC NOMPI" style="pretty" sort="number">
+	<column>NUMBER_OF_NODES</column>
+	<column>TASKS_PER_NODE</column>
+	<column>THREADS_PER_TASK</column>
+	<column>SCALE</column>
+	<column>GEOM_SCALE</column>
+	<column>NUM_SYNAPSES</column>
+	<column>NUM_COMPARTMENTS</column>
+	<column>SIMTIME</column>
+	<column>DT</column>	
+	<column>T_setup</column>	
+	<column>T_init</column>	
+	<column>T_simulate</column>	
+        <column>n_spikes</column>
+      </table>
+    </result>
+
+
+  </benchmark>
+</jube>
+

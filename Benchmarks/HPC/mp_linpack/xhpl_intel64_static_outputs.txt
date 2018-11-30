@@ -1,0 +1,1740 @@
+This run was done on: Fri Feb  2 17:15:45 CET 2018
+HPL.dat: 
+HPLinpack benchmark input file
+Innovative Computing Laboratory, University of Tennessee
+HPL.out      output file name (if any)
+6            device out (6=stdout,7=stderr,file)
+1            # of problems sizes (N)
+1000         Ns
+1            # of NBs
+192 256      NBs
+1            PMAP process mapping (0=Row-,1=Column-major)
+1            # of process grids (P x Q)
+1 2          Ps
+1 2          Qs
+16.0         threshold
+1            # of panel fact
+2 1 0        PFACTs (0=left, 1=Crout, 2=Right)
+1            # of recursive stopping criterium
+2            NBMINs (>= 1)
+1            # of panels in recursion
+2            NDIVs
+1            # of recursive panel fact.
+1 0 2        RFACTs (0=left, 1=Crout, 2=Right)
+1            # of broadcast
+0            BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
+1            # of lookahead depth
+0            DEPTHs (>=0)
+0            SWAP (0=bin-exch,1=long,2=mix)
+1            swapping threshold
+1            L1 in (0=transposed,1=no-transposed) form
+1            U  in (0=transposed,1=no-transposed) form
+0            Equilibration (0=no,1=yes)
+8            memory alignment in double (> 0)
+Binary name: 
+-rwxr-xr-x 1 lmontigny lmontigny 18635421 Feb  2 17:14 xhpl_intel64_static
+This script: 
+#!/bin/bash
+#===============================================================================
+# Copyright 2001-2017 Intel Corporation All Rights Reserved.
+#
+# The source code,  information  and material  ("Material") contained  herein is
+# owned by Intel Corporation or its  suppliers or licensors,  and  title to such
+# Material remains with Intel  Corporation or its  suppliers or  licensors.  The
+# Material  contains  proprietary  information  of  Intel or  its suppliers  and
+# licensors.  The Material is protected by  worldwide copyright  laws and treaty
+# provisions.  No part  of  the  Material   may  be  used,  copied,  reproduced,
+# modified, published,  uploaded, posted, transmitted,  distributed or disclosed
+# in any way without Intel's prior express written permission.  No license under
+# any patent,  copyright or other  intellectual property rights  in the Material
+# is granted to  or  conferred  upon  you,  either   expressly,  by implication,
+# inducement,  estoppel  or  otherwise.  Any  license   under such  intellectual
+# property rights must be express and approved by Intel in writing.
+#
+# Unless otherwise agreed by Intel in writing,  you may not remove or alter this
+# notice or  any  other  notice   embedded  in  Materials  by  Intel  or Intel's
+# suppliers or licensors in any way.
+#===============================================================================
+
+#
+echo "This is a SAMPLE run script.  Change it to reflect the correct number"
+echo "of CPUs/threads, number of nodes, MPI processes per node, etc.."
+
+# Set total number of MPI processes for the HPL (should be equal to PxQ).
+export MPI_PROC_NUM=2
+
+# Set the MPI per node and number of MICs attached to each node.
+# MPI_PER_NODE should be equal to 1 or number of sockets in the system. Otherwise,
+# the HPL performance will be low. 
+# MPI_PER_NODE is same as -perhost or -ppn paramaters in mpirun/mpiexec
+export MPI_PER_NODE=2
+
+# Set number of MICs that HPL will access per node
+export NUMMIC=2
+
+#
+# You can find description of all Intel MPI parameters in the
+# Intel MPI Reference Manual.
+# See <intel mpi installdir>/doc/Reference_manual.pdf
+export I_MPI_DAPL_DIRECT_COPY_THRESHOLD=655360
+
+#         "export I_MPI_PIN_CELL=core"
+#         You can use this variable (beginning Intel MPI 4.0.1 for cases if HT is enabled. 
+#         The variable forces to pin MPI processes and threads to real cores, 
+#         so logical processors will not be involved.
+#         It can be used together with the variable below, when Hydra Process Manager:
+#         "export I_MPI_PIN_DOMAIN=auto" This allows uniform distribution of
+#	      the processes and thread domains
+
+# export I_MPI_EAGER_THRESHOLD=128000
+#          This setting may give 1-2% of performance increase over the
+#          default value of 262000 for large problems and high number of cores
+
+export OUT=xhpl_intel64_static_outputs.txt
+export HPL_EXE=xhpl_intel64_static
+
+echo -n "This run was done on: "
+date
+
+# Capture some meaningful data for future reference:
+echo -n "This run was done on: " >> $OUT
+date >> $OUT
+echo "HPL.dat: " >> $OUT
+cat HPL.dat >> $OUT
+echo "Binary name: " >> $OUT
+ls -l xhpl_intel64_static >> $OUT
+echo "This script: " >> $OUT
+cat runme_intel64_static >> $OUT
+echo "Environment variables: " >> $OUT
+env >> $OUT
+echo "Actual run: " >> $OUT
+
+# Environment variables can also be also be set on the Intel MPI command line
+# using the -genv option (to appear before the -np 1):
+
+# mpirun -np ${MPI_PROC_NUM} ./runme_intel64_prv "$@" | tee -a $OUT
+
+# In case of multiple nodes involved, please set the number of MPI processes
+# per node (ppn=1,2 typically) through the -perhost option (because the
+# default is all cores):
+
+mpirun -perhost ${MPI_PER_NODE} -np ${MPI_PROC_NUM} ./runme_intel64_prv "$@" | tee -a $OUT
+
+echo -n "Done: " >> $OUT
+date >> $OUT
+
+echo -n "Done: "
+date
+Environment variables: 
+LC_PAPER=fr_FR.UTF-8
+MKLROOT=/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl
+MANPATH=/opt/intel/man/common:/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/man:/opt/intel/documentation_2017/en/debugger//gdb-ia/man/:/opt/intel/documentation_2017/en/debugger//gdb-mic/man/:/opt/intel/documentation_2017/en/debugger//gdb-igfx/man/:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man:
+MPI_PROC_NUM=2
+LC_ADDRESS=fr_FR.UTF-8
+LC_MONETARY=fr_FR.UTF-8
+HOSTNAME=skl2.imu.intel.com
+IPPROOT=/opt/intel/compilers_and_libraries_2017.6.256/linux/ipp
+INTEL_LICENSE_FILE=/opt/intel/compilers_and_libraries_2017.6.256/linux/licenses:/opt/intel/licenses:/home/lmontigny/intel/licenses
+SHELL=/bin/bash
+TERM=screen-256color
+HISTSIZE=1000
+SSH_CLIENT=172.28.228.75 58557 22
+TMPDIR=/tmp
+GDBSERVER_MIC=/opt/intel/debugger_2017/gdb/targets/mic/bin/gdbserver
+LIBRARY_PATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/ipp/lib/intel64:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb/lib/intel64/gcc4.7:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/../tbb/lib/intel64_lin/gcc4.4
+LC_NUMERIC=fr_FR.UTF-8
+OUT=xhpl_intel64_static_outputs.txt
+QTDIR=/usr/lib64/qt-3.3
+QTINC=/usr/lib64/qt-3.3/include
+SSF_VERSION=core-2016.0:hpc-cluster-2016.0:compat-base-2016.0:compat-hpc-2016.0
+SSH_TTY=/dev/pts/1
+MIC_LD_LIBRARY_PATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/mic/lib:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/ipp/lib/mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64_lin_mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64_lin_mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb/lib/mic
+QT_GRAPHICSSYSTEM_CHECKED=1
+USER=lmontigny
+LC_TELEPHONE=fr_FR.UTF-8
+LS_COLORS=rs=0:di=38;5;27:ln=38;5;51:mh=44;38;5;15:pi=40;38;5;11:so=38;5;13:do=38;5;5:bd=48;5;232;38;5;11:cd=48;5;232;38;5;3:or=48;5;232;38;5;9:mi=05;48;5;232;38;5;15:su=48;5;196;38;5;15:sg=48;5;11;38;5;16:ca=48;5;196;38;5;226:tw=48;5;10;38;5;16:ow=48;5;10;38;5;21:st=48;5;21;38;5;15:ex=38;5;34:*.tar=38;5;9:*.tgz=38;5;9:*.arc=38;5;9:*.arj=38;5;9:*.taz=38;5;9:*.lha=38;5;9:*.lz4=38;5;9:*.lzh=38;5;9:*.lzma=38;5;9:*.tlz=38;5;9:*.txz=38;5;9:*.tzo=38;5;9:*.t7z=38;5;9:*.zip=38;5;9:*.z=38;5;9:*.Z=38;5;9:*.dz=38;5;9:*.gz=38;5;9:*.lrz=38;5;9:*.lz=38;5;9:*.lzo=38;5;9:*.xz=38;5;9:*.bz2=38;5;9:*.bz=38;5;9:*.tbz=38;5;9:*.tbz2=38;5;9:*.tz=38;5;9:*.deb=38;5;9:*.rpm=38;5;9:*.jar=38;5;9:*.war=38;5;9:*.ear=38;5;9:*.sar=38;5;9:*.rar=38;5;9:*.alz=38;5;9:*.ace=38;5;9:*.zoo=38;5;9:*.cpio=38;5;9:*.7z=38;5;9:*.rz=38;5;9:*.cab=38;5;9:*.jpg=38;5;13:*.jpeg=38;5;13:*.gif=38;5;13:*.bmp=38;5;13:*.pbm=38;5;13:*.pgm=38;5;13:*.ppm=38;5;13:*.tga=38;5;13:*.xbm=38;5;13:*.xpm=38;5;13:*.tif=38;5;13:*.tiff=38;5;13:*.png=38;5;13:*.svg=38;5;13:*.svgz=38;5;13:*.mng=38;5;13:*.pcx=38;5;13:*.mov=38;5;13:*.mpg=38;5;13:*.mpeg=38;5;13:*.m2v=38;5;13:*.mkv=38;5;13:*.webm=38;5;13:*.ogm=38;5;13:*.mp4=38;5;13:*.m4v=38;5;13:*.mp4v=38;5;13:*.vob=38;5;13:*.qt=38;5;13:*.nuv=38;5;13:*.wmv=38;5;13:*.asf=38;5;13:*.rm=38;5;13:*.rmvb=38;5;13:*.flc=38;5;13:*.avi=38;5;13:*.fli=38;5;13:*.flv=38;5;13:*.gl=38;5;13:*.dl=38;5;13:*.xcf=38;5;13:*.xwd=38;5;13:*.yuv=38;5;13:*.cgm=38;5;13:*.emf=38;5;13:*.axv=38;5;13:*.anx=38;5;13:*.ogv=38;5;13:*.ogx=38;5;13:*.aac=38;5;45:*.au=38;5;45:*.flac=38;5;45:*.mid=38;5;45:*.midi=38;5;45:*.mka=38;5;45:*.mp3=38;5;45:*.mpc=38;5;45:*.ogg=38;5;45:*.ra=38;5;45:*.wav=38;5;45:*.axa=38;5;45:*.oga=38;5;45:*.spx=38;5;45:*.xspf=38;5;45:
+LD_LIBRARY_PATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/intel64/lib:/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/mic/lib:/opt/intel/compilers_and_libraries_2017.6.256/linux/ipp/lib/intel64:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb/lib/intel64/gcc4.7:/opt/intel/debugger_2017/iga/lib:/opt/intel/debugger_2017/libipt/intel64/lib:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/../tbb/lib/intel64_lin/gcc4.4
+MIC_LIBRARY_PATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/mic/lib:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64_lin_mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64_lin_mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb/lib/mic
+CPATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/ipp/include:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/include:/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb/include:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/include
+MPI_PER_NODE=2
+NUMMIC=2
+NLSPATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64/locale/%l_%t/%N:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64_lin/locale/%l_%t/%N:/opt/intel/debugger_2017/gdb/intel64_mic/share/locale/%l_%t/%N:/opt/intel/debugger_2017/gdb/intel64/share/locale/%l_%t/%N
+PATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/bin/intel64:/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/intel64/bin:/opt/intel/debugger_2017/gdb/intel64_mic/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/lmontigny/bin
+MAIL=/var/spool/mail/lmontigny
+I_MPI_DAPL_DIRECT_COPY_THRESHOLD=655360
+LC_IDENTIFICATION=fr_FR.UTF-8
+TBBROOT=/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb
+HPL_EXE=xhpl_intel64_static
+PWD=/home/lmontigny/Benchmarks/HPC/mp_linpack
+LANG=en_US.UTF-8
+GDB_CROSS=/opt/intel/debugger_2017/gdb/intel64_mic/bin/gdb-mic
+MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles
+LC_MEASUREMENT=fr_FR.UTF-8
+KDEDIRS=/usr
+LOADEDMODULES=
+DAALROOT=/opt/intel/compilers_and_libraries_2017.6.256/linux/daal
+HISTCONTROL=ignoredups
+MPM_LAUNCHER=/opt/intel/debugger_2017/mpm/mic/bin/start_mpm.sh
+INTEL_PYTHONHOME=/opt/intel/debugger_2017/python/intel64/
+HOME=/home/lmontigny
+SHLVL=2
+LOGNAME=lmontigny
+QTLIB=/usr/lib64/qt-3.3/lib
+SSH_CONNECTION=172.28.228.75 58557 10.237.240.141 22
+CLASSPATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/intel64/lib/mpi.jar:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/lib/daal.jar
+MODULESHOME=/usr/share/Modules
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+INFOPATH=/opt/intel/documentation_2017/en/debugger//gdb-ia/info/:/opt/intel/documentation_2017/en/debugger//gdb-mic/info/:/opt/intel/documentation_2017/en/debugger//gdb-igfx/info/
+QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
+LC_NAME=fr_FR.UTF-8
+I_MPI_ROOT=/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi
+BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`
+}
+_=/usr/bin/env
+Actual run: 
+MPI_RANK_FOR_NODE=0 NODE=0, CORE=, MIC=0, SHARE=
+MPI_RANK_FOR_NODE=1 NODE=1, CORE=, MIC=1, SHARE=
+Number of Intel(R) Xeon Phi(TM) coprocessors : 0
+================================================================================
+HPLinpack 2.1  --  High-Performance Linpack benchmark  --   October 26, 2012
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N        :    1000 
+NB       :     192 
+PMAP     : Column-major process mapping
+P        :       1 
+Q        :       1 
+PFACT    :   Right 
+NBMIN    :       2 
+NDIV     :       2 
+RFACT    :   Crout 
+BCAST    :   1ring 
+DEPTH    :       0 
+SWAP     : Binary-exchange
+L1       : no-transposed form
+U        : no-transposed form
+EQUIL    : no
+ALIGN    :    8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               1.110223e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+skl2            : Column=000192 Fraction=0.005 Kernel=    0.00 Mflops=66104.59
+skl2            : Column=000384 Fraction=0.195 Kernel=45757.48 Mflops=56476.48
+skl2            : Column=000576 Fraction=0.385 Kernel=28079.66 Mflops=48169.89
+skl2            : Column=000768 Fraction=0.595 Kernel=13366.13 Mflops=41239.08
+skl2            : Column=000960 Fraction=0.795 Kernel= 3884.78 Mflops=36838.26
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WC00C2R2        1000   192     1     1               0.02            3.48474e+01
+HPL_pdgesv() start time Fri Feb  2 17:15:46 2018
+
+HPL_pdgesv() end time   Fri Feb  2 17:15:46 2018
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0059446 ...... PASSED
+================================================================================
+
+Finished      1 tests with the following results:
+              1 tests completed and passed residual checks,
+              0 tests completed and failed residual checks,
+              0 tests skipped because of illegal input values.
+--------------------------------------------------------------------------------
+
+End of Tests.
+================================================================================
+Done: Fri Feb  2 17:15:46 CET 2018
+This run was done on: Fri Feb  2 17:20:21 CET 2018
+HPL.dat: 
+HPLinpack benchmark input file
+Innovative Computing Laboratory, University of Tennessee
+HPL.out      output file name (if any)
+6            device out (6=stdout,7=stderr,file)
+1            # of problems sizes (N)
+50000         Ns
+1            # of NBs
+192 256      NBs
+1            PMAP process mapping (0=Row-,1=Column-major)
+1            # of process grids (P x Q)
+1 2          Ps
+1 2          Qs
+16.0         threshold
+1            # of panel fact
+2 1 0        PFACTs (0=left, 1=Crout, 2=Right)
+1            # of recursive stopping criterium
+2            NBMINs (>= 1)
+1            # of panels in recursion
+2            NDIVs
+1            # of recursive panel fact.
+1 0 2        RFACTs (0=left, 1=Crout, 2=Right)
+1            # of broadcast
+0            BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
+1            # of lookahead depth
+0            DEPTHs (>=0)
+0            SWAP (0=bin-exch,1=long,2=mix)
+1            swapping threshold
+1            L1 in (0=transposed,1=no-transposed) form
+1            U  in (0=transposed,1=no-transposed) form
+0            Equilibration (0=no,1=yes)
+8            memory alignment in double (> 0)
+Binary name: 
+-rwxr-xr-x 1 lmontigny lmontigny 18635421 Feb  2 17:14 xhpl_intel64_static
+This script: 
+#!/bin/bash
+#===============================================================================
+# Copyright 2001-2017 Intel Corporation All Rights Reserved.
+#
+# The source code,  information  and material  ("Material") contained  herein is
+# owned by Intel Corporation or its  suppliers or licensors,  and  title to such
+# Material remains with Intel  Corporation or its  suppliers or  licensors.  The
+# Material  contains  proprietary  information  of  Intel or  its suppliers  and
+# licensors.  The Material is protected by  worldwide copyright  laws and treaty
+# provisions.  No part  of  the  Material   may  be  used,  copied,  reproduced,
+# modified, published,  uploaded, posted, transmitted,  distributed or disclosed
+# in any way without Intel's prior express written permission.  No license under
+# any patent,  copyright or other  intellectual property rights  in the Material
+# is granted to  or  conferred  upon  you,  either   expressly,  by implication,
+# inducement,  estoppel  or  otherwise.  Any  license   under such  intellectual
+# property rights must be express and approved by Intel in writing.
+#
+# Unless otherwise agreed by Intel in writing,  you may not remove or alter this
+# notice or  any  other  notice   embedded  in  Materials  by  Intel  or Intel's
+# suppliers or licensors in any way.
+#===============================================================================
+
+#
+echo "This is a SAMPLE run script.  Change it to reflect the correct number"
+echo "of CPUs/threads, number of nodes, MPI processes per node, etc.."
+
+# Set total number of MPI processes for the HPL (should be equal to PxQ).
+export MPI_PROC_NUM=2
+
+# Set the MPI per node and number of MICs attached to each node.
+# MPI_PER_NODE should be equal to 1 or number of sockets in the system. Otherwise,
+# the HPL performance will be low. 
+# MPI_PER_NODE is same as -perhost or -ppn paramaters in mpirun/mpiexec
+export MPI_PER_NODE=2
+
+# Set number of MICs that HPL will access per node
+export NUMMIC=2
+
+#
+# You can find description of all Intel MPI parameters in the
+# Intel MPI Reference Manual.
+# See <intel mpi installdir>/doc/Reference_manual.pdf
+export I_MPI_DAPL_DIRECT_COPY_THRESHOLD=655360
+
+#         "export I_MPI_PIN_CELL=core"
+#         You can use this variable (beginning Intel MPI 4.0.1 for cases if HT is enabled. 
+#         The variable forces to pin MPI processes and threads to real cores, 
+#         so logical processors will not be involved.
+#         It can be used together with the variable below, when Hydra Process Manager:
+#         "export I_MPI_PIN_DOMAIN=auto" This allows uniform distribution of
+#	      the processes and thread domains
+
+# export I_MPI_EAGER_THRESHOLD=128000
+#          This setting may give 1-2% of performance increase over the
+#          default value of 262000 for large problems and high number of cores
+
+export OUT=xhpl_intel64_static_outputs.txt
+export HPL_EXE=xhpl_intel64_static
+
+echo -n "This run was done on: "
+date
+
+# Capture some meaningful data for future reference:
+echo -n "This run was done on: " >> $OUT
+date >> $OUT
+echo "HPL.dat: " >> $OUT
+cat HPL.dat >> $OUT
+echo "Binary name: " >> $OUT
+ls -l xhpl_intel64_static >> $OUT
+echo "This script: " >> $OUT
+cat runme_intel64_static >> $OUT
+echo "Environment variables: " >> $OUT
+env >> $OUT
+echo "Actual run: " >> $OUT
+
+# Environment variables can also be also be set on the Intel MPI command line
+# using the -genv option (to appear before the -np 1):
+
+# mpirun -np ${MPI_PROC_NUM} ./runme_intel64_prv "$@" | tee -a $OUT
+
+# In case of multiple nodes involved, please set the number of MPI processes
+# per node (ppn=1,2 typically) through the -perhost option (because the
+# default is all cores):
+
+mpirun -perhost ${MPI_PER_NODE} -np ${MPI_PROC_NUM} ./runme_intel64_prv "$@" | tee -a $OUT
+
+echo -n "Done: " >> $OUT
+date >> $OUT
+
+echo -n "Done: "
+date
+Environment variables: 
+LC_PAPER=fr_FR.UTF-8
+MKLROOT=/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl
+MANPATH=/opt/intel/man/common:/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/man:/opt/intel/documentation_2017/en/debugger//gdb-ia/man/:/opt/intel/documentation_2017/en/debugger//gdb-mic/man/:/opt/intel/documentation_2017/en/debugger//gdb-igfx/man/:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man:
+MPI_PROC_NUM=2
+LC_ADDRESS=fr_FR.UTF-8
+LC_MONETARY=fr_FR.UTF-8
+HOSTNAME=skl2.imu.intel.com
+IPPROOT=/opt/intel/compilers_and_libraries_2017.6.256/linux/ipp
+INTEL_LICENSE_FILE=/opt/intel/compilers_and_libraries_2017.6.256/linux/licenses:/opt/intel/licenses:/home/lmontigny/intel/licenses
+SHELL=/bin/bash
+TERM=screen-256color
+HISTSIZE=1000
+SSH_CLIENT=172.28.228.75 58557 22
+TMPDIR=/tmp
+GDBSERVER_MIC=/opt/intel/debugger_2017/gdb/targets/mic/bin/gdbserver
+LIBRARY_PATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/ipp/lib/intel64:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb/lib/intel64/gcc4.7:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/../tbb/lib/intel64_lin/gcc4.4
+LC_NUMERIC=fr_FR.UTF-8
+OUT=xhpl_intel64_static_outputs.txt
+QTDIR=/usr/lib64/qt-3.3
+QTINC=/usr/lib64/qt-3.3/include
+SSF_VERSION=core-2016.0:hpc-cluster-2016.0:compat-base-2016.0:compat-hpc-2016.0
+SSH_TTY=/dev/pts/1
+MIC_LD_LIBRARY_PATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/mic/lib:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/ipp/lib/mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64_lin_mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64_lin_mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb/lib/mic
+QT_GRAPHICSSYSTEM_CHECKED=1
+USER=lmontigny
+LC_TELEPHONE=fr_FR.UTF-8
+LS_COLORS=rs=0:di=38;5;27:ln=38;5;51:mh=44;38;5;15:pi=40;38;5;11:so=38;5;13:do=38;5;5:bd=48;5;232;38;5;11:cd=48;5;232;38;5;3:or=48;5;232;38;5;9:mi=05;48;5;232;38;5;15:su=48;5;196;38;5;15:sg=48;5;11;38;5;16:ca=48;5;196;38;5;226:tw=48;5;10;38;5;16:ow=48;5;10;38;5;21:st=48;5;21;38;5;15:ex=38;5;34:*.tar=38;5;9:*.tgz=38;5;9:*.arc=38;5;9:*.arj=38;5;9:*.taz=38;5;9:*.lha=38;5;9:*.lz4=38;5;9:*.lzh=38;5;9:*.lzma=38;5;9:*.tlz=38;5;9:*.txz=38;5;9:*.tzo=38;5;9:*.t7z=38;5;9:*.zip=38;5;9:*.z=38;5;9:*.Z=38;5;9:*.dz=38;5;9:*.gz=38;5;9:*.lrz=38;5;9:*.lz=38;5;9:*.lzo=38;5;9:*.xz=38;5;9:*.bz2=38;5;9:*.bz=38;5;9:*.tbz=38;5;9:*.tbz2=38;5;9:*.tz=38;5;9:*.deb=38;5;9:*.rpm=38;5;9:*.jar=38;5;9:*.war=38;5;9:*.ear=38;5;9:*.sar=38;5;9:*.rar=38;5;9:*.alz=38;5;9:*.ace=38;5;9:*.zoo=38;5;9:*.cpio=38;5;9:*.7z=38;5;9:*.rz=38;5;9:*.cab=38;5;9:*.jpg=38;5;13:*.jpeg=38;5;13:*.gif=38;5;13:*.bmp=38;5;13:*.pbm=38;5;13:*.pgm=38;5;13:*.ppm=38;5;13:*.tga=38;5;13:*.xbm=38;5;13:*.xpm=38;5;13:*.tif=38;5;13:*.tiff=38;5;13:*.png=38;5;13:*.svg=38;5;13:*.svgz=38;5;13:*.mng=38;5;13:*.pcx=38;5;13:*.mov=38;5;13:*.mpg=38;5;13:*.mpeg=38;5;13:*.m2v=38;5;13:*.mkv=38;5;13:*.webm=38;5;13:*.ogm=38;5;13:*.mp4=38;5;13:*.m4v=38;5;13:*.mp4v=38;5;13:*.vob=38;5;13:*.qt=38;5;13:*.nuv=38;5;13:*.wmv=38;5;13:*.asf=38;5;13:*.rm=38;5;13:*.rmvb=38;5;13:*.flc=38;5;13:*.avi=38;5;13:*.fli=38;5;13:*.flv=38;5;13:*.gl=38;5;13:*.dl=38;5;13:*.xcf=38;5;13:*.xwd=38;5;13:*.yuv=38;5;13:*.cgm=38;5;13:*.emf=38;5;13:*.axv=38;5;13:*.anx=38;5;13:*.ogv=38;5;13:*.ogx=38;5;13:*.aac=38;5;45:*.au=38;5;45:*.flac=38;5;45:*.mid=38;5;45:*.midi=38;5;45:*.mka=38;5;45:*.mp3=38;5;45:*.mpc=38;5;45:*.ogg=38;5;45:*.ra=38;5;45:*.wav=38;5;45:*.axa=38;5;45:*.oga=38;5;45:*.spx=38;5;45:*.xspf=38;5;45:
+LD_LIBRARY_PATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/intel64/lib:/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/mic/lib:/opt/intel/compilers_and_libraries_2017.6.256/linux/ipp/lib/intel64:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb/lib/intel64/gcc4.7:/opt/intel/debugger_2017/iga/lib:/opt/intel/debugger_2017/libipt/intel64/lib:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/lib/intel64_lin:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/../tbb/lib/intel64_lin/gcc4.4
+MIC_LIBRARY_PATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/mic/lib:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64_lin_mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64_lin_mic:/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb/lib/mic
+CPATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/ipp/include:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/include:/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb/include:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/include
+MPI_PER_NODE=2
+NUMMIC=2
+NLSPATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/compiler/lib/intel64/locale/%l_%t/%N:/opt/intel/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64_lin/locale/%l_%t/%N:/opt/intel/debugger_2017/gdb/intel64_mic/share/locale/%l_%t/%N:/opt/intel/debugger_2017/gdb/intel64/share/locale/%l_%t/%N
+PATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/bin/intel64:/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/intel64/bin:/opt/intel/debugger_2017/gdb/intel64_mic/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/lmontigny/bin
+MAIL=/var/spool/mail/lmontigny
+I_MPI_DAPL_DIRECT_COPY_THRESHOLD=655360
+LC_IDENTIFICATION=fr_FR.UTF-8
+TBBROOT=/opt/intel/compilers_and_libraries_2017.6.256/linux/tbb
+HPL_EXE=xhpl_intel64_static
+PWD=/home/lmontigny/Benchmarks/HPC/mp_linpack
+LANG=en_US.UTF-8
+GDB_CROSS=/opt/intel/debugger_2017/gdb/intel64_mic/bin/gdb-mic
+MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles
+LC_MEASUREMENT=fr_FR.UTF-8
+KDEDIRS=/usr
+LOADEDMODULES=
+DAALROOT=/opt/intel/compilers_and_libraries_2017.6.256/linux/daal
+HISTCONTROL=ignoredups
+MPM_LAUNCHER=/opt/intel/debugger_2017/mpm/mic/bin/start_mpm.sh
+INTEL_PYTHONHOME=/opt/intel/debugger_2017/python/intel64/
+HOME=/home/lmontigny
+SHLVL=2
+LOGNAME=lmontigny
+QTLIB=/usr/lib64/qt-3.3/lib
+SSH_CONNECTION=172.28.228.75 58557 10.237.240.141 22
+CLASSPATH=/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi/intel64/lib/mpi.jar:/opt/intel/compilers_and_libraries_2017.6.256/linux/daal/lib/daal.jar
+MODULESHOME=/usr/share/Modules
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+INFOPATH=/opt/intel/documentation_2017/en/debugger//gdb-ia/info/:/opt/intel/documentation_2017/en/debugger//gdb-mic/info/:/opt/intel/documentation_2017/en/debugger//gdb-igfx/info/
+QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
+LC_NAME=fr_FR.UTF-8
+I_MPI_ROOT=/opt/intel/compilers_and_libraries_2017.6.256/linux/mpi
+BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`
+}
+_=/usr/bin/env
+Actual run: 
+MPI_RANK_FOR_NODE=0 NODE=0, CORE=, MIC=0, SHARE=
+MPI_RANK_FOR_NODE=1 NODE=1, CORE=, MIC=1, SHARE=
+Number of Intel(R) Xeon Phi(TM) coprocessors : 0
+================================================================================
+HPLinpack 2.1  --  High-Performance Linpack benchmark  --   October 26, 2012
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N        :   50000 
+NB       :     192 
+PMAP     : Column-major process mapping
+P        :       1 
+Q        :       1 
+PFACT    :   Right 
+NBMIN    :       2 
+NDIV     :       2 
+RFACT    :   Crout 
+BCAST    :   1ring 
+DEPTH    :       0 
+SWAP     : Binary-exchange
+L1       : no-transposed form
+U        : no-transposed form
+EQUIL    : no
+ALIGN    :    8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               1.110223e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+skl2            : Column=000384 Fraction=0.005 Kernel=    0.05 Mflops=2571483.80
+skl2            : Column=000576 Fraction=0.010 Kernel=1472071.39 Mflops=2062090.98
+skl2            : Column=000768 Fraction=0.015 Kernel=1479174.88 Mflops=1879106.86
+skl2            : Column=001152 Fraction=0.020 Kernel=1404042.05 Mflops=1691312.30
+skl2            : Column=001344 Fraction=0.025 Kernel=1386976.35 Mflops=1641068.28
+skl2            : Column=001536 Fraction=0.030 Kernel=1459318.66 Mflops=1616585.55
+skl2            : Column=001920 Fraction=0.035 Kernel=1416083.31 Mflops=1573419.59
+skl2            : Column=002112 Fraction=0.040 Kernel=1411266.90 Mflops=1557782.49
+skl2            : Column=002304 Fraction=0.045 Kernel=1414495.31 Mflops=1545297.91
+skl2            : Column=002688 Fraction=0.050 Kernel=1424933.65 Mflops=1527729.57
+skl2            : Column=002880 Fraction=0.055 Kernel=1402040.42 Mflops=1519148.51
+skl2            : Column=003072 Fraction=0.060 Kernel=1369651.53 Mflops=1509457.28
+skl2            : Column=003264 Fraction=0.065 Kernel=1368138.27 Mflops=1500910.91
+skl2            : Column=003648 Fraction=0.070 Kernel=1414727.25 Mflops=1491984.97
+skl2            : Column=003840 Fraction=0.075 Kernel=1404043.66 Mflops=1487675.07
+skl2            : Column=004032 Fraction=0.080 Kernel=1407134.00 Mflops=1483949.80
+skl2            : Column=004416 Fraction=0.085 Kernel=1436023.91 Mflops=1480012.17
+skl2            : Column=004608 Fraction=0.090 Kernel=1352708.31 Mflops=1474756.37
+skl2            : Column=004800 Fraction=0.095 Kernel=1465042.31 Mflops=1474402.56
+skl2            : Column=005184 Fraction=0.100 Kernel=1395679.55 Mflops=1468876.53
+skl2            : Column=005376 Fraction=0.105 Kernel=1419771.67 Mflops=1467259.01
+skl2            : Column=005568 Fraction=0.110 Kernel=1394616.95 Mflops=1464921.60
+skl2            : Column=005760 Fraction=0.115 Kernel=1507142.91 Mflops=1466132.17
+skl2            : Column=006144 Fraction=0.120 Kernel=1373383.59 Mflops=1460708.04
+skl2            : Column=006336 Fraction=0.125 Kernel=1453273.15 Mflops=1460510.65
+skl2            : Column=006528 Fraction=0.130 Kernel=1358362.38 Mflops=1457713.37
+skl2            : Column=006912 Fraction=0.135 Kernel=1402060.26 Mflops=1454944.20
+skl2            : Column=007104 Fraction=0.140 Kernel=1470472.40 Mflops=1455299.35
+skl2            : Column=007296 Fraction=0.145 Kernel=1395241.29 Mflops=1453898.06
+skl2            : Column=007680 Fraction=0.150 Kernel=1386606.40 Mflops=1450918.76
+skl2            : Column=007872 Fraction=0.155 Kernel=1373413.30 Mflops=1449246.78
+skl2            : Column=008064 Fraction=0.160 Kernel=1386297.87 Mflops=1447941.30
+skl2            : Column=008256 Fraction=0.165 Kernel=1412919.49 Mflops=1447249.13
+skl2            : Column=008640 Fraction=0.170 Kernel=1434791.50 Mflops=1446788.54
+skl2            : Column=008832 Fraction=0.175 Kernel=1413467.49 Mflops=1446183.12
+skl2            : Column=009024 Fraction=0.180 Kernel=1417194.86 Mflops=1445671.86
+skl2            : Column=009408 Fraction=0.185 Kernel=1457576.31 Mflops=1446061.27
+skl2            : Column=009600 Fraction=0.190 Kernel=1353818.63 Mflops=1444487.16
+skl2            : Column=009792 Fraction=0.195 Kernel=1427701.43 Mflops=1444222.35
+skl2            : Column=010176 Fraction=0.200 Kernel=1398935.16 Mflops=1442829.07
+skl2            : Column=010368 Fraction=0.205 Kernel=1347791.57 Mflops=1441356.61
+skl2            : Column=010560 Fraction=0.210 Kernel=1534157.39 Mflops=1442590.94
+skl2            : Column=010752 Fraction=0.215 Kernel=1375181.66 Mflops=1441614.72
+skl2            : Column=011136 Fraction=0.220 Kernel=1371042.92 Mflops=1439650.64
+skl2            : Column=011328 Fraction=0.225 Kernel=1569011.34 Mflops=1441182.16
+skl2            : Column=011520 Fraction=0.230 Kernel=1306111.95 Mflops=1439306.56
+skl2            : Column=011904 Fraction=0.235 Kernel=1460394.80 Mflops=1439810.24
+skl2            : Column=012096 Fraction=0.240 Kernel=1383789.66 Mflops=1439123.31
+skl2            : Column=012288 Fraction=0.245 Kernel=1387550.16 Mflops=1438506.45
+skl2            : Column=012672 Fraction=0.250 Kernel=1442609.26 Mflops=1438597.36
+skl2            : Column=012864 Fraction=0.255 Kernel=1381891.81 Mflops=1437958.84
+skl2            : Column=013056 Fraction=0.260 Kernel=1466716.52 Mflops=1438257.65
+skl2            : Column=013440 Fraction=0.265 Kernel=1382359.55 Mflops=1437069.97
+skl2            : Column=013632 Fraction=0.270 Kernel=1480622.50 Mflops=1437491.09
+skl2            : Column=013824 Fraction=0.275 Kernel=1338013.78 Mflops=1436448.91
+skl2            : Column=014016 Fraction=0.280 Kernel=1448586.54 Mflops=1436564.02
+skl2            : Column=014400 Fraction=0.285 Kernel=1444463.57 Mflops=1436709.18
+skl2            : Column=014592 Fraction=0.290 Kernel=1382495.22 Mflops=1436201.88
+skl2            : Column=014784 Fraction=0.295 Kernel=1417771.19 Mflops=1436037.02
+skl2            : Column=015168 Fraction=0.300 Kernel=1425204.76 Mflops=1435850.62
+skl2            : Column=015360 Fraction=0.305 Kernel=1421013.33 Mflops=1435725.75
+skl2            : Column=015552 Fraction=0.310 Kernel=1400007.06 Mflops=1435426.52
+skl2            : Column=015936 Fraction=0.315 Kernel=1439108.23 Mflops=1435484.60
+skl2            : Column=016128 Fraction=0.320 Kernel=1441018.21 Mflops=1435527.14
+skl2            : Column=016320 Fraction=0.325 Kernel=1300726.05 Mflops=1434401.70
+skl2            : Column=016512 Fraction=0.330 Kernel=1404688.54 Mflops=1434176.31
+skl2            : Column=016896 Fraction=0.335 Kernel=1435602.00 Mflops=1434196.82
+skl2            : Column=017088 Fraction=0.340 Kernel=1434975.37 Mflops=1434202.28
+skl2            : Column=017280 Fraction=0.345 Kernel=1437179.72 Mflops=1434222.77
+skl2            : Column=017664 Fraction=0.350 Kernel=1391513.37 Mflops=1433634.59
+skl2            : Column=017856 Fraction=0.355 Kernel=1504198.89 Mflops=1434073.41
+skl2            : Column=018048 Fraction=0.360 Kernel=1408602.98 Mflops=1433907.37
+skl2            : Column=018432 Fraction=0.365 Kernel=1418052.69 Mflops=1433708.23
+skl2            : Column=018624 Fraction=0.370 Kernel=1394043.14 Mflops=1433460.98
+skl2            : Column=018816 Fraction=0.375 Kernel=1484684.63 Mflops=1433755.44
+skl2            : Column=019008 Fraction=0.380 Kernel=1362829.81 Mflops=1433319.40
+skl2            : Column=019392 Fraction=0.385 Kernel=1429543.16 Mflops=1433276.44
+skl2            : Column=019584 Fraction=0.390 Kernel=1483974.34 Mflops=1433547.58
+skl2            : Column=019776 Fraction=0.395 Kernel=1448925.23 Mflops=1433630.31
+skl2            : Column=020160 Fraction=0.400 Kernel=1371375.62 Mflops=1432943.64
+skl2            : Column=020352 Fraction=0.405 Kernel=1410134.87 Mflops=1432824.27
+skl2            : Column=020544 Fraction=0.410 Kernel=1447766.67 Mflops=1432899.08
+skl2            : Column=020928 Fraction=0.415 Kernel=1396481.11 Mflops=1432532.10
+skl2            : Column=021120 Fraction=0.420 Kernel=1392205.13 Mflops=1432333.26
+skl2            : Column=021312 Fraction=0.425 Kernel=1515826.62 Mflops=1432704.70
+skl2            : Column=021504 Fraction=0.430 Kernel=1379931.22 Mflops=1432451.46
+skl2            : Column=021888 Fraction=0.435 Kernel=1432559.06 Mflops=1432452.42
+skl2            : Column=022080 Fraction=0.440 Kernel=1344972.09 Mflops=1432044.51
+skl2            : Column=022272 Fraction=0.445 Kernel=1498475.60 Mflops=1432317.62
+skl2            : Column=022656 Fraction=0.450 Kernel=1387500.23 Mflops=1431931.20
+skl2            : Column=022848 Fraction=0.455 Kernel=1408628.42 Mflops=1431834.71
+skl2            : Column=023040 Fraction=0.460 Kernel=1437562.86 Mflops=1431857.54
+skl2            : Column=023424 Fraction=0.465 Kernel=1371918.53 Mflops=1431371.60
+skl2            : Column=023616 Fraction=0.470 Kernel=1415867.50 Mflops=1431312.24
+skl2            : Column=023808 Fraction=0.475 Kernel=1399589.42 Mflops=1431191.60
+skl2            : Column=024192 Fraction=0.480 Kernel=1463926.68 Mflops=1431422.81
+skl2            : Column=024384 Fraction=0.485 Kernel=1369268.16 Mflops=1431194.15
+skl2            : Column=024576 Fraction=0.490 Kernel=1376830.52 Mflops=1430998.91
+skl2            : Column=024768 Fraction=0.495 Kernel=1437752.80 Mflops=1431021.71
+skl2            : Column=025920 Fraction=0.515 Kernel=1422584.54 Mflops=1430861.11
+skl2            : Column=026880 Fraction=0.535 Kernel=1404263.21 Mflops=1430475.23
+skl2            : Column=027840 Fraction=0.555 Kernel=1435404.02 Mflops=1430538.78
+skl2            : Column=028800 Fraction=0.575 Kernel=1400263.65 Mflops=1430176.23
+skl2            : Column=029760 Fraction=0.595 Kernel=1406268.56 Mflops=1429918.64
+skl2            : Column=030912 Fraction=0.615 Kernel=1391976.97 Mflops=1429477.42
+skl2            : Column=031872 Fraction=0.635 Kernel=1395955.51 Mflops=1429189.86
+skl2            : Column=032832 Fraction=0.655 Kernel=1406675.36 Mflops=1429018.76
+skl2            : Column=033792 Fraction=0.675 Kernel=1393741.70 Mflops=1428778.47
+skl2            : Column=034752 Fraction=0.695 Kernel=1352022.03 Mflops=1428302.69
+skl2            : Column=039936 Fraction=0.795 Kernel=1311643.49 Mflops=1425719.28
+skl2            : Column=044928 Fraction=0.895 Kernel=1009374.45 Mflops=1421545.49
+skl2            : Column=049920 Fraction=0.995 Kernel=403407.20 Mflops=1417810.34
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WC00C2R2       50000   192     1     1              58.89            1.41514e+03
+HPL_pdgesv() start time Fri Feb  2 17:20:29 2018
+
+HPL_pdgesv() end time   Fri Feb  2 17:21:28 2018
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0040735 ...... PASSED
+================================================================================
+
+Finished      1 tests with the following results:
+              1 tests completed and passed residual checks,
+              0 tests completed and failed residual checks,
+              0 tests skipped because of illegal input values.
+--------------------------------------------------------------------------------
+
+End of Tests.
+================================================================================
+Done: Fri Feb  2 17:21:35 CET 2018
+This run was done on: Mon Feb  5 11:35:48 CET 2018
+HPL.dat: 
+HPLinpack benchmark input file
+Innovative Computing Laboratory, University of Tennessee
+HPL.out      output file name (if any)
+6            device out (6=stdout,7=stderr,file)
+1            # of problems sizes (N)
+60000         Ns
+1            # of NBs
+192 256      NBs
+1            PMAP process mapping (0=Row-,1=Column-major)
+1            # of process grids (P x Q)
+1 2          Ps
+1 2          Qs
+16.0         threshold
+1            # of panel fact
+2 1 0        PFACTs (0=left, 1=Crout, 2=Right)
+1            # of recursive stopping criterium
+2            NBMINs (>= 1)
+1            # of panels in recursion
+2            NDIVs
+1            # of recursive panel fact.
+1 0 2        RFACTs (0=left, 1=Crout, 2=Right)
+1            # of broadcast
+0            BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
+1            # of lookahead depth
+0            DEPTHs (>=0)
+0            SWAP (0=bin-exch,1=long,2=mix)
+1            swapping threshold
+1            L1 in (0=transposed,1=no-transposed) form
+1            U  in (0=transposed,1=no-transposed) form
+0            Equilibration (0=no,1=yes)
+8            memory alignment in double (> 0)
+Binary name: 
+-rwxr-xr-x 1 lmontigny lmontigny 18635421 Feb  2 17:14 xhpl_intel64_static
+This script: 
+#!/bin/bash
+#===============================================================================
+# Copyright 2001-2017 Intel Corporation All Rights Reserved.
+#
+# The source code,  information  and material  ("Material") contained  herein is
+# owned by Intel Corporation or its  suppliers or licensors,  and  title to such
+# Material remains with Intel  Corporation or its  suppliers or  licensors.  The
+# Material  contains  proprietary  information  of  Intel or  its suppliers  and
+# licensors.  The Material is protected by  worldwide copyright  laws and treaty
+# provisions.  No part  of  the  Material   may  be  used,  copied,  reproduced,
+# modified, published,  uploaded, posted, transmitted,  distributed or disclosed
+# in any way without Intel's prior express written permission.  No license under
+# any patent,  copyright or other  intellectual property rights  in the Material
+# is granted to  or  conferred  upon  you,  either   expressly,  by implication,
+# inducement,  estoppel  or  otherwise.  Any  license   under such  intellectual
+# property rights must be express and approved by Intel in writing.
+#
+# Unless otherwise agreed by Intel in writing,  you may not remove or alter this
+# notice or  any  other  notice   embedded  in  Materials  by  Intel  or Intel's
+# suppliers or licensors in any way.
+#===============================================================================
+
+#
+echo "This is a SAMPLE run script.  Change it to reflect the correct number"
+echo "of CPUs/threads, number of nodes, MPI processes per node, etc.."
+
+# Set total number of MPI processes for the HPL (should be equal to PxQ).
+export MPI_PROC_NUM=2
+
+# Set the MPI per node and number of MICs attached to each node.
+# MPI_PER_NODE should be equal to 1 or number of sockets in the system. Otherwise,
+# the HPL performance will be low. 
+# MPI_PER_NODE is same as -perhost or -ppn paramaters in mpirun/mpiexec
+export MPI_PER_NODE=2
+
+# Set number of MICs that HPL will access per node
+export NUMMIC=2
+
+#
+# You can find description of all Intel MPI parameters in the
+# Intel MPI Reference Manual.
+# See <intel mpi installdir>/doc/Reference_manual.pdf
+export I_MPI_DAPL_DIRECT_COPY_THRESHOLD=655360
+
+#         "export I_MPI_PIN_CELL=core"
+#         You can use this variable (beginning Intel MPI 4.0.1 for cases if HT is enabled. 
+#         The variable forces to pin MPI processes and threads to real cores, 
+#         so logical processors will not be involved.
+#         It can be used together with the variable below, when Hydra Process Manager:
+#         "export I_MPI_PIN_DOMAIN=auto" This allows uniform distribution of
+#	      the processes and thread domains
+
+# export I_MPI_EAGER_THRESHOLD=128000
+#          This setting may give 1-2% of performance increase over the
+#          default value of 262000 for large problems and high number of cores
+
+export OUT=xhpl_intel64_static_outputs.txt
+export HPL_EXE=xhpl_intel64_static
+
+echo -n "This run was done on: "
+date
+
+# Capture some meaningful data for future reference:
+echo -n "This run was done on: " >> $OUT
+date >> $OUT
+echo "HPL.dat: " >> $OUT
+cat HPL.dat >> $OUT
+echo "Binary name: " >> $OUT
+ls -l xhpl_intel64_static >> $OUT
+echo "This script: " >> $OUT
+cat runme_intel64_static >> $OUT
+echo "Environment variables: " >> $OUT
+env >> $OUT
+echo "Actual run: " >> $OUT
+
+# Environment variables can also be also be set on the Intel MPI command line
+# using the -genv option (to appear before the -np 1):
+
+# mpirun -np ${MPI_PROC_NUM} ./runme_intel64_prv "$@" | tee -a $OUT
+
+# In case of multiple nodes involved, please set the number of MPI processes
+# per node (ppn=1,2 typically) through the -perhost option (because the
+# default is all cores):
+
+mpirun -perhost ${MPI_PER_NODE} -np ${MPI_PROC_NUM} ./runme_intel64_prv "$@" | tee -a $OUT
+
+echo -n "Done: " >> $OUT
+date >> $OUT
+
+echo -n "Done: "
+date
+Environment variables: 
+LC_PAPER=fr_FR.UTF-8
+MANPATH=/usr/share/man/openmpi-x86_64:/usr/share/man:/usr/local/share/man
+MPI_INCLUDE=/usr/include/openmpi-x86_64
+MPI_PROC_NUM=2
+LC_ADDRESS=fr_FR.UTF-8
+LC_MONETARY=fr_FR.UTF-8
+HOSTNAME=skl2.imu.intel.com
+SHELL=/bin/bash
+TERM=screen-256color
+HISTSIZE=1000
+SSH_CLIENT=172.28.228.164 63546 22
+TMPDIR=/tmp
+LC_NUMERIC=fr_FR.UTF-8
+OUT=xhpl_intel64_static_outputs.txt
+QTDIR=/usr/lib64/qt-3.3
+QTINC=/usr/lib64/qt-3.3/include
+SSF_VERSION=core-2016.0:hpc-cluster-2016.0:compat-base-2016.0:compat-hpc-2016.0
+SSH_TTY=/dev/pts/1
+QT_GRAPHICSSYSTEM_CHECKED=1
+USER=lmontigny
+MPI_PYTHON_SITEARCH=/usr/lib64/python2.7/site-packages/openmpi
+LC_TELEPHONE=fr_FR.UTF-8
+LS_COLORS=rs=0:di=38;5;27:ln=38;5;51:mh=44;38;5;15:pi=40;38;5;11:so=38;5;13:do=38;5;5:bd=48;5;232;38;5;11:cd=48;5;232;38;5;3:or=48;5;232;38;5;9:mi=05;48;5;232;38;5;15:su=48;5;196;38;5;15:sg=48;5;11;38;5;16:ca=48;5;196;38;5;226:tw=48;5;10;38;5;16:ow=48;5;10;38;5;21:st=48;5;21;38;5;15:ex=38;5;34:*.tar=38;5;9:*.tgz=38;5;9:*.arc=38;5;9:*.arj=38;5;9:*.taz=38;5;9:*.lha=38;5;9:*.lz4=38;5;9:*.lzh=38;5;9:*.lzma=38;5;9:*.tlz=38;5;9:*.txz=38;5;9:*.tzo=38;5;9:*.t7z=38;5;9:*.zip=38;5;9:*.z=38;5;9:*.Z=38;5;9:*.dz=38;5;9:*.gz=38;5;9:*.lrz=38;5;9:*.lz=38;5;9:*.lzo=38;5;9:*.xz=38;5;9:*.bz2=38;5;9:*.bz=38;5;9:*.tbz=38;5;9:*.tbz2=38;5;9:*.tz=38;5;9:*.deb=38;5;9:*.rpm=38;5;9:*.jar=38;5;9:*.war=38;5;9:*.ear=38;5;9:*.sar=38;5;9:*.rar=38;5;9:*.alz=38;5;9:*.ace=38;5;9:*.zoo=38;5;9:*.cpio=38;5;9:*.7z=38;5;9:*.rz=38;5;9:*.cab=38;5;9:*.jpg=38;5;13:*.jpeg=38;5;13:*.gif=38;5;13:*.bmp=38;5;13:*.pbm=38;5;13:*.pgm=38;5;13:*.ppm=38;5;13:*.tga=38;5;13:*.xbm=38;5;13:*.xpm=38;5;13:*.tif=38;5;13:*.tiff=38;5;13:*.png=38;5;13:*.svg=38;5;13:*.svgz=38;5;13:*.mng=38;5;13:*.pcx=38;5;13:*.mov=38;5;13:*.mpg=38;5;13:*.mpeg=38;5;13:*.m2v=38;5;13:*.mkv=38;5;13:*.webm=38;5;13:*.ogm=38;5;13:*.mp4=38;5;13:*.m4v=38;5;13:*.mp4v=38;5;13:*.vob=38;5;13:*.qt=38;5;13:*.nuv=38;5;13:*.wmv=38;5;13:*.asf=38;5;13:*.rm=38;5;13:*.rmvb=38;5;13:*.flc=38;5;13:*.avi=38;5;13:*.fli=38;5;13:*.flv=38;5;13:*.gl=38;5;13:*.dl=38;5;13:*.xcf=38;5;13:*.xwd=38;5;13:*.yuv=38;5;13:*.cgm=38;5;13:*.emf=38;5;13:*.axv=38;5;13:*.anx=38;5;13:*.ogv=38;5;13:*.ogx=38;5;13:*.aac=38;5;45:*.au=38;5;45:*.flac=38;5;45:*.mid=38;5;45:*.midi=38;5;45:*.mka=38;5;45:*.mp3=38;5;45:*.mpc=38;5;45:*.ogg=38;5;45:*.ra=38;5;45:*.wav=38;5;45:*.axa=38;5;45:*.oga=38;5;45:*.spx=38;5;45:*.xspf=38;5;45:
+LD_LIBRARY_PATH=/usr/lib64/openmpi/lib
+MPI_PER_NODE=2
+MPI_LIB=/usr/lib64/openmpi/lib
+NUMMIC=2
+PATH=/usr/lib64/openmpi/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/lmontigny/bin
+MAIL=/var/spool/mail/lmontigny
+I_MPI_DAPL_DIRECT_COPY_THRESHOLD=655360
+MPI_BIN=/usr/lib64/openmpi/bin
+LC_IDENTIFICATION=fr_FR.UTF-8
+MPI_COMPILER=openmpi-x86_64
+HPL_EXE=xhpl_intel64_static
+PWD=/home/lmontigny/Benchmarks/HPC/mp_linpack
+_LMFILES_=/etc/modulefiles/mpi/openmpi-x86_64
+LANG=en_US.UTF-8
+MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles
+LC_MEASUREMENT=fr_FR.UTF-8
+KDEDIRS=/usr
+LOADEDMODULES=mpi/openmpi-x86_64
+HISTCONTROL=ignoredups
+MPI_SYSCONFIG=/etc/openmpi-x86_64
+HOME=/home/lmontigny
+SHLVL=2
+MPI_SUFFIX=_openmpi
+MPI_MAN=/usr/share/man/openmpi-x86_64
+LOGNAME=lmontigny
+PYTHONPATH=/usr/lib64/python2.7/site-packages/openmpi
+QTLIB=/usr/lib64/qt-3.3/lib
+SSH_CONNECTION=172.28.228.164 63546 10.237.240.141 22
+MODULESHOME=/usr/share/Modules
+MPI_FORTRAN_MOD_DIR=/usr/lib64/gfortran/modules/openmpi-x86_64
+MPI_HOME=/usr/lib64/openmpi
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
+LC_NAME=fr_FR.UTF-8
+BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`
+}
+_=/usr/bin/env
+Actual run: 
+Done: Mon Feb  5 11:35:48 CET 2018
+This run was done on: Mon Feb  5 11:36:22 CET 2018
+HPL.dat: 
+HPLinpack benchmark input file
+Innovative Computing Laboratory, University of Tennessee
+HPL.out      output file name (if any)
+6            device out (6=stdout,7=stderr,file)
+1            # of problems sizes (N)
+60000         Ns
+1            # of NBs
+192 256      NBs
+1            PMAP process mapping (0=Row-,1=Column-major)
+1            # of process grids (P x Q)
+1 2          Ps
+1 2          Qs
+16.0         threshold
+1            # of panel fact
+2 1 0        PFACTs (0=left, 1=Crout, 2=Right)
+1            # of recursive stopping criterium
+2            NBMINs (>= 1)
+1            # of panels in recursion
+2            NDIVs
+1            # of recursive panel fact.
+1 0 2        RFACTs (0=left, 1=Crout, 2=Right)
+1            # of broadcast
+0            BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
+1            # of lookahead depth
+0            DEPTHs (>=0)
+0            SWAP (0=bin-exch,1=long,2=mix)
+1            swapping threshold
+1            L1 in (0=transposed,1=no-transposed) form
+1            U  in (0=transposed,1=no-transposed) form
+0            Equilibration (0=no,1=yes)
+8            memory alignment in double (> 0)
+Binary name: 
+-rwxr-xr-x 1 lmontigny lmontigny 18635421 Feb  2 17:14 xhpl_intel64_static
+This script: 
+#!/bin/bash
+#===============================================================================
+# Copyright 2001-2017 Intel Corporation All Rights Reserved.
+#
+# The source code,  information  and material  ("Material") contained  herein is
+# owned by Intel Corporation or its  suppliers or licensors,  and  title to such
+# Material remains with Intel  Corporation or its  suppliers or  licensors.  The
+# Material  contains  proprietary  information  of  Intel or  its suppliers  and
+# licensors.  The Material is protected by  worldwide copyright  laws and treaty
+# provisions.  No part  of  the  Material   may  be  used,  copied,  reproduced,
+# modified, published,  uploaded, posted, transmitted,  distributed or disclosed
+# in any way without Intel's prior express written permission.  No license under
+# any patent,  copyright or other  intellectual property rights  in the Material
+# is granted to  or  conferred  upon  you,  either   expressly,  by implication,
+# inducement,  estoppel  or  otherwise.  Any  license   under such  intellectual
+# property rights must be express and approved by Intel in writing.
+#
+# Unless otherwise agreed by Intel in writing,  you may not remove or alter this
+# notice or  any  other  notice   embedded  in  Materials  by  Intel  or Intel's
+# suppliers or licensors in any way.
+#===============================================================================
+
+#
+echo "This is a SAMPLE run script.  Change it to reflect the correct number"
+echo "of CPUs/threads, number of nodes, MPI processes per node, etc.."
+
+# Set total number of MPI processes for the HPL (should be equal to PxQ).
+export MPI_PROC_NUM=2
+
+# Set the MPI per node and number of MICs attached to each node.
+# MPI_PER_NODE should be equal to 1 or number of sockets in the system. Otherwise,
+# the HPL performance will be low. 
+# MPI_PER_NODE is same as -perhost or -ppn paramaters in mpirun/mpiexec
+export MPI_PER_NODE=2
+
+# Set number of MICs that HPL will access per node
+export NUMMIC=2
+
+#
+# You can find description of all Intel MPI parameters in the
+# Intel MPI Reference Manual.
+# See <intel mpi installdir>/doc/Reference_manual.pdf
+export I_MPI_DAPL_DIRECT_COPY_THRESHOLD=655360
+
+#         "export I_MPI_PIN_CELL=core"
+#         You can use this variable (beginning Intel MPI 4.0.1 for cases if HT is enabled. 
+#         The variable forces to pin MPI processes and threads to real cores, 
+#         so logical processors will not be involved.
+#         It can be used together with the variable below, when Hydra Process Manager:
+#         "export I_MPI_PIN_DOMAIN=auto" This allows uniform distribution of
+#	      the processes and thread domains
+
+# export I_MPI_EAGER_THRESHOLD=128000
+#          This setting may give 1-2% of performance increase over the
+#          default value of 262000 for large problems and high number of cores
+
+export OUT=xhpl_intel64_static_outputs.txt
+export HPL_EXE=xhpl_intel64_static
+
+echo -n "This run was done on: "
+date
+
+# Capture some meaningful data for future reference:
+echo -n "This run was done on: " >> $OUT
+date >> $OUT
+echo "HPL.dat: " >> $OUT
+cat HPL.dat >> $OUT
+echo "Binary name: " >> $OUT
+ls -l xhpl_intel64_static >> $OUT
+echo "This script: " >> $OUT
+cat runme_intel64_static >> $OUT
+echo "Environment variables: " >> $OUT
+env >> $OUT
+echo "Actual run: " >> $OUT
+
+# Environment variables can also be also be set on the Intel MPI command line
+# using the -genv option (to appear before the -np 1):
+
+mpirun -np ${MPI_PROC_NUM} ./runme_intel64_prv "$@" | tee -a $OUT
+
+# In case of multiple nodes involved, please set the number of MPI processes
+# per node (ppn=1,2 typically) through the -perhost option (because the
+# default is all cores):
+
+#mpirun -perhost ${MPI_PER_NODE} -np ${MPI_PROC_NUM} ./runme_intel64_prv "$@" | tee -a $OUT
+
+echo -n "Done: " >> $OUT
+date >> $OUT
+
+echo -n "Done: "
+date
+Environment variables: 
+LC_PAPER=fr_FR.UTF-8
+MANPATH=/usr/share/man/openmpi-x86_64:/usr/share/man:/usr/local/share/man
+MPI_INCLUDE=/usr/include/openmpi-x86_64
+MPI_PROC_NUM=2
+LC_ADDRESS=fr_FR.UTF-8
+LC_MONETARY=fr_FR.UTF-8
+HOSTNAME=skl2.imu.intel.com
+SHELL=/bin/bash
+TERM=screen-256color
+HISTSIZE=1000
+SSH_CLIENT=172.28.228.164 63546 22
+TMPDIR=/tmp
+LC_NUMERIC=fr_FR.UTF-8
+OUT=xhpl_intel64_static_outputs.txt
+QTDIR=/usr/lib64/qt-3.3
+QTINC=/usr/lib64/qt-3.3/include
+SSF_VERSION=core-2016.0:hpc-cluster-2016.0:compat-base-2016.0:compat-hpc-2016.0
+SSH_TTY=/dev/pts/1
+QT_GRAPHICSSYSTEM_CHECKED=1
+USER=lmontigny
+MPI_PYTHON_SITEARCH=/usr/lib64/python2.7/site-packages/openmpi
+LC_TELEPHONE=fr_FR.UTF-8
+LS_COLORS=rs=0:di=38;5;27:ln=38;5;51:mh=44;38;5;15:pi=40;38;5;11:so=38;5;13:do=38;5;5:bd=48;5;232;38;5;11:cd=48;5;232;38;5;3:or=48;5;232;38;5;9:mi=05;48;5;232;38;5;15:su=48;5;196;38;5;15:sg=48;5;11;38;5;16:ca=48;5;196;38;5;226:tw=48;5;10;38;5;16:ow=48;5;10;38;5;21:st=48;5;21;38;5;15:ex=38;5;34:*.tar=38;5;9:*.tgz=38;5;9:*.arc=38;5;9:*.arj=38;5;9:*.taz=38;5;9:*.lha=38;5;9:*.lz4=38;5;9:*.lzh=38;5;9:*.lzma=38;5;9:*.tlz=38;5;9:*.txz=38;5;9:*.tzo=38;5;9:*.t7z=38;5;9:*.zip=38;5;9:*.z=38;5;9:*.Z=38;5;9:*.dz=38;5;9:*.gz=38;5;9:*.lrz=38;5;9:*.lz=38;5;9:*.lzo=38;5;9:*.xz=38;5;9:*.bz2=38;5;9:*.bz=38;5;9:*.tbz=38;5;9:*.tbz2=38;5;9:*.tz=38;5;9:*.deb=38;5;9:*.rpm=38;5;9:*.jar=38;5;9:*.war=38;5;9:*.ear=38;5;9:*.sar=38;5;9:*.rar=38;5;9:*.alz=38;5;9:*.ace=38;5;9:*.zoo=38;5;9:*.cpio=38;5;9:*.7z=38;5;9:*.rz=38;5;9:*.cab=38;5;9:*.jpg=38;5;13:*.jpeg=38;5;13:*.gif=38;5;13:*.bmp=38;5;13:*.pbm=38;5;13:*.pgm=38;5;13:*.ppm=38;5;13:*.tga=38;5;13:*.xbm=38;5;13:*.xpm=38;5;13:*.tif=38;5;13:*.tiff=38;5;13:*.png=38;5;13:*.svg=38;5;13:*.svgz=38;5;13:*.mng=38;5;13:*.pcx=38;5;13:*.mov=38;5;13:*.mpg=38;5;13:*.mpeg=38;5;13:*.m2v=38;5;13:*.mkv=38;5;13:*.webm=38;5;13:*.ogm=38;5;13:*.mp4=38;5;13:*.m4v=38;5;13:*.mp4v=38;5;13:*.vob=38;5;13:*.qt=38;5;13:*.nuv=38;5;13:*.wmv=38;5;13:*.asf=38;5;13:*.rm=38;5;13:*.rmvb=38;5;13:*.flc=38;5;13:*.avi=38;5;13:*.fli=38;5;13:*.flv=38;5;13:*.gl=38;5;13:*.dl=38;5;13:*.xcf=38;5;13:*.xwd=38;5;13:*.yuv=38;5;13:*.cgm=38;5;13:*.emf=38;5;13:*.axv=38;5;13:*.anx=38;5;13:*.ogv=38;5;13:*.ogx=38;5;13:*.aac=38;5;45:*.au=38;5;45:*.flac=38;5;45:*.mid=38;5;45:*.midi=38;5;45:*.mka=38;5;45:*.mp3=38;5;45:*.mpc=38;5;45:*.ogg=38;5;45:*.ra=38;5;45:*.wav=38;5;45:*.axa=38;5;45:*.oga=38;5;45:*.spx=38;5;45:*.xspf=38;5;45:
+LD_LIBRARY_PATH=/usr/lib64/openmpi/lib
+MPI_PER_NODE=2
+MPI_LIB=/usr/lib64/openmpi/lib
+NUMMIC=2
+PATH=/usr/lib64/openmpi/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/lmontigny/bin
+MAIL=/var/spool/mail/lmontigny
+I_MPI_DAPL_DIRECT_COPY_THRESHOLD=655360
+MPI_BIN=/usr/lib64/openmpi/bin
+LC_IDENTIFICATION=fr_FR.UTF-8
+MPI_COMPILER=openmpi-x86_64
+HPL_EXE=xhpl_intel64_static
+PWD=/home/lmontigny/Benchmarks/HPC/mp_linpack
+_LMFILES_=/etc/modulefiles/mpi/openmpi-x86_64
+LANG=en_US.UTF-8
+MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles
+LC_MEASUREMENT=fr_FR.UTF-8
+KDEDIRS=/usr
+LOADEDMODULES=mpi/openmpi-x86_64
+HISTCONTROL=ignoredups
+MPI_SYSCONFIG=/etc/openmpi-x86_64
+HOME=/home/lmontigny
+SHLVL=2
+MPI_SUFFIX=_openmpi
+MPI_MAN=/usr/share/man/openmpi-x86_64
+LOGNAME=lmontigny
+PYTHONPATH=/usr/lib64/python2.7/site-packages/openmpi
+QTLIB=/usr/lib64/qt-3.3/lib
+SSH_CONNECTION=172.28.228.164 63546 10.237.240.141 22
+MODULESHOME=/usr/share/Modules
+MPI_FORTRAN_MOD_DIR=/usr/lib64/gfortran/modules/openmpi-x86_64
+MPI_HOME=/usr/lib64/openmpi
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
+LC_NAME=fr_FR.UTF-8
+BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`
+}
+_=/usr/bin/env
+Actual run: 
+MPI_RANK_FOR_NODE=0 NODE=0, CORE=, MIC=0, SHARE=
+MPI_RANK_FOR_NODE=1 NODE=1, CORE=, MIC=1, SHARE=
+Number of Intel(R) Xeon Phi(TM) coprocessors : 0
+================================================================================
+HPLinpack 2.1  --  High-Performance Linpack benchmark  --   October 26, 2012
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N        :   60000 
+NB       :     192 
+PMAP     : Column-major process mapping
+P        :       1 
+Q        :       1 
+PFACT    :   Right 
+NBMIN    :       2 
+NDIV     :       2 
+RFACT    :   Crout 
+BCAST    :   1ring 
+DEPTH    :       0 
+SWAP     : Binary-exchange
+L1       : no-transposed form
+U        : no-transposed form
+EQUIL    : no
+ALIGN    :    8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               1.110223e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+Number of Intel(R) Xeon Phi(TM) coprocessors : 0
+================================================================================
+HPLinpack 2.1  --  High-Performance Linpack benchmark  --   October 26, 2012
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N        :   60000 
+NB       :     192 
+PMAP     : Column-major process mapping
+P        :       1 
+Q        :       1 
+PFACT    :   Right 
+NBMIN    :       2 
+NDIV     :       2 
+RFACT    :   Crout 
+BCAST    :   1ring 
+DEPTH    :       0 
+SWAP     : Binary-exchange
+L1       : no-transposed form
+U        : no-transposed form
+EQUIL    : no
+ALIGN    :    8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               1.110223e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+skl2            : Column=000384 Fraction=0.005 Kernel=    0.09 Mflops=2667903.64
+skl2            : Column=000384 Fraction=0.005 Kernel=    0.09 Mflops=2597073.52
+skl2            : Column=000768 Fraction=0.010 Kernel=1467145.36 Mflops=1896730.77
+skl2            : Column=000768 Fraction=0.010 Kernel=1450768.81 Mflops=1865012.57
+skl2            : Column=000960 Fraction=0.015 Kernel=1423830.63 Mflops=1780013.93
+skl2            : Column=000960 Fraction=0.015 Kernel=1458500.30 Mflops=1767741.25
+skl2            : Column=001344 Fraction=0.020 Kernel=1436630.82 Mflops=1667947.62
+skl2            : Column=001344 Fraction=0.020 Kernel=1394958.60 Mflops=1644227.53
+skl2            : Column=001536 Fraction=0.025 Kernel=1431985.10 Mflops=1635031.69
+skl2            : Column=001536 Fraction=0.025 Kernel=1438532.07 Mflops=1615996.86
+skl2            : Column=001920 Fraction=0.030 Kernel=1404871.57 Mflops=1584461.39
+skl2            : Column=001920 Fraction=0.030 Kernel=1421956.75 Mflops=1574149.18
+skl2            : Column=002112 Fraction=0.035 Kernel=1414955.27 Mflops=1567939.10
+skl2            : Column=002112 Fraction=0.035 Kernel=1422109.18 Mflops=1559483.43
+skl2            : Column=002496 Fraction=0.040 Kernel=1430177.56 Mflops=1545850.18
+skl2            : Column=002496 Fraction=0.040 Kernel=1416342.70 Mflops=1536448.76
+skl2            : Column=002880 Fraction=0.045 Kernel=1454817.75 Mflops=1533597.23
+skl2            : Column=002880 Fraction=0.045 Kernel=1425967.67 Mflops=1521397.85
+skl2            : Column=003072 Fraction=0.050 Kernel=1416716.07 Mflops=1526112.65
+skl2            : Column=003072 Fraction=0.050 Kernel=1434170.76 Mflops=1515917.04
+skl2            : Column=003456 Fraction=0.055 Kernel=1436250.93 Mflops=1516123.96
+skl2            : Column=003456 Fraction=0.055 Kernel=1427649.10 Mflops=1506111.58
+skl2            : Column=003648 Fraction=0.060 Kernel=1389285.24 Mflops=1509298.23
+skl2            : Column=003648 Fraction=0.060 Kernel=1373857.44 Mflops=1498963.77
+skl2            : Column=004032 Fraction=0.065 Kernel=1464186.09 Mflops=1505156.76
+skl2            : Column=004032 Fraction=0.065 Kernel=1407087.71 Mflops=1490273.72
+skl2            : Column=004224 Fraction=0.070 Kernel=1386929.83 Mflops=1499745.78
+skl2            : Column=004224 Fraction=0.070 Kernel=1467680.59 Mflops=1489303.38
+skl2            : Column=004608 Fraction=0.075 Kernel=1449678.57 Mflops=1495752.41
+skl2            : Column=004608 Fraction=0.075 Kernel=1387085.99 Mflops=1480867.40
+skl2            : Column=004992 Fraction=0.080 Kernel=1403976.99 Mflops=1488858.15
+skl2            : Column=004992 Fraction=0.080 Kernel=1430855.93 Mflops=1477209.90
+skl2            : Column=005184 Fraction=0.085 Kernel=1434578.49 Mflops=1486952.95
+skl2            : Column=005184 Fraction=0.085 Kernel=1399644.60 Mflops=1474442.90
+skl2            : Column=005568 Fraction=0.090 Kernel=1446021.51 Mflops=1484314.00
+skl2            : Column=005568 Fraction=0.090 Kernel=1475521.10 Mflops=1474510.58
+skl2            : Column=005760 Fraction=0.095 Kernel=1351235.30 Mflops=1479921.35
+skl2            : Column=005760 Fraction=0.095 Kernel=1357895.25 Mflops=1470704.09
+skl2            : Column=006144 Fraction=0.100 Kernel=1458103.57 Mflops=1478676.08
+skl2            : Column=006144 Fraction=0.100 Kernel=1447303.31 Mflops=1469366.97
+skl2            : Column=006336 Fraction=0.105 Kernel=1412313.39 Mflops=1476796.41
+skl2            : Column=006336 Fraction=0.105 Kernel=1424904.32 Mflops=1468126.05
+skl2            : Column=006720 Fraction=0.110 Kernel=1430070.15 Mflops=1474345.85
+skl2            : Column=006720 Fraction=0.110 Kernel=1403647.81 Mflops=1464703.38
+skl2            : Column=006912 Fraction=0.115 Kernel=1395772.88 Mflops=1472311.60
+skl2            : Column=006912 Fraction=0.115 Kernel=1462597.02 Mflops=1464651.61
+skl2            : Column=007296 Fraction=0.120 Kernel=1428640.99 Mflops=1470230.37
+skl2            : Column=007296 Fraction=0.120 Kernel=1422343.37 Mflops=1462636.83
+skl2            : Column=007680 Fraction=0.125 Kernel=1426943.88 Mflops=1468286.29
+skl2            : Column=007680 Fraction=0.125 Kernel=1468296.64 Mflops=1462882.96
+skl2            : Column=007872 Fraction=0.130 Kernel=1454127.81 Mflops=1467984.28
+skl2            : Column=007872 Fraction=0.130 Kernel=1386123.20 Mflops=1461173.30
+skl2            : Column=008256 Fraction=0.135 Kernel=1451918.51 Mflops=1467332.94
+skl2            : Column=008256 Fraction=0.135 Kernel=1452877.98 Mflops=1460838.70
+skl2            : Column=008448 Fraction=0.140 Kernel=1455058.16 Mflops=1467092.21
+skl2            : Column=008448 Fraction=0.140 Kernel=1428792.83 Mflops=1460201.69
+skl2            : Column=008832 Fraction=0.145 Kernel=1410792.22 Mflops=1464926.64
+skl2            : Column=008832 Fraction=0.145 Kernel=1418544.92 Mflops=1458614.99
+skl2            : Column=009024 Fraction=0.150 Kernel=1467120.02 Mflops=1464966.03
+skl2            : Column=009024 Fraction=0.150 Kernel=1486675.22 Mflops=1459110.30
+skl2            : Column=009408 Fraction=0.155 Kernel=1462814.15 Mflops=1464892.02
+skl2            : Column=009408 Fraction=0.155 Kernel=1428035.63 Mflops=1458020.65
+skl2            : Column=009792 Fraction=0.160 Kernel=1405703.46 Mflops=1462876.59
+skl2            : Column=009792 Fraction=0.160 Kernel=1442581.70 Mflops=1457510.26
+skl2            : Column=009984 Fraction=0.165 Kernel=1401547.59 Mflops=1461858.47
+skl2            : Column=009984 Fraction=0.165 Kernel=1381670.98 Mflops=1456238.04
+skl2            : Column=010368 Fraction=0.170 Kernel=1458406.68 Mflops=1461752.92
+skl2            : Column=010368 Fraction=0.170 Kernel=1409068.61 Mflops=1454752.36
+skl2            : Column=010560 Fraction=0.175 Kernel=1399407.65 Mflops=1460786.23
+skl2            : Column=010560 Fraction=0.175 Kernel=1525191.56 Mflops=1455751.02
+skl2            : Column=010944 Fraction=0.180 Kernel=1444726.64 Mflops=1460323.17
+skl2            : Column=010944 Fraction=0.180 Kernel=1399384.61 Mflops=1454080.27
+skl2            : Column=011136 Fraction=0.185 Kernel=1422577.78 Mflops=1459784.76
+skl2            : Column=011136 Fraction=0.185 Kernel=1511822.19 Mflops=1454852.68
+skl2            : Column=011520 Fraction=0.190 Kernel=1418639.02 Mflops=1458653.47
+skl2            : Column=011520 Fraction=0.190 Kernel=1406097.57 Mflops=1453504.98
+skl2            : Column=011712 Fraction=0.195 Kernel=1512260.55 Mflops=1459328.04
+skl2            : Column=011712 Fraction=0.195 Kernel=1483092.02 Mflops=1453883.20
+skl2            : Column=012096 Fraction=0.200 Kernel=1431590.41 Mflops=1458618.02
+skl2            : Column=012096 Fraction=0.200 Kernel=1402087.17 Mflops=1452535.09
+skl2            : Column=012480 Fraction=0.205 Kernel=1419816.93 Mflops=1457656.90
+skl2            : Column=012480 Fraction=0.205 Kernel=1434635.47 Mflops=1452097.96
+skl2            : Column=012672 Fraction=0.210 Kernel=1511357.98 Mflops=1458267.18
+skl2            : Column=012672 Fraction=0.210 Kernel=1485936.83 Mflops=1452487.54
+skl2            : Column=013056 Fraction=0.215 Kernel=1435715.64 Mflops=1457746.45
+skl2            : Column=013056 Fraction=0.215 Kernel=1431957.75 Mflops=1452014.12
+skl2            : Column=013248 Fraction=0.220 Kernel=1442764.78 Mflops=1457578.33
+skl2            : Column=013248 Fraction=0.220 Kernel=1385640.12 Mflops=1451241.96
+skl2            : Column=013632 Fraction=0.225 Kernel=1416661.34 Mflops=1456674.96
+skl2            : Column=013632 Fraction=0.225 Kernel=1462494.85 Mflops=1451481.76
+skl2            : Column=013824 Fraction=0.230 Kernel=1469981.77 Mflops=1456813.32
+skl2            : Column=013824 Fraction=0.230 Kernel=1469245.88 Mflops=1451665.92
+skl2            : Column=014208 Fraction=0.235 Kernel=1417306.76 Mflops=1455989.32
+skl2            : Column=014208 Fraction=0.235 Kernel=1398812.93 Mflops=1450553.14
+skl2            : Column=014592 Fraction=0.240 Kernel=1416032.83 Mflops=1455185.56
+skl2            : Column=014592 Fraction=0.240 Kernel=1486303.98 Mflops=1451236.44
+skl2            : Column=014784 Fraction=0.245 Kernel=1412336.48 Mflops=1454763.10
+skl2            : Column=014784 Fraction=0.245 Kernel=1412989.44 Mflops=1450860.54
+skl2            : Column=015168 Fraction=0.250 Kernel=1439263.64 Mflops=1454472.55
+skl2            : Column=015168 Fraction=0.250 Kernel=1442624.55 Mflops=1450706.91
+skl2            : Column=015360 Fraction=0.255 Kernel=1454197.75 Mflops=1454470.05
+skl2            : Column=015360 Fraction=0.255 Kernel=1392512.77 Mflops=1450157.02
+skl2            : Column=015744 Fraction=0.260 Kernel=1457507.92 Mflops=1454523.41
+skl2            : Column=015744 Fraction=0.260 Kernel=1411766.79 Mflops=1449463.34
+skl2            : Column=015936 Fraction=0.265 Kernel=1471695.91 Mflops=1454669.57
+skl2            : Column=015936 Fraction=0.265 Kernel=1446081.34 Mflops=1449434.15
+skl2            : Column=016320 Fraction=0.270 Kernel=1417990.16 Mflops=1454040.92
+skl2            : Column=016320 Fraction=0.270 Kernel=1417595.59 Mflops=1448890.25
+skl2            : Column=016512 Fraction=0.275 Kernel=1425740.11 Mflops=1453804.85
+skl2            : Column=016512 Fraction=0.275 Kernel=1518193.76 Mflops=1449431.49
+skl2            : Column=016896 Fraction=0.280 Kernel=1476855.10 Mflops=1454165.46
+skl2            : Column=016896 Fraction=0.280 Kernel=1387833.05 Mflops=1448410.06
+skl2            : Column=017280 Fraction=0.285 Kernel=1400135.67 Mflops=1453303.59
+skl2            : Column=017280 Fraction=0.285 Kernel=1474580.65 Mflops=1448805.22
+skl2            : Column=017472 Fraction=0.290 Kernel=1504798.16 Mflops=1453677.89
+skl2            : Column=017472 Fraction=0.290 Kernel=1343441.83 Mflops=1447950.78
+skl2            : Column=017856 Fraction=0.295 Kernel=1401780.12 Mflops=1452891.01
+skl2            : Column=017856 Fraction=0.295 Kernel=1462852.74 Mflops=1448166.58
+skl2            : Column=018048 Fraction=0.300 Kernel=1380329.98 Mflops=1452344.11
+skl2            : Column=018048 Fraction=0.300 Kernel=1485840.39 Mflops=1448429.66
+skl2            : Column=018432 Fraction=0.305 Kernel=1474865.95 Mflops=1452653.21
+skl2            : Column=018432 Fraction=0.305 Kernel=1421965.77 Mflops=1448054.14
+skl2            : Column=018624 Fraction=0.310 Kernel=1478297.05 Mflops=1452825.20
+skl2            : Column=018624 Fraction=0.310 Kernel=1386126.69 Mflops=1447612.77
+skl2            : Column=019008 Fraction=0.315 Kernel=1425985.84 Mflops=1452462.12
+skl2            : Column=019008 Fraction=0.315 Kernel=1476885.61 Mflops=1447993.95
+skl2            : Column=019392 Fraction=0.320 Kernel=1441999.00 Mflops=1452326.53
+skl2            : Column=019392 Fraction=0.320 Kernel=1399545.95 Mflops=1447349.27
+skl2            : Column=019584 Fraction=0.325 Kernel=1467122.80 Mflops=1452418.85
+skl2            : Column=019584 Fraction=0.325 Kernel=1539949.20 Mflops=1447898.04
+skl2            : Column=019968 Fraction=0.330 Kernel=1444842.07 Mflops=1452325.37
+skl2            : Column=019968 Fraction=0.330 Kernel=1414188.30 Mflops=1447474.51
+skl2            : Column=020160 Fraction=0.335 Kernel=1437267.11 Mflops=1452233.87
+skl2            : Column=020160 Fraction=0.335 Kernel=1415921.06 Mflops=1447280.56
+skl2            : Column=020544 Fraction=0.340 Kernel=1420565.56 Mflops=1451854.69
+skl2            : Column=020544 Fraction=0.340 Kernel=1454057.48 Mflops=1447359.59
+skl2            : Column=020736 Fraction=0.345 Kernel=1493779.96 Mflops=1452088.62
+skl2            : Column=020736 Fraction=0.345 Kernel=1395336.76 Mflops=1447049.93
+skl2            : Column=021120 Fraction=0.350 Kernel=1415879.32 Mflops=1451673.35
+skl2            : Column=021120 Fraction=0.350 Kernel=1438809.89 Mflops=1446957.24
+skl2            : Column=021312 Fraction=0.355 Kernel=1448905.83 Mflops=1451658.16
+skl2            : Column=021312 Fraction=0.355 Kernel=1398037.91 Mflops=1446679.81
+skl2            : Column=021696 Fraction=0.360 Kernel=1451839.85 Mflops=1451660.10
+skl2            : Column=021696 Fraction=0.360 Kernel=1427945.51 Mflops=1446477.07
+skl2            : Column=022080 Fraction=0.365 Kernel=1380815.53 Mflops=1450888.69
+skl2            : Column=022080 Fraction=0.365 Kernel=1457661.36 Mflops=1446592.09
+skl2            : Column=022272 Fraction=0.370 Kernel=1520780.27 Mflops=1451227.33
+skl2            : Column=022272 Fraction=0.370 Kernel=1378369.87 Mflops=1446228.64
+skl2            : Column=022656 Fraction=0.375 Kernel=1405906.45 Mflops=1450764.25
+skl2            : Column=022656 Fraction=0.375 Kernel=1453013.50 Mflops=1446295.51
+skl2            : Column=022848 Fraction=0.380 Kernel=1430241.55 Mflops=1450663.26
+skl2            : Column=022848 Fraction=0.380 Kernel=1451560.83 Mflops=1446320.96
+skl2            : Column=023232 Fraction=0.385 Kernel=1452745.98 Mflops=1450682.95
+skl2            : Column=023232 Fraction=0.385 Kernel=1410075.04 Mflops=1445969.22
+skl2            : Column=023424 Fraction=0.390 Kernel=1380349.63 Mflops=1450340.30
+skl2            : Column=023424 Fraction=0.390 Kernel=1396959.00 Mflops=1445734.05
+skl2            : Column=023808 Fraction=0.395 Kernel=1459608.67 Mflops=1450423.61
+skl2            : Column=023808 Fraction=0.395 Kernel=1427528.52 Mflops=1445567.29
+skl2            : Column=024192 Fraction=0.400 Kernel=1405214.58 Mflops=1450014.12
+skl2            : Column=024192 Fraction=0.400 Kernel=1463963.90 Mflops=1445726.76
+skl2            : Column=024384 Fraction=0.405 Kernel=1471477.99 Mflops=1450105.08
+skl2            : Column=024384 Fraction=0.405 Kernel=1399185.31 Mflops=1445519.99
+skl2            : Column=024768 Fraction=0.410 Kernel=1450162.28 Mflops=1450105.56
+skl2            : Column=024768 Fraction=0.410 Kernel=1464401.62 Mflops=1445676.41
+skl2            : Column=024960 Fraction=0.415 Kernel=1438524.16 Mflops=1450057.57
+skl2            : Column=024960 Fraction=0.415 Kernel=1359295.79 Mflops=1445298.84
+skl2            : Column=025344 Fraction=0.420 Kernel=1377453.07 Mflops=1449444.64
+skl2            : Column=025344 Fraction=0.420 Kernel=1440314.68 Mflops=1445258.72
+skl2            : Column=025536 Fraction=0.425 Kernel=1551920.10 Mflops=1449820.86
+skl2            : Column=025536 Fraction=0.425 Kernel=1412534.16 Mflops=1445127.15
+skl2            : Column=025920 Fraction=0.430 Kernel=1403717.03 Mflops=1449455.72
+skl2            : Column=026112 Fraction=0.435 Kernel=1431394.38 Mflops=1449387.02
+skl2            : Column=025920 Fraction=0.430 Kernel=1409939.17 Mflops=1444850.57
+skl2            : Column=026112 Fraction=0.435 Kernel=1396388.95 Mflops=1444662.23
+skl2            : Column=026496 Fraction=0.440 Kernel=1429291.77 Mflops=1449237.62
+skl2            : Column=026496 Fraction=0.440 Kernel=1436349.61 Mflops=1444600.93
+skl2            : Column=026880 Fraction=0.445 Kernel=1420198.22 Mflops=1449026.80
+skl2            : Column=027072 Fraction=0.450 Kernel=1475495.84 Mflops=1449117.38
+skl2            : Column=026880 Fraction=0.445 Kernel=1431716.93 Mflops=1444508.44
+skl2            : Column=027072 Fraction=0.450 Kernel=1500437.66 Mflops=1444696.06
+skl2            : Column=027456 Fraction=0.455 Kernel=1409081.91 Mflops=1448837.42
+skl2            : Column=027648 Fraction=0.460 Kernel=1524784.30 Mflops=1449077.74
+skl2            : Column=027456 Fraction=0.455 Kernel=1369749.93 Mflops=1444158.69
+skl2            : Column=027648 Fraction=0.460 Kernel=1588402.31 Mflops=1444595.48
+skl2            : Column=028032 Fraction=0.465 Kernel=1396137.61 Mflops=1448720.72
+skl2            : Column=028224 Fraction=0.470 Kernel=1451073.86 Mflops=1448728.19
+skl2            : Column=028032 Fraction=0.465 Kernel=1383126.65 Mflops=1444178.36
+skl2            : Column=028224 Fraction=0.470 Kernel=1407334.05 Mflops=1444058.08
+skl2            : Column=028608 Fraction=0.475 Kernel=1487677.50 Mflops=1448963.76
+skl2            : Column=028608 Fraction=0.475 Kernel=1454864.12 Mflops=1444124.69
+skl2            : Column=028992 Fraction=0.480 Kernel=1383120.88 Mflops=1448548.43
+skl2            : Column=029184 Fraction=0.485 Kernel=1456082.99 Mflops=1448570.52
+skl2            : Column=028992 Fraction=0.480 Kernel=1409587.57 Mflops=1443911.60
+skl2            : Column=029184 Fraction=0.485 Kernel=1406407.36 Mflops=1443798.12
+skl2            : Column=029568 Fraction=0.490 Kernel=1429225.40 Mflops=1448457.74
+skl2            : Column=029760 Fraction=0.495 Kernel=1481695.53 Mflops=1448549.19
+skl2            : Column=029568 Fraction=0.490 Kernel=1435809.63 Mflops=1443751.91
+skl2            : Column=029760 Fraction=0.495 Kernel=1479165.55 Mflops=1443849.20
+skl2            : Column=030912 Fraction=0.515 Kernel=1404400.43 Mflops=1447825.90
+skl2            : Column=030912 Fraction=0.515 Kernel=1420205.89 Mflops=1443467.31
+skl2            : Column=032256 Fraction=0.535 Kernel=1441633.91 Mflops=1447721.87
+skl2            : Column=032256 Fraction=0.535 Kernel=1416928.24 Mflops=1443015.15
+skl2            : Column=033408 Fraction=0.555 Kernel=1431622.44 Mflops=1447511.27
+skl2            : Column=033408 Fraction=0.555 Kernel=1419963.33 Mflops=1442712.13
+skl2            : Column=034560 Fraction=0.575 Kernel=1412975.68 Mflops=1447096.57
+skl2            : Column=034560 Fraction=0.575 Kernel=1411082.36 Mflops=1442333.07
+skl2            : Column=035712 Fraction=0.595 Kernel=1408307.92 Mflops=1446674.36
+skl2            : Column=035712 Fraction=0.595 Kernel=1405867.24 Mflops=1441936.76
+skl2            : Column=037056 Fraction=0.615 Kernel=1422787.02 Mflops=1446406.50
+skl2            : Column=037056 Fraction=0.615 Kernel=1413921.10 Mflops=1441621.68
+skl2            : Column=038208 Fraction=0.635 Kernel=1404338.01 Mflops=1446042.20
+skl2            : Column=038208 Fraction=0.635 Kernel=1417491.83 Mflops=1441415.33
+skl2            : Column=039360 Fraction=0.655 Kernel=1432184.25 Mflops=1445937.14
+skl2            : Column=039360 Fraction=0.655 Kernel=1409790.86 Mflops=1441172.56
+skl2            : Column=040512 Fraction=0.675 Kernel=1407389.98 Mflops=1445672.98
+skl2            : Column=040512 Fraction=0.675 Kernel=1387551.17 Mflops=1440801.10
+skl2            : Column=041856 Fraction=0.695 Kernel=1407049.63 Mflops=1445403.20
+skl2            : Column=041856 Fraction=0.695 Kernel=1394876.84 Mflops=1440478.63
+skl2            : Column=047808 Fraction=0.795 Kernel=1369720.10 Mflops=1443853.40
+skl2            : Column=047808 Fraction=0.795 Kernel=1371179.25 Mflops=1439065.77
+skl2            : Column=053760 Fraction=0.895 Kernel=1128392.84 Mflops=1440923.40
+skl2            : Column=059712 Fraction=0.995 Kernel=527731.60 Mflops=1438124.40
+skl2            : Column=053760 Fraction=0.895 Kernel=1136596.38 Mflops=1436285.68
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WC00C2R2       60000   192     1     1             100.28            1.43599e+03
+HPL_pdgesv() start time Mon Feb  5 11:36:33 2018
+
+HPL_pdgesv() end time   Mon Feb  5 11:38:13 2018
+
+skl2            : Column=059712 Fraction=0.995 Kernel=523724.52 Mflops=1433476.32
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WC00C2R2       60000   192     1     1             100.61            1.43134e+03
+HPL_pdgesv() start time Mon Feb  5 11:36:33 2018
+
+HPL_pdgesv() end time   Mon Feb  5 11:38:14 2018
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0043047 ...... PASSED
+================================================================================
+
+Finished      1 tests with the following results:
+              1 tests completed and passed residual checks,
+              0 tests completed and failed residual checks,
+              0 tests skipped because of illegal input values.
+--------------------------------------------------------------------------------
+
+End of Tests.
+================================================================================
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0043047 ...... PASSED
+================================================================================
+
+Finished      1 tests with the following results:
+              1 tests completed and passed residual checks,
+              0 tests completed and failed residual checks,
+              0 tests skipped because of illegal input values.
+--------------------------------------------------------------------------------
+
+End of Tests.
+================================================================================
+Done: Mon Feb  5 11:38:24 CET 2018
+This run was done on: Mon Feb  5 11:44:14 CET 2018
+HPL.dat: 
+HPLinpack benchmark input file
+Innovative Computing Laboratory, University of Tennessee
+HPL.out      output file name (if any)
+6            device out (6=stdout,7=stderr,file)
+1            # of problems sizes (N)
+60000         Ns
+1            # of NBs
+192 256      NBs
+1            PMAP process mapping (0=Row-,1=Column-major)
+1            # of process grids (P x Q)
+1 2          Ps
+1 2          Qs
+16.0         threshold
+1            # of panel fact
+2 1 0        PFACTs (0=left, 1=Crout, 2=Right)
+1            # of recursive stopping criterium
+2            NBMINs (>= 1)
+1            # of panels in recursion
+2            NDIVs
+1            # of recursive panel fact.
+1 0 2        RFACTs (0=left, 1=Crout, 2=Right)
+1            # of broadcast
+0            BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
+1            # of lookahead depth
+0            DEPTHs (>=0)
+0            SWAP (0=bin-exch,1=long,2=mix)
+1            swapping threshold
+1            L1 in (0=transposed,1=no-transposed) form
+1            U  in (0=transposed,1=no-transposed) form
+0            Equilibration (0=no,1=yes)
+8            memory alignment in double (> 0)
+Binary name: 
+-rwxr-xr-x 1 lmontigny lmontigny 18635421 Feb  2 17:14 xhpl_intel64_static
+This script: 
+#!/bin/bash
+#===============================================================================
+# Copyright 2001-2017 Intel Corporation All Rights Reserved.
+#
+# The source code,  information  and material  ("Material") contained  herein is
+# owned by Intel Corporation or its  suppliers or licensors,  and  title to such
+# Material remains with Intel  Corporation or its  suppliers or  licensors.  The
+# Material  contains  proprietary  information  of  Intel or  its suppliers  and
+# licensors.  The Material is protected by  worldwide copyright  laws and treaty
+# provisions.  No part  of  the  Material   may  be  used,  copied,  reproduced,
+# modified, published,  uploaded, posted, transmitted,  distributed or disclosed
+# in any way without Intel's prior express written permission.  No license under
+# any patent,  copyright or other  intellectual property rights  in the Material
+# is granted to  or  conferred  upon  you,  either   expressly,  by implication,
+# inducement,  estoppel  or  otherwise.  Any  license   under such  intellectual
+# property rights must be express and approved by Intel in writing.
+#
+# Unless otherwise agreed by Intel in writing,  you may not remove or alter this
+# notice or  any  other  notice   embedded  in  Materials  by  Intel  or Intel's
+# suppliers or licensors in any way.
+#===============================================================================
+
+#
+echo "This is a SAMPLE run script.  Change it to reflect the correct number"
+echo "of CPUs/threads, number of nodes, MPI processes per node, etc.."
+
+# Set total number of MPI processes for the HPL (should be equal to PxQ).
+export MPI_PROC_NUM=1
+
+# Set the MPI per node and number of MICs attached to each node.
+# MPI_PER_NODE should be equal to 1 or number of sockets in the system. Otherwise,
+# the HPL performance will be low. 
+# MPI_PER_NODE is same as -perhost or -ppn paramaters in mpirun/mpiexec
+export MPI_PER_NODE=4
+
+# Set number of MICs that HPL will access per node
+export NUMMIC=0
+
+#
+# You can find description of all Intel MPI parameters in the
+# Intel MPI Reference Manual.
+# See <intel mpi installdir>/doc/Reference_manual.pdf
+export I_MPI_DAPL_DIRECT_COPY_THRESHOLD=655360
+
+#         "export I_MPI_PIN_CELL=core"
+#         You can use this variable (beginning Intel MPI 4.0.1 for cases if HT is enabled. 
+#         The variable forces to pin MPI processes and threads to real cores, 
+#         so logical processors will not be involved.
+#         It can be used together with the variable below, when Hydra Process Manager:
+#         "export I_MPI_PIN_DOMAIN=auto" This allows uniform distribution of
+#	      the processes and thread domains
+
+# export I_MPI_EAGER_THRESHOLD=128000
+#          This setting may give 1-2% of performance increase over the
+#          default value of 262000 for large problems and high number of cores
+
+export OUT=xhpl_intel64_static_outputs.txt
+export HPL_EXE=xhpl_intel64_static
+
+echo -n "This run was done on: "
+date
+
+# Capture some meaningful data for future reference:
+echo -n "This run was done on: " >> $OUT
+date >> $OUT
+echo "HPL.dat: " >> $OUT
+cat HPL.dat >> $OUT
+echo "Binary name: " >> $OUT
+ls -l xhpl_intel64_static >> $OUT
+echo "This script: " >> $OUT
+cat runme_intel64_static >> $OUT
+echo "Environment variables: " >> $OUT
+env >> $OUT
+echo "Actual run: " >> $OUT
+
+# Environment variables can also be also be set on the Intel MPI command line
+# using the -genv option (to appear before the -np 1):
+
+mpirun -np ${MPI_PROC_NUM} ./runme_intel64_prv "$@" | tee -a $OUT
+
+# In case of multiple nodes involved, please set the number of MPI processes
+# per node (ppn=1,2 typically) through the -perhost option (because the
+# default is all cores):
+
+#mpirun -perhost ${MPI_PER_NODE} -np ${MPI_PROC_NUM} ./runme_intel64_prv "$@" | tee -a $OUT
+
+echo -n "Done: " >> $OUT
+date >> $OUT
+
+echo -n "Done: "
+date
+Environment variables: 
+LC_PAPER=fr_FR.UTF-8
+MANPATH=/usr/share/man/openmpi-x86_64:/usr/share/man:/usr/local/share/man
+MPI_INCLUDE=/usr/include/openmpi-x86_64
+MPI_PROC_NUM=1
+LC_ADDRESS=fr_FR.UTF-8
+LC_MONETARY=fr_FR.UTF-8
+HOSTNAME=skl2.imu.intel.com
+SHELL=/bin/bash
+TERM=screen-256color
+HISTSIZE=1000
+SSH_CLIENT=172.28.228.164 63546 22
+TMPDIR=/tmp
+LC_NUMERIC=fr_FR.UTF-8
+OUT=xhpl_intel64_static_outputs.txt
+QTDIR=/usr/lib64/qt-3.3
+QTINC=/usr/lib64/qt-3.3/include
+SSF_VERSION=core-2016.0:hpc-cluster-2016.0:compat-base-2016.0:compat-hpc-2016.0
+SSH_TTY=/dev/pts/1
+QT_GRAPHICSSYSTEM_CHECKED=1
+USER=lmontigny
+MPI_PYTHON_SITEARCH=/usr/lib64/python2.7/site-packages/openmpi
+LC_TELEPHONE=fr_FR.UTF-8
+LS_COLORS=rs=0:di=38;5;27:ln=38;5;51:mh=44;38;5;15:pi=40;38;5;11:so=38;5;13:do=38;5;5:bd=48;5;232;38;5;11:cd=48;5;232;38;5;3:or=48;5;232;38;5;9:mi=05;48;5;232;38;5;15:su=48;5;196;38;5;15:sg=48;5;11;38;5;16:ca=48;5;196;38;5;226:tw=48;5;10;38;5;16:ow=48;5;10;38;5;21:st=48;5;21;38;5;15:ex=38;5;34:*.tar=38;5;9:*.tgz=38;5;9:*.arc=38;5;9:*.arj=38;5;9:*.taz=38;5;9:*.lha=38;5;9:*.lz4=38;5;9:*.lzh=38;5;9:*.lzma=38;5;9:*.tlz=38;5;9:*.txz=38;5;9:*.tzo=38;5;9:*.t7z=38;5;9:*.zip=38;5;9:*.z=38;5;9:*.Z=38;5;9:*.dz=38;5;9:*.gz=38;5;9:*.lrz=38;5;9:*.lz=38;5;9:*.lzo=38;5;9:*.xz=38;5;9:*.bz2=38;5;9:*.bz=38;5;9:*.tbz=38;5;9:*.tbz2=38;5;9:*.tz=38;5;9:*.deb=38;5;9:*.rpm=38;5;9:*.jar=38;5;9:*.war=38;5;9:*.ear=38;5;9:*.sar=38;5;9:*.rar=38;5;9:*.alz=38;5;9:*.ace=38;5;9:*.zoo=38;5;9:*.cpio=38;5;9:*.7z=38;5;9:*.rz=38;5;9:*.cab=38;5;9:*.jpg=38;5;13:*.jpeg=38;5;13:*.gif=38;5;13:*.bmp=38;5;13:*.pbm=38;5;13:*.pgm=38;5;13:*.ppm=38;5;13:*.tga=38;5;13:*.xbm=38;5;13:*.xpm=38;5;13:*.tif=38;5;13:*.tiff=38;5;13:*.png=38;5;13:*.svg=38;5;13:*.svgz=38;5;13:*.mng=38;5;13:*.pcx=38;5;13:*.mov=38;5;13:*.mpg=38;5;13:*.mpeg=38;5;13:*.m2v=38;5;13:*.mkv=38;5;13:*.webm=38;5;13:*.ogm=38;5;13:*.mp4=38;5;13:*.m4v=38;5;13:*.mp4v=38;5;13:*.vob=38;5;13:*.qt=38;5;13:*.nuv=38;5;13:*.wmv=38;5;13:*.asf=38;5;13:*.rm=38;5;13:*.rmvb=38;5;13:*.flc=38;5;13:*.avi=38;5;13:*.fli=38;5;13:*.flv=38;5;13:*.gl=38;5;13:*.dl=38;5;13:*.xcf=38;5;13:*.xwd=38;5;13:*.yuv=38;5;13:*.cgm=38;5;13:*.emf=38;5;13:*.axv=38;5;13:*.anx=38;5;13:*.ogv=38;5;13:*.ogx=38;5;13:*.aac=38;5;45:*.au=38;5;45:*.flac=38;5;45:*.mid=38;5;45:*.midi=38;5;45:*.mka=38;5;45:*.mp3=38;5;45:*.mpc=38;5;45:*.ogg=38;5;45:*.ra=38;5;45:*.wav=38;5;45:*.axa=38;5;45:*.oga=38;5;45:*.spx=38;5;45:*.xspf=38;5;45:
+LD_LIBRARY_PATH=/usr/lib64/openmpi/lib
+MPI_PER_NODE=4
+MPI_LIB=/usr/lib64/openmpi/lib
+NUMMIC=0
+PATH=/usr/lib64/openmpi/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/lmontigny/bin
+MAIL=/var/spool/mail/lmontigny
+I_MPI_DAPL_DIRECT_COPY_THRESHOLD=655360
+MPI_BIN=/usr/lib64/openmpi/bin
+LC_IDENTIFICATION=fr_FR.UTF-8
+MPI_COMPILER=openmpi-x86_64
+HPL_EXE=xhpl_intel64_static
+PWD=/home/lmontigny/Benchmarks/HPC/mp_linpack
+_LMFILES_=/etc/modulefiles/mpi/openmpi-x86_64
+LANG=en_US.UTF-8
+MODULEPATH=/usr/share/Modules/modulefiles:/etc/modulefiles
+LC_MEASUREMENT=fr_FR.UTF-8
+KDEDIRS=/usr
+LOADEDMODULES=mpi/openmpi-x86_64
+HISTCONTROL=ignoredups
+MPI_SYSCONFIG=/etc/openmpi-x86_64
+HOME=/home/lmontigny
+SHLVL=2
+MPI_SUFFIX=_openmpi
+MPI_MAN=/usr/share/man/openmpi-x86_64
+LOGNAME=lmontigny
+PYTHONPATH=/usr/lib64/python2.7/site-packages/openmpi
+QTLIB=/usr/lib64/qt-3.3/lib
+SSH_CONNECTION=172.28.228.164 63546 10.237.240.141 22
+MODULESHOME=/usr/share/Modules
+MPI_FORTRAN_MOD_DIR=/usr/lib64/gfortran/modules/openmpi-x86_64
+MPI_HOME=/usr/lib64/openmpi
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
+LC_NAME=fr_FR.UTF-8
+BASH_FUNC_module()=() {  eval `/usr/bin/modulecmd bash $*`
+}
+_=/usr/bin/env
+Actual run: 
+MPI_RANK_FOR_NODE=0 NODE=0, CORE=, MIC=, SHARE=
+Number of Intel(R) Xeon Phi(TM) coprocessors : 0
+================================================================================
+HPLinpack 2.1  --  High-Performance Linpack benchmark  --   October 26, 2012
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N        :   60000 
+NB       :     192 
+PMAP     : Column-major process mapping
+P        :       1 
+Q        :       1 
+PFACT    :   Right 
+NBMIN    :       2 
+NDIV     :       2 
+RFACT    :   Crout 
+BCAST    :   1ring 
+DEPTH    :       0 
+SWAP     : Binary-exchange
+L1       : no-transposed form
+U        : no-transposed form
+EQUIL    : no
+ALIGN    :    8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               1.110223e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+skl2            : Column=000384 Fraction=0.005 Kernel=    0.09 Mflops=2566375.36
+skl2            : Column=000768 Fraction=0.010 Kernel=1491688.07 Mflops=1889952.14
+skl2            : Column=000960 Fraction=0.015 Kernel=1439194.23 Mflops=1779895.21
+skl2            : Column=001344 Fraction=0.020 Kernel=1410857.79 Mflops=1657988.50
+skl2            : Column=001536 Fraction=0.025 Kernel=1396731.21 Mflops=1620946.07
+skl2            : Column=001920 Fraction=0.030 Kernel=1418082.80 Mflops=1576996.66
+skl2            : Column=002112 Fraction=0.035 Kernel=1398625.92 Mflops=1559501.96
+skl2            : Column=002496 Fraction=0.040 Kernel=1426636.48 Mflops=1538250.20
+skl2            : Column=002880 Fraction=0.045 Kernel=1443378.26 Mflops=1525447.65
+skl2            : Column=003072 Fraction=0.050 Kernel=1385812.19 Mflops=1516364.97
+skl2            : Column=003456 Fraction=0.055 Kernel=1418088.05 Mflops=1505379.37
+skl2            : Column=003648 Fraction=0.060 Kernel=1396727.52 Mflops=1499600.87
+skl2            : Column=004032 Fraction=0.065 Kernel=1460849.10 Mflops=1496056.74
+skl2            : Column=004224 Fraction=0.070 Kernel=1435399.23 Mflops=1493385.70
+skl2            : Column=004608 Fraction=0.075 Kernel=1421799.93 Mflops=1487595.80
+skl2            : Column=004992 Fraction=0.080 Kernel=1433631.15 Mflops=1483639.69
+skl2            : Column=005184 Fraction=0.085 Kernel=1405733.30 Mflops=1480860.52
+skl2            : Column=005568 Fraction=0.090 Kernel=1433858.33 Mflops=1477817.84
+skl2            : Column=005760 Fraction=0.095 Kernel=1392675.60 Mflops=1475099.98
+skl2            : Column=006144 Fraction=0.100 Kernel=1454565.13 Mflops=1473928.86
+skl2            : Column=006336 Fraction=0.105 Kernel=1380935.89 Mflops=1471245.18
+skl2            : Column=006720 Fraction=0.110 Kernel=1443537.07 Mflops=1469810.02
+skl2            : Column=006912 Fraction=0.115 Kernel=1447678.20 Mflops=1469258.71
+skl2            : Column=007296 Fraction=0.120 Kernel=1454640.50 Mflops=1468575.27
+skl2            : Column=007680 Fraction=0.125 Kernel=1389364.23 Mflops=1464929.87
+skl2            : Column=007872 Fraction=0.130 Kernel=1474867.78 Mflops=1465138.46
+skl2            : Column=008256 Fraction=0.135 Kernel=1470629.32 Mflops=1465357.94
+skl2            : Column=008448 Fraction=0.140 Kernel=1416526.83 Mflops=1464376.07
+skl2            : Column=008832 Fraction=0.145 Kernel=1432394.08 Mflops=1463165.90
+skl2            : Column=009024 Fraction=0.150 Kernel=1438584.59 Mflops=1462716.38
+skl2            : Column=009408 Fraction=0.155 Kernel=1414055.31 Mflops=1460989.68
+skl2            : Column=009792 Fraction=0.160 Kernel=1456708.86 Mflops=1460849.21
+skl2            : Column=009984 Fraction=0.165 Kernel=1444319.01 Mflops=1460583.15
+skl2            : Column=010368 Fraction=0.170 Kernel=1430010.91 Mflops=1459631.14
+skl2            : Column=010560 Fraction=0.175 Kernel=1376230.40 Mflops=1458318.42
+skl2            : Column=010944 Fraction=0.180 Kernel=1477067.53 Mflops=1458846.66
+skl2            : Column=011136 Fraction=0.185 Kernel=1461771.96 Mflops=1458887.24
+skl2            : Column=011520 Fraction=0.190 Kernel=1409061.57 Mflops=1457509.07
+skl2            : Column=011712 Fraction=0.195 Kernel=1486587.02 Mflops=1457880.93
+skl2            : Column=012096 Fraction=0.200 Kernel=1443902.78 Mflops=1457526.43
+skl2            : Column=012480 Fraction=0.205 Kernel=1408506.53 Mflops=1456303.58
+skl2            : Column=012672 Fraction=0.210 Kernel=1461369.08 Mflops=1456363.04
+skl2            : Column=013056 Fraction=0.215 Kernel=1437906.42 Mflops=1455938.04
+skl2            : Column=013248 Fraction=0.220 Kernel=1442532.80 Mflops=1455787.77
+skl2            : Column=013632 Fraction=0.225 Kernel=1434290.26 Mflops=1455319.41
+skl2            : Column=013824 Fraction=0.230 Kernel=1499641.72 Mflops=1455770.84
+skl2            : Column=014208 Fraction=0.235 Kernel=1421479.90 Mflops=1455058.18
+skl2            : Column=014592 Fraction=0.240 Kernel=1405953.50 Mflops=1454064.08
+skl2            : Column=014784 Fraction=0.245 Kernel=1467289.39 Mflops=1454189.54
+skl2            : Column=015168 Fraction=0.250 Kernel=1422871.09 Mflops=1453596.03
+skl2            : Column=015360 Fraction=0.255 Kernel=1449245.05 Mflops=1453556.43
+skl2            : Column=015744 Fraction=0.260 Kernel=1409808.36 Mflops=1452763.05
+skl2            : Column=015936 Fraction=0.265 Kernel=1527294.22 Mflops=1453373.78
+skl2            : Column=016320 Fraction=0.270 Kernel=1404773.43 Mflops=1452533.84
+skl2            : Column=016512 Fraction=0.275 Kernel=1428487.41 Mflops=1452333.85
+skl2            : Column=016896 Fraction=0.280 Kernel=1460340.37 Mflops=1452460.38
+skl2            : Column=017280 Fraction=0.285 Kernel=1408035.42 Mflops=1451756.45
+skl2            : Column=017472 Fraction=0.290 Kernel=1478441.77 Mflops=1451953.64
+skl2            : Column=017856 Fraction=0.295 Kernel=1420488.39 Mflops=1451483.30
+skl2            : Column=018048 Fraction=0.300 Kernel=1450613.29 Mflops=1451477.07
+skl2            : Column=018432 Fraction=0.305 Kernel=1427254.56 Mflops=1451133.89
+skl2            : Column=018624 Fraction=0.310 Kernel=1456414.38 Mflops=1451169.80
+skl2            : Column=019008 Fraction=0.315 Kernel=1424591.54 Mflops=1450810.31
+skl2            : Column=019392 Fraction=0.320 Kernel=1438371.16 Mflops=1450648.89
+skl2            : Column=019584 Fraction=0.325 Kernel=1415236.99 Mflops=1450420.13
+skl2            : Column=019968 Fraction=0.330 Kernel=1433418.39 Mflops=1450208.99
+skl2            : Column=020160 Fraction=0.335 Kernel=1412557.44 Mflops=1449976.58
+skl2            : Column=020544 Fraction=0.340 Kernel=1480190.79 Mflops=1450323.41
+skl2            : Column=020736 Fraction=0.345 Kernel=1362556.54 Mflops=1449787.40
+skl2            : Column=021120 Fraction=0.350 Kernel=1468764.50 Mflops=1449996.95
+skl2            : Column=021312 Fraction=0.355 Kernel=1349321.47 Mflops=1449404.28
+skl2            : Column=021696 Fraction=0.360 Kernel=1466406.06 Mflops=1449583.84
+skl2            : Column=022080 Fraction=0.365 Kernel=1402655.04 Mflops=1449081.43
+skl2            : Column=022272 Fraction=0.370 Kernel=1521605.76 Mflops=1449432.20
+skl2            : Column=022656 Fraction=0.375 Kernel=1420322.49 Mflops=1449138.11
+skl2            : Column=022848 Fraction=0.380 Kernel=1434416.12 Mflops=1449065.96
+skl2            : Column=023232 Fraction=0.385 Kernel=1467673.22 Mflops=1449239.83
+skl2            : Column=023424 Fraction=0.390 Kernel=1411830.14 Mflops=1449061.80
+skl2            : Column=023808 Fraction=0.395 Kernel=1433745.05 Mflops=1448921.79
+skl2            : Column=024192 Fraction=0.400 Kernel=1450094.39 Mflops=1448932.07
+skl2            : Column=024384 Fraction=0.405 Kernel=1484394.69 Mflops=1449080.95
+skl2            : Column=024768 Fraction=0.410 Kernel=1406359.46 Mflops=1448711.65
+skl2            : Column=024960 Fraction=0.415 Kernel=1439161.37 Mflops=1448672.13
+skl2            : Column=025344 Fraction=0.420 Kernel=1424841.61 Mflops=1448477.77
+skl2            : Column=025536 Fraction=0.425 Kernel=1409758.91 Mflops=1448321.45
+skl2            : Column=025920 Fraction=0.430 Kernel=1427047.15 Mflops=1448155.86
+skl2            : Column=026112 Fraction=0.435 Kernel=1378913.59 Mflops=1447882.74
+skl2            : Column=026496 Fraction=0.440 Kernel=1437896.28 Mflops=1447809.01
+skl2            : Column=026880 Fraction=0.445 Kernel=1426784.06 Mflops=1447657.22
+skl2            : Column=027072 Fraction=0.450 Kernel=1468572.76 Mflops=1447729.06
+skl2            : Column=027456 Fraction=0.455 Kernel=1440619.77 Mflops=1447680.48
+skl2            : Column=027648 Fraction=0.460 Kernel=1428183.53 Mflops=1447614.67
+skl2            : Column=028032 Fraction=0.465 Kernel=1403448.54 Mflops=1447318.66
+skl2            : Column=028224 Fraction=0.470 Kernel=1481518.55 Mflops=1447424.96
+skl2            : Column=028608 Fraction=0.475 Kernel=1407739.71 Mflops=1447171.63
+skl2            : Column=028992 Fraction=0.480 Kernel=1389100.97 Mflops=1446807.33
+skl2            : Column=029184 Fraction=0.485 Kernel=1428665.76 Mflops=1446753.18
+skl2            : Column=029568 Fraction=0.490 Kernel=1447912.27 Mflops=1446759.84
+skl2            : Column=029760 Fraction=0.495 Kernel=1451437.72 Mflops=1446772.97
+skl2            : Column=030912 Fraction=0.515 Kernel=1413935.14 Mflops=1446239.19
+skl2            : Column=032256 Fraction=0.535 Kernel=1413756.69 Mflops=1445683.50
+skl2            : Column=033408 Fraction=0.555 Kernel=1425147.41 Mflops=1445414.03
+skl2            : Column=034560 Fraction=0.575 Kernel=1417418.26 Mflops=1445079.38
+skl2            : Column=035712 Fraction=0.595 Kernel=1434924.39 Mflops=1444971.03
+skl2            : Column=037056 Fraction=0.615 Kernel=1399205.58 Mflops=1444449.90
+skl2            : Column=038208 Fraction=0.635 Kernel=1412880.12 Mflops=1444178.52
+skl2            : Column=039360 Fraction=0.655 Kernel=1426713.95 Mflops=1444045.78
+skl2            : Column=040512 Fraction=0.675 Kernel=1389544.48 Mflops=1443668.01
+skl2            : Column=041856 Fraction=0.695 Kernel=1402427.82 Mflops=1443379.41
+skl2            : Column=047808 Fraction=0.795 Kernel=1375458.00 Mflops=1441996.14
+skl2            : Column=053760 Fraction=0.895 Kernel=1130387.18 Mflops=1439110.64
+skl2            : Column=059712 Fraction=0.995 Kernel=518878.99 Mflops=1436245.69
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WC00C2R2       60000   192     1     1             100.42            1.43409e+03
+HPL_pdgesv() start time Mon Feb  5 11:44:26 2018
+
+HPL_pdgesv() end time   Mon Feb  5 11:46:06 2018
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0043047 ...... PASSED
+================================================================================
+
+Finished      1 tests with the following results:
+              1 tests completed and passed residual checks,
+              0 tests completed and failed residual checks,
+              0 tests skipped because of illegal input values.
+--------------------------------------------------------------------------------
+
+End of Tests.
+================================================================================
+Done: Mon Feb  5 11:46:16 CET 2018

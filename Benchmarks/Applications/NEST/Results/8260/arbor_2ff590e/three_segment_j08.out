@@ -1,0 +1,6 @@
+ARBOR THREE SEGMENT 8260 GCC VEC NOMPI:
+NUMBER_OF_NODES | TASKS_PER_NODE | THREADS_PER_TASK | SCALE | NUM_SYNAPSES | NUM_COMPARTMENTS | SIMTIME | T_setup | T_init | T_simulate | n_spikes
+----------------+----------------+------------------+-------+--------------+------------------+---------+---------+--------+------------+---------
+              1 |              1 |               24 |   2.0 |         2000 |              400 |   200.0 |     0.0 |  6.404 |    527.329 |   202501
+              1 |              1 |               48 |   2.0 |         2000 |              400 |   200.0 |     0.0 |  7.278 |     337.46 |   202501
+

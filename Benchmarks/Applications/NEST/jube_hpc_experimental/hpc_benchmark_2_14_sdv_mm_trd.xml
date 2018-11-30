@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jube>
+
+  <include-path>
+    <path>../jube_config/</path>
+  </include-path>
+
+
+  <benchmark name="hpc_2_14_sdv" outpath="../../../../BenchWork/jube_hpc/nest_2.14">
+    <!-- Load jobfile -->
+    <fileset name="files">
+      <copy>../jube_config/${job_file}.in</copy>
+    </fileset>
+    
+    <!-- Substitute jobfile -->
+    <substituteset name="sub_job">
+      <iofile in="${job_file}.in" out="$job_file" />
+      <sub source="#PARTITION#" dest="$partition" />
+      <sub source="#NODES#" dest="$nodes" />
+      <sub source="#NTASKS#" dest="$num_tasks" />
+      <sub source="#NTASKS_PER_NODE#" dest="$ppn" />
+      <sub source="#CPUS_PER_TASK#" dest="$cpus_per_task" />
+      <sub source="#TIME#" dest="$walltime" />
+      <sub source="#ERRPATH#" dest="$err_file" />
+      <sub source="#OUTPATH#" dest="$out_file" />
+      <sub source="#COMMANDS#" dest="$exec" />
+      <sub source="#READY#" dest="$ready_file" />
+      <sub source="#JOB_NAME#" dest="$job_name" />
+    </substituteset> 
+
+    <parameterset name="executeset">
+      <parameter name="submit_cmd">sbatch</parameter>
+      <parameter name="job_file">job.slurm</parameter>
+      <parameter name="partition">$system_name</parameter>
+      <parameter name="nodes" type="int">$NUMBER_OF_NODES</parameter>
+      <parameter name="ppn" type="int">$TASKS_PER_NODE</parameter>
+      <parameter name="num_tasks" type="int" mode="python">$TASKS_PER_NODE*$NUMBER_OF_NODES</parameter>
+      <parameter name="cpus_per_task" type="int">$THREADS_PER_TASK</parameter>
+      <parameter name="totVPs" type="int" mode="python">$THREADS_PER_TASK*$TASKS_PER_NODE*$NUMBER_OF_NODES</parameter>
+      <parameter name="job_name" type="string">$name-$system_name</parameter>      
+      <parameter name="walltime">01:30:00</parameter>
+      <parameter name="ready_file">ready</parameter>
+      <parameter name="err_file">stderr</parameter>
+      <parameter name="out_file">stdout</parameter>
+      <parameter name="exec">
+	module purge;
+	module load $modules;
+	source ${PACKAGE_INSTALL_DIR}/bin/nest_vars.sh;
+	export OMP_NUM_THREADS=$THREADS_PER_TASK
+	srun ${bench_work}/jemalloc-${system_name}/install/bin/jemalloc.sh ${PACKAGE_INSTALL_DIR}/bin/nest ${slifile}  --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_true_false
+      </parameter>
+    </parameterset>
+
+
+    <parameterset name="scale_check">
+      <parameter name="SCALE" type="int">2</parameter>
+      <parameter name="SIMTIME" type="float">1000</parameter>
+      <parameter name="NUMBER_OF_NODES" type="int">1</parameter>
+      <parameter name="TASKS_PER_NODE" type="int">1</parameter>
+      <!-- <parameter name="THREADS_PER_TASK"
+	   type="int">1,2,4,8,12,16,20,24,32,40,48</parameter> -->
+      <parameter name="THREADS_PER_TASK" type="int">1,8,16,24,48</parameter>
+      <parameter name="NUM_REC" type="int">1000</parameter>
+    </parameterset>
+
+    <step name="scaling">
+      <use from="benchmark_systems.xml">hpc_benchmark</use>
+      <use from="dir_config.xml">dir_config</use>
+      <use from="packages.xml">nest_2_14</use>
+      <use from="system_descriptions.xml">system_sdv</use>
+      <use>scale_check</use>
+      <use>executeset</use>
+      <use>files,sub_job</use>
+      <do done_file="$ready_file">$submit_cmd $job_file</do>
+    </step>
+
+    <!-- Regex pattern -->
+    <patternset name="pattern_stdcout">
+      <pattern name="T_nrns" type="float">$jube_pat_fp # build_time_nodes</pattern> 
+      <pattern name="T_conns" type="float">$jube_pat_fp # build_edge_time</pattern> 
+      <pattern name="T_ini" type="float">$jube_pat_fp # init_time</pattern> 
+      <pattern name="T_equ" type="float">$jube_pat_fp # presim_time</pattern> 
+      <pattern name="T_sim" type="float">$jube_pat_fp # sim_time</pattern> 
+      <pattern name="VSize" type="int">$jube_pat_int # virt_mem_after_sim</pattern> 
+      <pattern name="Rate" type="float">$jube_pat_fp # average rate</pattern> 
+      <pattern name="N_nrns" type="int">$jube_pat_int # num_neurons</pattern> 
+      <pattern name="N_conns" type="int">$jube_pat_int # num_connections</pattern>
+      <pattern name="N_spks" type="int">$jube_pat_int # local_spike_counter</pattern> 
+    </patternset>
+    
+    <!-- Analyse -->
+    <analyser name="analyse_scale_check">
+      <use>pattern_stdcout</use> <!-- use existing patternset -->
+      <analyse step="scaling">
+	<file>stdout</file> <!-- file which should be scanned -->
+      </analyse>
+    </analyser>
+    
+    <!-- Create result table -->
+    <result>
+      <use>analyse_scale_check</use> <!-- use existing analyser -->
+      <table name="result_NEST_2_14_sdv" style="pretty" sort="number">
+	<column>NUMBER_OF_NODES</column>
+	<column>TASKS_PER_NODE</column>
+	<column>THREADS_PER_TASK</column>
+	<column>SCALE</column>
+	<column>NUM_REC</column>
+	<column>T_nrns</column>	
+	<column>T_conns_min</column>	
+	<column>T_conns_max</column>	
+	<column>T_ini_min</column>
+	<column>T_ini_max</column>
+	<column>T_equ</column>
+	<column>T_sim</column>
+	<column>VSize_sum</column>	
+        <column>N_spks_sum</column>	
+	<column>Rate_sum</column>
+	<column>N_nrns</column>	
+	<column>N_conns_sum</column>	
+      </table>
+    </result>
+
+
+  </benchmark>
+</jube>
+

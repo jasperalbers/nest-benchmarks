@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jube>
+
+  <parameterset name="GROMACS_REPO">
+   <parameter name="benchmark_home" type="string" mode="shell">echo -n `pwd`</parameter>
+  </parameterset>
+
+  <parameterset name="gromacs_2018">
+    <parameter name="version" type="string">2018</parameter>
+  </parameterset>
+
+  <parameterset name="system_sdv">
+    <parameter name="system_name" type="string">sdv</parameter>
+    <parameter name="modules">intel/18.1  parastation/5.2.0-1-intel extoll</parameter>
+    <parameter name="cmake_module">cmake/3.6.2</parameter>
+    <parameter name="CFLAGS" type="string">-g -static-intel</parameter>
+    <parameter name="CXXFLAGS" type="string">$CFLAGS -std=c++0x</parameter> 
+    <parameter name="CC" type="string">mpicc</parameter>
+    <parameter name="CXX" type="string">mpicxx</parameter>
+    <parameter name="THREADS_PER_CORE" type="int">2</parameter>
+    <parameter name="NUMBER_OF_CORES" type="int">24</parameter>
+    <parameter name="MAX_NUM_THREADS" type="int">64</parameter>
+    <parameter name="GMXINSTDIR" type="string">${benchmark_home}/gromacs_x/${version}-${system_name}</parameter>
+    <parameter name="GMXSRCDIR" type="string">${benchmark_home}/gromacs-$version</parameter>
+    <parameter name="cmake_defs" type="string">$GMXSRCDIR -DCMAKE_INSTALL_PREFIX=$GMXINSTDIR -DBUILD_SHARED_LIBS=OFF -DGMX_FFT_LIBRARY=mkl -DGMX_MPI=ON -DGMX_OPENMP=ON -DGMX_CYCLE_SUBCOUNTERS=ON -DGMX_GPU=OFF -DGMX_BUILD_HELP=OFF -DGMX_HWLOC=OFF -DGMX_OPENMP_MAX_THREADS=$MAX_NUM_THREADS -DGMX_DEFAULT_SUFFIX=OFF</parameter>
+    <parameter name="cmake_command_line" type="string">CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CC=$CC CXX=$CXX cmake $cmake_defs</parameter>
+    <parameter name="make_command_line" type="string">make install</parameter>
+  </parameterset>
+  
+
+
+  <benchmark name="compile_2018_sdv" outpath="./compile-2018-sdv">
+    <!-- Load jobfile -->
+    <fileset name="files">
+      <copy>${job_file}.in</copy>
+    </fileset>
+    
+    <!-- Substitute jobfile -->
+    <substituteset name="sub_job">
+      <iofile in="${job_file}.in" out="$job_file" />
+      <sub source="#PARTITION#" dest="$partition" />
+      <sub source="#NODES#" dest="$nodes" />
+      <sub source="#NTASKS_PER_NODE#" dest="$ppn" />
+      <sub source="#THREADS_PER_CORE#" dest="$threads_per_core" />
+      <sub source="#TIME#" dest="$walltime" />
+      <sub source="#ERRPATH#" dest="$err_file" />
+      <sub source="#OUTPATH#" dest="$out_file" />
+      <sub source="#COMMANDS#" dest="$exec" />
+      <sub source="#READY#" dest="$ready_file" />
+      <sub source="#JOB_NAME#" dest="$job_name" />
+    </substituteset> 
+
+    <parameterset name="executeset">
+      <parameter name="submit_cmd">sbatch</parameter>
+      <parameter name="job_file">job.slurm</parameter>
+      <parameter name="partition">$system_name</parameter>
+      <parameter name="nodes" type="int">1</parameter>
+      <parameter name="ppn" type="int">$NUMBER_OF_CORES</parameter>
+      <parameter name="threads_per_core" type="int">2</parameter>            
+      <parameter name="job_name" type="string">compile-gmx-$version-$system_name</parameter>      
+      <parameter name="walltime">08:00:00</parameter>
+      <parameter name="ready_file">ready</parameter>
+      <parameter name="err_file">stderr</parameter>
+      <parameter name="out_file">stdout</parameter>
+      <parameter name="exec">
+	module purge;
+	module load $modules
+	module load $cmake_module
+	$cmake_command_line
+	$make_command_line -j $ppn
+      </parameter>
+    </parameterset>
+    
+    <step name="compile">
+      <use>GROMACS_REPO</use>
+      <use>gromacs_2018</use>
+      <use>system_sdv</use>
+      <use>executeset</use>
+      <use>files,sub_job</use>
+      <do done_file="$ready_file">$submit_cmd $job_file</do> <!-- shell command -->
+    </step>
+  </benchmark>
+</jube>

@@ -1,0 +1,6 @@
+ARBOR PYRAMIDAL NONSPIKING 8260 GCC VEC NOMPI:
+NUMBER_OF_NODES | TASKS_PER_NODE | THREADS_PER_TASK | SCALE | GEOM_SCALE | NUM_SYNAPSES | NUM_COMPARTMENTS | SIMTIME |    DT | T_setup | T_init | T_simulate | n_spikes
+----------------+----------------+------------------+-------+------------+--------------+------------------+---------+-------+---------+--------+------------+---------
+              1 |              1 |               24 |   0.5 |        001 |         2000 |                7 |   500.0 | 0.025 |   0.001 |  6.828 |    248.354 |        1
+              1 |              1 |               48 |   0.5 |        001 |         2000 |                7 |   500.0 | 0.025 |   0.001 |  3.892 |    114.135 |        1
+

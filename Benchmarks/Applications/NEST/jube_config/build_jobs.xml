@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jube>
+
+    <!-- Load jobfile -->
+    <fileset name="files">
+      <copy>../jube_config/${job_file}.in</copy>
+    </fileset>
+    
+    <!-- Substitute jobfile -->
+    <substituteset name="sub_build_job">
+      <iofile in="${job_file}.in" out="$job_file" />
+      <sub source="#PARTITION#" dest="$partition" />
+      <sub source="#NODES#" dest="$build_nodes" />
+      <sub source="#NTASKS_PER_NODE#" dest="$build_ppn" />
+      <sub source="#TIME#" dest="$walltime" />
+      <sub source="#ERRPATH#" dest="$err_file" />
+      <sub source="#OUTPATH#" dest="$out_file" />
+      <sub source="#COMMANDS#" dest="$exec" />
+      <sub source="#READY#" dest="$ready_file" />
+      <sub source="#JOB_NAME#" dest="$job_name" />
+    </substituteset> 
+
+    <parameterset name="build_base">
+      <parameter name="submit_cmd">sbatch</parameter>
+      <parameter name="job_file">build_job.slurm</parameter>
+      <parameter name="walltime">00:30:00</parameter>
+      <parameter name="ready_file">ready</parameter>
+      <parameter name="err_file">stderr</parameter>
+      <parameter name="out_file">stdout</parameter>
+    </parameterset>
+
+    <parameterset name="build_base_daint">
+       <parameter name="submit_cmd">sbatch</parameter>
+       <parameter name="job_file">build_job.daint.slurm</parameter>
+       <parameter name="walltime">00:30:00</parameter>
+       <parameter name="ready_file">ready</parameter>
+       <parameter name="err_file">stderr</parameter>
+       <parameter name="out_file">stdout</parameter>
+     </parameterset>
+    
+    <parameterset name="build_nest">
+      <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
+      <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+	module load $modules
+	module load $gsl_module
+	module load $cmake_module
+	cd $NEST_SRC_DIR
+	# git checkout $nest_branch
+	cd ..
+	rm -rf $NEST_INSTALL_DIR 
+	rm -rf $NEST_BUILD_DIR
+	mkdir -p $NEST_BUILD_DIR
+	cd $NEST_BUILD_DIR
+	echo $PATH
+	cmake $nest_cmake_defs
+	make install -j $build_ppn
+      </parameter>
+    </parameterset>
+    
+    <parameterset name="build_nest_py">
+      <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
+      <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+	module load $modules
+	module load $gsl_module
+        module load $python_module
+	module load $cmake_module
+	cd $NEST_SRC_DIR
+	# git checkout $nest_branch
+	cd ..
+	rm -rf $NEST_INSTALL_DIR 
+	rm -rf $NEST_BUILD_DIR
+	mkdir -p $NEST_BUILD_DIR
+	cd $NEST_BUILD_DIR
+	echo $PATH
+	cmake $nest_cmake_defs
+	make install -j $build_ppn
+      </parameter>
+    </parameterset>
+
+    <parameterset name="bisect_build_nest">
+      <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
+      <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+	module load $modules
+	module load $gsl_module
+	module load $cmake_module
+	cd $NEST_SRC_DIR
+	echo "GIT: `git rev-parse HEAD`"
+	cd ..
+	rm -rf $NEST_INSTALL_DIR 
+	rm -rf $NEST_BUILD_DIR
+	mkdir -p $NEST_BUILD_DIR
+	cd $NEST_BUILD_DIR
+	cmake $nest_cmake_defs
+	make install -j $build_ppn
+      </parameter>
+    </parameterset>
+
+    <parameterset name="build_arbor">
+      <parameter name="job_name" type="string">build-${arbor_version}-${system_name}-${arbor_config}</parameter>      
+      <parameter name="exec">
+	module purge
+        source /usr/local/software/lmod/7.7.34/init/bash
+        module use /usr/local/software/haswell/Stages/2018a/UI/Compilers:/usr/local/software/haswell/Stages/2018a/UI/Tools
+	module load $cmake_module 
+	module load $gcc_module 
+	module load $modules
+	cd $ARBOR_SRC_DIR
+	git checkout $arbor_branch
+	cd ..
+	rm -rf $ARBOR_INSTALL_DIR 
+	rm -rf $ARBOR_BUILD_DIR
+	mkdir -p $ARBOR_BUILD_DIR
+	cd $ARBOR_BUILD_DIR
+	export CC=$mpicc_exec
+	export CXX=$mpicxx_exec
+	cmake -E env CXXFLAGS="-std=c++11" cmake $arbor_cmake_defs
+	make -j $build_ppn
+      </parameter>
+    </parameterset>
+
+    <parameterset name="build_arbor_8260">
+      <parameter name="job_name" type="string">build-${arbor_version}-${system_name}-${arbor_config}</parameter>      
+      <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+
+	module load $modules
+	module load $cmake_module
+	module load $gcc_module 
+	cd $ARBOR_SRC_DIR
+	git checkout $arbor_branch
+	cd ..
+	rm -rf $ARBOR_INSTALL_DIR 
+	rm -rf $ARBOR_BUILD_DIR
+	mkdir -p $ARBOR_BUILD_DIR
+	cd $ARBOR_BUILD_DIR
+	export CC=$mpicc_exec
+	export CXX=$mpicxx_exec
+	cmake -E env CXXFLAGS="-std=c++11" cmake $arbor_cmake_defs
+	make -j $build_ppn
+      </parameter>
+    </parameterset>
+
+    <parameterset name="build_jemalloc">
+      <parameter name="job_name" type="string">build-jemalloc-$system_name</parameter>      
+      <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+	module load $modules
+	cd ${bench_work}/jemalloc
+	rm -rf $JEMALLOC_INSTALL_DIR
+	cd $jemalloc_version
+	./configure --prefix=${JEMALLOC_INSTALL_DIR} ${jemalloc_configure_flags}
+	make install -j $build_ppn
+      </parameter>
+    </parameterset>
+
+   <parameterset name="build_asset">
+      <parameter name="job_name" type="string">build-asset-$system_name</parameter>      
+      <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+	module load $modules
+	module load $python_module
+	rm -rf $ASSET_INSTALL_DIR
+	mkdir $ASSET_INSTALL_DIR
+	cp -a $ASSET_SRC_DIR/* $ASSET_INSTALL_DIR
+	cd ${ASSET_INSTALL_DIR}/cython_lib
+	make
+      </parameter>
+    </parameterset>
+    
+    <parameterset name="run_nest_installcheck">
+      <parameter name="job_name" type="string">icheck-${nest_version}-${system_name}-${nest_config}</parameter>      
+      <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+	module load $modules
+	module load $python_module
+	cd $NEST_BUILD_DIR
+	make installcheck
+      </parameter>
+    </parameterset>
+
+    <patternset name="nest_installcheck_pattern">
+      <pattern name="n_tests" type="int">Total number of tests: $jube_pat_int</pattern>
+      <pattern name="n_passed" type="int">Passed: $jube_pat_int</pattern>
+      <pattern name="n_skipped" type="int">Skipped: $jube_pat_int</pattern>
+      <pattern name="n_failed" type="int">Failed: $jube_pat_int</pattern>
+    </patternset>
+
+    
+</jube>
