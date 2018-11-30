@@ -163,7 +163,7 @@
 /presimtime 90. ms def  % simulation time until reaching equilibrium
 /dt 0.1 ms def          % simulation step
 /path_name (.) def      % path where all files will have to be written
-/record_spikes false def % record excitatory spikes 
+/record_spikes true def % record excitatory spikes 
 
 % -------------------------------------------------------------------------------------
 
