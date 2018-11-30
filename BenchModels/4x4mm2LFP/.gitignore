@@ -1,0 +1,4 @@
+build/
+mesocircuit/parameters/
+mesocircuit/analasys.egg-info/
+dist/
