@@ -34,7 +34,7 @@
     <analyser name="analyse_scale_check">
       <use from="bench_jobs.xml">nest_pattern_MAM_stdcout</use> <!-- use existing patternset -->
       <analyse step="bench">
-	<file>stdout</file> <!-- file which should be scanned -->
+        <file>stdout</file> <!-- file which should be scanned -->
       </analyse>
     </analyser>
     
@@ -42,16 +42,18 @@
     <result>
       <use>analyse_scale_check</use> <!-- use existing analyser -->
       <table name="NEST_2_16_1_MAM_stallo" style="pretty" sort="number">
-	<column>NUMBER_OF_NODES</column>
-	<column>TASKS_PER_NODE</column>
+        <column>NUMBER_OF_NODES</column>
+        <column>TASKS_PER_NODE</column>
         <column>NUM_VPS</column>
-	<column>THREADS_PER_TASK</column>
-	<column>SCALE</column>
-	<column>T_network_local</column>	
-	<column>T_network_global</column>
-	<column>T_sim</column>
-	<column>VSize_sum</column>	
-	<column>N_nrns</column>
+        <column>THREADS_PER_TASK</column>
+        <column>SCALE</column>
+        <column>T_network_local</column>	
+        <column>T_network_global_avg</column>
+        <column>T_create_avg</column>
+        <column>T_connect_avg</column>
+        <column>T_sim</column>
+        <column>VSize_sum</column>	
+        <column>N_nrns</column>
         <column>N_conns_sum</column>	
       </table>
     </result>

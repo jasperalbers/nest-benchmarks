@@ -93,6 +93,9 @@ class Simulation:
         self.areas_recorded = self.params['recording_dict']['areas_recorded']
         self.T = self.params['t_sim']
 
+        self.time_create = 0
+        self.time_connect = 0
+
     def __eq__(self, other):
         # Two simulations are equal if the simulation parameters and
         # the simulated networks are equal.
@@ -195,6 +198,8 @@ class Simulation:
         for area_name in self.areas_simulated:
             a = Area(self, self.network, area_name)
             self.areas.append(a)
+            self.time_create += a.time_create
+            self.time_connect += a.time_connect
             print("Memory after {0} : {1:.2f} MB".format(area_name, self.memory() / 1024.))
 
     def cortico_cortical_input(self):
@@ -334,6 +339,8 @@ class Simulation:
                  'base_memory': self.base_memory,
                  'network_memory': self.network_memory,
                  'total_memory': self.total_memory,
+                 'time_create': self.time_create,
+                 'time_connect':self.time_connect,
                  'num_connections': nest.GetKernelStatus('num_connections')}
             print(d)
             fn = os.path.join(self.data_dir,
@@ -405,9 +412,13 @@ class Area:
         for pop in self.populations:
             self.external_synapses[pop] = self.network.K[self.name][pop]['external']['external']
 
+        t0 = time.time()
         self.create_populations()
+        t1 = time.time()
+        self.time_create = t1 - t0
         self.connect_devices()
         self.connect_populations()
+        self.time_connect = time.time() - t1
         print("Rank {}: created area {} with {} local nodes".format(nest.Rank(),
                                                                     self.name,
                                                                     self.num_local_nodes))

@@ -128,7 +128,7 @@
        
         python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE}
 
-        mpirun python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs}
+        mpirun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs}
       </parameter>
     </parameterset>
 
@@ -239,6 +239,8 @@
     <patternset name="nest_pattern_MAM_stdcout">
       <pattern name="T_network_local" type="float">'time_network_local': $jube_pat_fp</pattern>
       <pattern name="T_network_global" type="float">'time_network_global': $jube_pat_fp</pattern>
+      <pattern name="T_create" type="float">'time_create': $jube_pat_fp</pattern>
+      <pattern name="T_connect" type="float">'time_connect': $jube_pat_fp</pattern>
       <pattern name="T_sim" type="float">'time_simulate': $jube_pat_fp</pattern>
       <pattern name="VSize" type="int">'total_memory': $jube_pat_int</pattern>
       <pattern name="N_nrns" type="int">Network size: $jube_pat_int</pattern>
