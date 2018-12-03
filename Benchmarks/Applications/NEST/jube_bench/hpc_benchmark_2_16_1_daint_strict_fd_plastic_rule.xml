@@ -9,19 +9,19 @@
   </include-path>
 
 
-  <benchmark name="hpc_2_16_1_daint" outpath="../../../../BenchWork/jube_hpc/nest_2.16.1">
+  <benchmark name="hpc_2_16_1_daint" outpath="../../../../../BenchWork/jube_hpc/nest_2.16.1">
 
     <parameterset name="scale_check">
-      <parameter name="SCALE" type="int">40</parameter>
+      <parameter name="SCALE" type="int">10</parameter>
       <parameter name="SIMTIME" type="float">10</parameter>
-      <parameter name="NUMBER_OF_NODES" type="int">2</parameter>
+      <parameter name="NUMBER_OF_NODES" type="int">1</parameter>
       <parameter name="TASKS_PER_NODE" type="int">1</parameter>
       <parameter name="THREADS_PER_TASK" type="int">72</parameter>
       <parameter name="NUM_REC" type="int">1000</parameter>
       <parameter name="PLASTIC" type="string">true</parameter>
       <parameter name="D_MIN" type="float">1.5</parameter>
       <parameter name="D_MAX" type="float">1.5</parameter>
-      <parameter name="RULE" type="string">in</parameter>
+      <parameter name="RULE" type="string">one</parameter>
     </parameterset>
 
     <step name="bench">

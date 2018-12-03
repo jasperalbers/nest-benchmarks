@@ -9,7 +9,7 @@
   </include-path>
 
 
-  <benchmark name="hpc_2_16_1_stallo" outpath="../../../../BenchWork/jube_hpc/nest_2.16.1">
+  <benchmark name="hpc_2_16_1_stallo" outpath="../../../../../BenchWork/jube_hpc/nest_2.16.1">
 
     <parameterset name="scale_check">
       <parameter name="SCALE" type="int">4</parameter>
@@ -69,7 +69,6 @@
         <column>T_equ</column>
         <column>T_sim</column>
         <column>VSize_sum</column>
-        <column>VSize_edg_sum</column>
         <column>N_spks_sum</column>
         <column>Rate_sum</column>
         <column>N_nrns</column>
@@ -82,4 +81,3 @@
 
   </benchmark>
 </jube>
-

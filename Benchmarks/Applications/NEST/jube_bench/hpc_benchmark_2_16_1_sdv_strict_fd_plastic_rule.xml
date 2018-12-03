@@ -9,7 +9,7 @@
   </include-path>
 
 
-  <benchmark name="hpc_2_16_1_sdv" outpath="../../../../BenchWork/jube_hpc/nest_2.16.1">
+  <benchmark name="hpc_2_16_1_sdv" outpath="../../../../../BenchWork/jube_hpc/nest_2.16.1">
 
     <parameterset name="scale_check">
       <parameter name="SCALE" type="int">12,14,16,18,20</parameter>

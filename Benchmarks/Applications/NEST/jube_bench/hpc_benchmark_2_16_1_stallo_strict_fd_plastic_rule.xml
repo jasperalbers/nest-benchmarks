@@ -9,7 +9,7 @@
   </include-path>
 
 
-  <benchmark name="hpc_2_16_1_stallo" outpath="../../../../BenchWork/jube_hpc/nest_2.16.1">
+  <benchmark name="hpc_2_16_1_stallo" outpath="../../../../../BenchWork/jube_hpc/nest_2.16.1">
 
     <parameterset name="scale_check">
       <parameter name="SCALE" type="int">4</parameter>
@@ -21,7 +21,7 @@
       <parameter name="PLASTIC" type="string">true</parameter>
       <parameter name="D_MIN" type="float">1.5</parameter>
       <parameter name="D_MAX" type="float">1.5</parameter>
-      <parameter name="RULE" type="string">sym-bern</parameter>
+      <parameter name="RULE" type="string">one</parameter>
     </parameterset>
 
     <step name="bench">
