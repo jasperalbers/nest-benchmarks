@@ -5,7 +5,7 @@
     <path>../jube_config/</path>
   </include-path>
 
-  <benchmark name="build_jemalloc" outpath="../../../../BenchWork/jube_builds/jemalloc">
+  <benchmark name="build_jemalloc" outpath="../../../../../BenchWork/jube_builds/jemalloc">
 
     <step name="build">
       <use from="dir_config.xml">dir_config</use>
