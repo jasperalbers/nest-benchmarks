@@ -3,13 +3,13 @@
 
   <!-- This version runs all MPI/Thread Combinations for 24 VPs in one
        script, scale 20 -->
-  
+
   <include-path>
     <path>../jube_config/</path>
   </include-path>
 
 
-  <benchmark name="MAM_2_16_1_stallo" outpath="../../../../BenchWork/jube_MAM/nest_2.16.1">
+  <benchmark name="MAM_2_16_1_stallo" outpath="../../../../../BenchWork/jube_MAM/nest_2.16.1">
 
     <parameterset name="scale_check">
       <parameter name="SIMTIME" type="float">100.</parameter>
@@ -29,18 +29,18 @@
       <use>scale_check</use>
       <do done_file="$ready_file">$submit_cmd $job_file</do>
     </step>
-    
+
     <!-- Analyse -->
     <analyser name="analyse_scale_check">
-      <use from="bench_jobs.xml">nest_pattern_MAM_stdcout</use> <!-- use existing patternset -->
+      <use from="bench_jobs.xml">nest_pattern_MAM_stdcout</use>      <!-- use existing patternset -->
       <analyse step="bench">
-        <file>stdout</file> <!-- file which should be scanned -->
+        <file>stdout</file>        <!-- file which should be scanned -->
       </analyse>
     </analyser>
-    
+
     <!-- Create result table -->
     <result>
-      <use>analyse_scale_check</use> <!-- use existing analyser -->
+      <use>analyse_scale_check</use>      <!-- use existing analyser -->
       <table name="NEST_2_16_1_MAM_stallo" style="pretty" sort="number">
         <column>NUMBER_OF_NODES</column>
         <column>TASKS_PER_NODE</column>
@@ -54,7 +54,7 @@
         <column>T_sim</column>
         <column>VSize_sum</column>	
         <column>N_nrns</column>
-        <column>N_conns_sum</column>	
+        <column>N_conns_sum</column>
       </table>
     </result>
 

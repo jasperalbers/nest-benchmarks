@@ -204,6 +204,54 @@
       </parameter>
     </parameterset>
 
+ <parameterset name="bench_nest_rule">
+    <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
+    <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+	module load $modules;
+	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+	export OMP_NUM_THREADS=$THREADS_PER_TASK
+	srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile} --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_${PLASTIC}_${D_MIN}_${D_MAX}_${RULE}
+    </parameter>
+  </parameterset>
+
+  <parameterset name="bench_nest_split">
+    <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
+    <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+	module load $modules;
+	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+	export OMP_NUM_THREADS=$THREADS_PER_TASK
+	srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile} --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_${PLASTIC}_${D_MIN}_${D_MAX}_${NBLOCKS}
+    </parameter>
+  </parameterset>
+
+  <parameterset name="bench_nest_rule_mpirun">
+    <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
+    <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+	module load $modules;
+	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+	export OMP_NUM_THREADS=$THREADS_PER_TASK
+	mpirun -n ${num_tasks} ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile} --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_${PLASTIC}_${D_MIN}_${D_MAX}_${RULE}
+    </parameter>
+  </parameterset>
+
+  <parameterset name="bench_nest_split_mpirun">
+    <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
+    <parameter name="exec">
+	source /etc/profile.d/modules.sh
+	module purge;
+	module load $modules;
+	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+	export OMP_NUM_THREADS=$THREADS_PER_TASK
+	mpirun -n ${num_tasks} ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile} --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_${PLASTIC}_${D_MIN}_${D_MAX}_${NBLOCKS}
+    </parameter>
+  </parameterset>
+
     <!-- Regex pattern -->
     <patternset name="nest_pattern_stdcout">
       <pattern name="T_nrns" type="float">$jube_pat_fp # build_time_nodes</pattern> 
@@ -222,6 +270,14 @@
       <pattern name="lcl" type="int">$jube_pat_int # large_connector_limit</pattern> 
       <pattern name="lgf" type="float">$jube_pat_fp # large_connector_growth_factor</pattern> 
       <pattern name="git" type="string">GIT: (.+)</pattern> 
+      <pattern name="EE_inner_conn_time" type="float">$jube_pat_int # EE inner_conn_time</pattern>
+      <pattern name="IE_inner_conn_time" type="float">$jube_pat_int # IE inner_conn_time</pattern>
+      <pattern name="EI_inner_conn_time" type="float">$jube_pat_int # EI inner_conn_time</pattern>
+      <pattern name="II_inner_conn_time" type="float">$jube_pat_int # II inner_conn_time</pattern>
+      <pattern name="EE_conns_per_sec" type="float">\d+ (.+) # EE conns_per_sec</pattern>
+      <pattern name="IE_conns_per_sec" type="float">\d+ (.+) # IE conns_per_sec</pattern>
+      <pattern name="EI_conns_per_sec" type="float">\d+ (.+) # EI conns_per_sec</pattern>
+      <pattern name="II_conns_per_sec" type="float">\d+ (.+) # II conns_per_sec</pattern>
     </patternset>
     
     <!-- Regex pattern -->
