@@ -73,41 +73,41 @@
     <parameterset name="bench_nest">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-	source /etc/profile.d/modules.sh 
-	module purge;
-	module load $modules; 
-	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
-	export OMP_NUM_THREADS=$THREADS_PER_TASK
-	srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile}  --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_${PLASTIC}_${D_MIN}_${D_MAX}
+        source /etc/profile.d/modules.sh 
+        module purge;
+        module load $modules; 
+        source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+        export OMP_NUM_THREADS=$THREADS_PER_TASK
+        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile}  --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_${PLASTIC}_${D_MIN}_${D_MAX}
       </parameter>
     </parameterset>
 
     <parameterset name="bench_nest_mpirun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-	source /etc/profile.d/modules.sh 
-	module purge;
-	module load $modules; 
-	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
-	export OMP_NUM_THREADS=$THREADS_PER_TASK
-	mpirun -np ${num_tasks} ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile}  --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_${PLASTIC}_${D_MIN}_${D_MAX}
+        source /etc/profile.d/modules.sh 
+        module purge;
+        module load $modules; 
+        source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+        export OMP_NUM_THREADS=$THREADS_PER_TASK
+        mpirun -np ${num_tasks} ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile}  --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_${PLASTIC}_${D_MIN}_${D_MAX}
       </parameter>
     </parameterset>
     
     <parameterset name="bench_nest_meso_mpirun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-	source /etc/profile.d/modules.sh 
+        source /etc/profile.d/modules.sh 
 	
         rm -rf ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}
         module purge;
         module load Python/2.7.11-intel-2016a; 
-	export OMP_NUM_THREADS=$THREADS_PER_TASK
+        export OMP_NUM_THREADS=$THREADS_PER_TASK
         mpirun -np 1 python ${mesocircuit_home}/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
         
         module purge;
-	module load $modules; 
-	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+        module load $modules; 
+        source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
         mpirun -np ${num_tasks} ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
       </parameter>
     </parameterset>

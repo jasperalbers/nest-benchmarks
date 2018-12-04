@@ -42,7 +42,7 @@
     <parameter name="cmake_module"></parameter>
     <parameter name="gcc_module"></parameter>
     <parameter name="gsl_module"></parameter>
-    <parameter name="python_module">cray-python/3.6.5.1</parameter>
+    <parameter name="python_module"></parameter>
     <parameter name="python_exec">python</parameter>
     <parameter name="cython_exec"></parameter>
     <parameter name="pip_exec"></parameter>

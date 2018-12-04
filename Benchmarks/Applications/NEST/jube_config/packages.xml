@@ -219,13 +219,28 @@
   
   <parameterset name="nest_py_O3_strict">
     <!-- build nest with python, strict IEEE754 conformance -->
-    <!-- THIS CONFIGURATION DOES NOT WORK YET, PyNEST LINKER PROBLEMS
-         Adding -fPIC to with-optimize does NOT help.
-      -->
     <parameter name="nest_config" type="string">py_O3_strict</parameter>
     <parameter name="nest_cmake_defs" type="string">\
       $NEST_SRC_DIR \
       -DCMAKE_INSTALL_PREFIX:PATH=$NEST_INSTALL_DIR \
+      -Dwith-optimize="-O3 -fp-model strict" \
+      -Dwith-debug=-g \
+      -Dwith-mpi=ON \
+      -Dwith-gsl=ON \
+      -Dwith-python=3 \
+      -Dwith-readline=OFF \
+      -DCMAKE_C_COMPILER=$mpicc_exec \
+      -DCMAKE_CXX_COMPILER=$mpicxx_exec
+    </parameter>
+  </parameterset>
+
+  <parameterset name="nest_py_O3_strict_static">
+    <!-- build nest with python, strict IEEE754 conformance -->
+    <parameter name="nest_config" type="string">py_O3_strict</parameter>
+    <parameter name="nest_cmake_defs" type="string">\
+      $NEST_SRC_DIR \
+      -DCMAKE_INSTALL_PREFIX:PATH=$NEST_INSTALL_DIR \
+      -Dstatic-libraries=ON \
       -Dwith-optimize="-O3 -fp-model strict" \
       -Dwith-debug=-g \
       -Dwith-mpi=ON \
