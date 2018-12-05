@@ -70,6 +70,23 @@
       <parameter name="out_file">stdout</parameter>
     </parameterset>
 
+    <parameterset name="bench_base_vp_daint">
+      <parameter name="submit_cmd">sbatch</parameter>
+      <parameter name="job_file">job.daint.slurm</parameter>
+      <parameter name="nodes" type="int">$NUMBER_OF_NODES</parameter>
+      <parameter name="num_tasks" type="int" mode="python">${NUM_VPS} // ${THREADS_PER_TASK}</parameter>
+      <parameter name="ppn" type="int" mode="python">${num_tasks} // ${NUMBER_OF_NODES}</parameter>
+      
+      <!-- next is alias to make result table template work -->
+      <parameter name="TASKS_PER_NODE" type="int">${ppn}</parameter>
+      <parameter name="cpus_per_task" type="int">$THREADS_PER_TASK</parameter>
+      <parameter name="totVPs" type="int" mode="python">$NUM_VPS</parameter>
+      <parameter name="walltime">00:30:00</parameter>
+      <parameter name="ready_file">ready</parameter>
+      <parameter name="err_file">stderr</parameter>
+      <parameter name="out_file">stdout</parameter>
+    </parameterset>
+
     <parameterset name="bench_nest">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
@@ -101,7 +118,7 @@
 	
         rm -rf ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}
         module purge;
-        module load Python/2.7.11-intel-2016a; 
+        module load $python2_module; 
         export OMP_NUM_THREADS=$THREADS_PER_TASK
         mpirun -np 1 python ${mesocircuit_home}/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
         
@@ -109,6 +126,23 @@
         module load $modules; 
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
         mpirun -np ${num_tasks} ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
+      </parameter>
+    </parameterset>
+
+    <parameterset name="bench_nest_meso_srun">
+      <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
+      <parameter name="exec">
+        source /etc/profile.d/modules.sh 
+  
+        rm -rf ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}
+        module purge;
+        module load $modules;
+        module load $python2_module; 
+        export OMP_NUM_THREADS=$THREADS_PER_TASK
+        srun python ${mesocircuit_home}/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
+         
+        source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
       </parameter>
     </parameterset>
 
@@ -129,6 +163,26 @@
         python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE}
 
         mpirun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs}
+      </parameter>
+    </parameterset>
+
+    <parameterset name="bench_nest_MAM_srun">
+      <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
+      <parameter name="exec">
+        source /etc/profile.d/modules.sh
+
+        module purge;
+        module load $modules;
+        module load $gsl_module;
+        module load $python_module;
+        
+        source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+        export PYTHONPATH=${MAM_home}/multi-area-model/:$PYTHONPATH;
+        export OMP_NUM_THREADS=$THREADS_PER_TASK
+       
+        python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE}
+
+        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs}
       </parameter>
     </parameterset>
 

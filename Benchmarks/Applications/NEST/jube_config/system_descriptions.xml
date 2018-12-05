@@ -26,6 +26,7 @@
     <parameter name="gcc_module">GCCcore/6.4.0</parameter>
     <parameter name="gsl_module">GSL/2.4-GCCcore-6.4.0</parameter>
     <parameter name="python_module">Python/3.6.4-intel-2018a</parameter>
+    <parameter name="python2_module">Python/2.7.11-intel-2016a</parameter>
     <parameter name="python_exec">python3</parameter>
     <parameter name="cython_exec">cython</parameter>
     <parameter name="pip_exec">pip3</parameter>
@@ -43,6 +44,7 @@
     <parameter name="gcc_module"></parameter>
     <parameter name="gsl_module"></parameter>
     <parameter name="python_module"></parameter>
+    <parameter name="python2_module">cray-python/2.7.15.1 h5py/2.8.0-CrayGNU-18.08-python2-parallel</parameter>
     <parameter name="python_exec">python</parameter>
     <parameter name="cython_exec"></parameter>
     <parameter name="pip_exec"></parameter>
