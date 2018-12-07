@@ -33,7 +33,7 @@
     <parameterset name="build_base_daint">
        <parameter name="submit_cmd">sbatch</parameter>
        <parameter name="job_file">build_job.daint.slurm</parameter>
-       <parameter name="walltime">00:30:00</parameter>
+       <parameter name="walltime">01:30:00</parameter>
        <parameter name="ready_file">ready</parameter>
        <parameter name="err_file">stderr</parameter>
        <parameter name="out_file">stdout</parameter>
@@ -42,21 +42,22 @@
     <parameterset name="build_nest">
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-    	source /etc/profile.d/modules.sh
-    	module purge;
-    	module load $modules
-    	module load $gsl_module
-    	module load $cmake_module
-    	cd $NEST_SRC_DIR
-    	# git checkout $nest_branch
-    	cd ..
-    	rm -rf $NEST_INSTALL_DIR 
-    	rm -rf $NEST_BUILD_DIR
-    	mkdir -p $NEST_BUILD_DIR
-    	cd $NEST_BUILD_DIR
-    	echo $PATH
-    	cmake $nest_cmake_defs
-    	make install -j $build_ppn
+      	source /etc/profile.d/modules.sh
+      	module purge;
+      	module load $modules
+      	module load $gsl_module
+      	module load $cmake_module
+        export CRAYPE_LINK_TYPE=dynamic
+      	cd $NEST_SRC_DIR
+      	# git checkout $nest_branch
+      	cd ..
+      	rm -rf $NEST_INSTALL_DIR 
+      	rm -rf $NEST_BUILD_DIR
+      	mkdir -p $NEST_BUILD_DIR
+      	cd $NEST_BUILD_DIR
+      	echo $PATH
+      	cmake $nest_cmake_defs
+      	make install -j $build_ppn
       </parameter>
     </parameterset>
     
@@ -64,21 +65,22 @@
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
         source /etc/profile.d/modules.sh
-    	module purge;
-    	module load $modules
-    	module load $gsl_module
+      	module purge;
+      	module load $modules
+      	module load $gsl_module
         module load $python_module
-    	module load $cmake_module
-    	cd $NEST_SRC_DIR
-    	# git checkout $nest_branch
-    	cd ..
-    	rm -rf $NEST_INSTALL_DIR 
-    	rm -rf $NEST_BUILD_DIR
-    	mkdir -p $NEST_BUILD_DIR
-    	cd $NEST_BUILD_DIR
-    	echo $PATH
-    	cmake $nest_cmake_defs
-    	make install -j $build_ppn
+      	module load $cmake_module
+        export CRAYPE_LINK_TYPE=dynamic
+      	cd $NEST_SRC_DIR
+      	# git checkout $nest_branch
+      	cd ..
+      	rm -rf $NEST_INSTALL_DIR 
+      	rm -rf $NEST_BUILD_DIR
+      	mkdir -p $NEST_BUILD_DIR
+      	cd $NEST_BUILD_DIR
+      	echo $PATH
+      	cmake $nest_cmake_defs
+      	make install -j $build_ppn
       </parameter>
     </parameterset>
 
