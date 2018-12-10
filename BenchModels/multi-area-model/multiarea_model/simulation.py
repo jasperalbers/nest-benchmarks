@@ -331,18 +331,19 @@ class Simulation:
         Write runtime and memory for the first 30 MPI processes
         to file.
         """
+        d = {'time_prepare': self.time_prepare,
+             'time_network_local': self.time_network_local,
+             'time_network_global': self.time_network_global,
+             'time_simulate': self.time_simulate,
+             'base_memory': self.base_memory,
+             'network_memory': self.network_memory,
+             'total_memory': self.total_memory,
+             'time_create': self.time_create,
+             'time_connect':self.time_connect,
+             'num_connections': nest.GetKernelStatus('num_connections')}
+        print(d)
+        
         if nest.Rank() < 30:
-            d = {'time_prepare': self.time_prepare,
-                 'time_network_local': self.time_network_local,
-                 'time_network_global': self.time_network_global,
-                 'time_simulate': self.time_simulate,
-                 'base_memory': self.base_memory,
-                 'network_memory': self.network_memory,
-                 'total_memory': self.total_memory,
-                 'time_create': self.time_create,
-                 'time_connect':self.time_connect,
-                 'num_connections': nest.GetKernelStatus('num_connections')}
-            print(d)
             fn = os.path.join(self.data_dir,
                               'recordings',
                               '_'.join((self.label,

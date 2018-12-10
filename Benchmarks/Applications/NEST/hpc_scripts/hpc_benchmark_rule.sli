@@ -688,7 +688,6 @@ def
 
 /logger
 <<
-    /max_rank_cout 48  % copy output to cout for ranks 0..max_rank_cout-1
     /line_counter 0
 
     % constructor
@@ -703,9 +702,7 @@ def
     {
       /value Set
 
-        Rank max_rank_cout lt {
-            cout Rank <- ( ) <- value <- endl flush pop
-      	} if
+      cout Rank <- ( ) <- value <- endl flush pop
     }
 
     % closes file
