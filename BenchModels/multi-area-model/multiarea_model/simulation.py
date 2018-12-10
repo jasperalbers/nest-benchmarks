@@ -161,7 +161,7 @@ class Simulation:
                               'rng_seeds': list(range(master_seed + 1,
                                                       master_seed + vp + 1))})
 
-        nest.set_verbosity('M_INFO')
+        # nest.set_verbosity('M_INFO')
 
         nest.SetDefaults(self.network.params['neuron_params']['neuron_model'],
                          self.network.params['neuron_params']['single_neuron_dict'])
