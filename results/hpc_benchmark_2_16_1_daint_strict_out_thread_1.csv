@@ -1,0 +1,7 @@
+NUMBER_OF_NODES,TASKS_PER_NODE,THREADS_PER_TASK,SCALE,PLASTIC,RULE,T_nrns,EE_inner_conn_time,IE_inner_conn_time,EI_inner_conn_time,II_inner_conn_time,EE_conns_per_sec,IE_conns_per_sec,EI_conns_per_sec,II_conns_per_sec,T_conns_min,T_conns_max,T_ini_min,T_ini_max,T_equ,T_sim,VSize_sum,VSize_edg_sum,N_spks_sum,Rate_sum,N_nrns,N_conns_sum,d_min,d_max
+1,24,1,20,true,out,0.13,53.0,4.0,8.0,2.0,630504.0,647011.0,702121.0,701780.0,12.02,12.02,1176.0,1176.0,,,114003988,,108583,,225000,2025225000,1.5,1.5
+2,24,1,40,true,out,0.25,85.0,31.0,98.0,23.0,359609.0,361778.0,397148.0,397684.0,21.6,21.61,,,,,,,,,450000,4050450000,,
+4,24,1,80,true,out,0.12,96.0,9.0,33.0,4.0,190754.0,192256.0,214462.0,214221.0,40.55,40.55,,,,,,,,,900000,4050448859,,
+8,24,1,160,true,out,0.17,61.0,91.0,9.0,51.0,99075.9,99391.9,111840.0,111694.0,78.56,78.56,,,,,,,,,1800000,4050526261,,
+16,24,1,320,true,out,0.35,49.0,83.0,95.0,96.0,52025.8,52134.5,60284.8,57028.8,156.0,156.01,,,,,,,,,3600000,4050544973,,
+

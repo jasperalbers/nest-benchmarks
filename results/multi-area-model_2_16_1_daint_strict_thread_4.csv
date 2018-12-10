@@ -1,0 +1,7 @@
+NUMBER_OF_NODES,TASKS_PER_NODE,NUM_VPS,THREADS_PER_TASK,SCALE,T_network_local,T_network_global_avg,T_create_avg,T_connect_avg,T_sim,VSize_sum,N_nrns,N_conns_sum
+1,6,24,4,0.0625,,,,,,,,
+2,6,48,4,0.125,,,,,,,,
+4,6,96,4,0.25,,,,,,,,
+8,6,192,4,0.5,,,,,,,,
+16,6,384,4,1.0,,,,,,,,
+
