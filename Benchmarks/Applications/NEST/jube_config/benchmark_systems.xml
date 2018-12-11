@@ -69,5 +69,14 @@
     </parameter>
   </parameterset>
 
+    <parameterset name="hpc_benchmark_split_new">
+    <parameter name="benchmark_system_name" type="string">
+      hpc_benchmark_split_new
+    </parameter>
+    <parameter name="slifile" type="string">
+      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
+    </parameter>
+  </parameterset>
+
 
 </jube>
