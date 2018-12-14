@@ -9,7 +9,7 @@
 #SBATCH --cpus-per-task=#CPUS_PER_TASK#
 #SBATCH --time=#TIME#
 #SBATCH --exclusive
-#SBATCH --ntasks-per-core=2
+#SBATCH --ntasks-per-core=1
 #SBATCH --mem=120GB
 #SBATCH --constraint=mc
 #COMMANDS#
