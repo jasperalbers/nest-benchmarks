@@ -23,6 +23,9 @@
     <parameter name="JEMALLOC_INSTALL_DIR" type="string">${bench_work}/${jemalloc_version}-${system_name}/install</parameter>
     <parameter name="JEMALLOC_SRC_DIR" type="string">${bench_work}/${jemalloc_version}</parameter>
 
+    <parameter name="TEMALLOC_INSTALL_DIR" type="string">${bench_work}/${temalloc_version}-${system_name}/install</parameter>
+    <parameter name="TEMALLOC_SRC_DIR" type="string">${bench_work}/${temalloc_version}</parameter>
+
     <!-- ASSET needs to compile cythonized code. To allow
 	 system-specific directories, we copy manually to an
 	 installation directory and compile there. -->

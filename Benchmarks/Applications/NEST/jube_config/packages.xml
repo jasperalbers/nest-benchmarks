@@ -59,6 +59,11 @@
     <parameter name="jemalloc_configure_flags" type="string"></parameter>
   </parameterset>
 
+  <parameterset name="temalloc">
+    <parameter name="temalloc_version" type="string">gperftools-2.7</parameter>
+    <parameter name="temalloc_configure_flags" type="string"></parameter>
+  </parameterset>
+
   <parameterset name="nest_base_O3">
     <!-- build nest with minimal dependencies -->
     <parameter name="nest_config" type="string">base_O3</parameter>
