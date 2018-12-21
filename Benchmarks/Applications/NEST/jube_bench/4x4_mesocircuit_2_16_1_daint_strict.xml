@@ -12,10 +12,12 @@
   <benchmark name="4x4_meso_2_16_1_daint" outpath="../../../../../BenchWork/jube_mesocircuit/nest_2.16.1">
 
     <parameterset name="scale_check">
+      <parameter name="base_vp" type="int">36</parameter>
+      <parameter name="base_scale" type="int">0.0625</parameter>
       <parameter name="SIMTIME" type="float">150.</parameter>
       <parameter name="NUMBER_OF_NODES" type="int">1,2,4</parameter>
-      <parameter name="NUM_VPS" type="int" mode="python">4*$NUMBER_OF_NODES</parameter>
-      <parameter name="SCALE" type="float" mode="python">0.005*$NUMBER_OF_NODES</parameter>
+      <parameter name="NUM_VPS" type="int" mode="python">$base_vp*$NUMBER_OF_NODES</parameter>
+      <parameter name="SCALE" type="float" mode="python">$base_scale*$NUMBER_OF_NODES</parameter>
       <parameter name="THREADS_PER_TASK" type="int">4</parameter>
       <parameter name="TRANSIENT" type="int">50.</parameter>
     </parameterset>
