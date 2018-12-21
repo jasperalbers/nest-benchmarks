@@ -16,6 +16,21 @@
     <parameter name="nest_branch" type="string">new_container</parameter>
   </parameterset>
 
+  <parameterset name="nest_mf5G">
+    <parameter name="nest_version" type="string">NEST-mf5G</parameter>
+    <parameter name="nest_branch" type="string">master</parameter>
+  </parameterset>
+
+  <parameterset name="nest_f104c6d">
+    <parameter name="nest_version" type="string">NEST-f104c6d</parameter>
+    <parameter name="nest_branch" type="string">master</parameter>
+  </parameterset>
+
+  <parameterset name="nest_91b3fa7">
+    <parameter name="nest_version" type="string">NEST-91b3fa7</parameter>
+    <parameter name="nest_branch" type="string">master</parameter>
+  </parameterset>
+
   <parameterset name="nest_dq">
     <parameter name="nest_version" type="string">NEST-DQ</parameter>
     <parameter name="nest_branch" type="string">master-deque</parameter>

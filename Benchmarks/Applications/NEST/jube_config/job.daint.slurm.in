@@ -14,4 +14,19 @@
 #SBATCH --constraint=mc
 #COMMANDS#
 
+echo "------------------------------------------------------"
+echo "Job is running on node $SLURM_JOB_NODELIST"
+echo "------------------------------------------------------"
+echo "SLURM: job partition is $SLURM_JOB_PARTITION"
+echo "SLURM: Task ID (MPI Rank) is $SLURM_PROCID"
+echo "SLURM: number of MPI Ranks is $SLURM_STEP_NUM_TASKS"
+echo "SLURM: Job step ID: $SLURM_STEP_ID"
+echo "SLURM: working directory is $PWD"
+echo "SLURM: job identifier is $SLURM_JOB_ID"
+echo "SLURM: job name is $SLURM_JOB_NAME"
+echo "SLURM: node list is $SLURM_NODELIST"
+echo "SLURM: current home directory is $HOME"
+echo "SLURM: PATH = $PATH"
+echo "------------------------------------------------------"
+
 touch #READY#
