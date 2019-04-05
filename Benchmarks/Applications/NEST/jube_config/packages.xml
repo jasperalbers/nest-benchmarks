@@ -16,14 +16,47 @@
     <parameter name="nest_branch" type="string">new_container</parameter>
   </parameterset>
 
-  <parameterset name="nest_mf5G">
-    <parameter name="nest_version" type="string">NEST-mf5G</parameter>
+  <parameterset name="nest_master_update">
+    <parameter name="nest_version" type="string">NEST-master-update</parameter>
+    <parameter name="nest_branch" type="string">master</parameter>
+  </parameterset>
+
+  <parameterset name="nest_master_update_noBV">
+    <parameter name="nest_version" type="string">NEST-master-update-noBV</parameter>
+    <parameter name="nest_branch" type="string">master</parameter>
+  </parameterset>
+
+  <parameterset name="nest_BV">
+    <parameter name="nest_version" type="string">NEST-BV</parameter>
+    <parameter name="nest_branch" type="string">master</parameter>
+  </parameterset>
+
+  <parameterset name="nest_conn_sort">
+    <parameter name="nest_version" type="string">NEST-conn-sort</parameter>
+    <parameter name="nest_branch" type="string">master</parameter>
+  </parameterset>
+
+  <parameterset name="nest_me5g">
+    <parameter name="nest_version" type="string">NEST-me5g</parameter>
     <parameter name="nest_branch" type="string">master</parameter>
   </parameterset>
 
   <parameterset name="nest_f104c6d">
     <parameter name="nest_version" type="string">NEST-f104c6d</parameter>
     <parameter name="nest_branch" type="string">master</parameter>
+  </parameterset>
+
+  <parameterset name="nest_6b26ff5">
+    <parameter name="nest_version" type="string">NEST-6b26ff5</parameter>
+    <parameter name="nest_branch" type="string">master</parameter>
+  </parameterset>
+
+  <parameterset name="nest_master_lcid">
+    <parameter name="nest_version" type="string">NEST-master_lcid</parameter>
+  </parameterset>
+
+  <parameterset name="nest_bisect">
+    <parameter name="nest_version" type="string">NEST-bisect</parameter>
   </parameterset>
 
   <parameterset name="nest_91b3fa7">
