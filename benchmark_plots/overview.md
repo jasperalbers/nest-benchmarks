@@ -54,7 +54,7 @@ For å installere:
 > module load h5py/2.8.0-CrayGNU-18.08-python2-parallel
 > pip install NeuroTools
 
-```bash
+```
 
 Gå så til mesocirucuit mappen og kjør `run python setup.py install --user`
 
