@@ -1,0 +1,28 @@
+%/s_to /parrot_neuron 50000 Create def
+%/t_to /parrot_neuron 10 Create def
+
+/s_to /parrot_neuron 56255 Create def
+/t_to /parrot_neuron 1000 Create def
+
+/sources 1 s_to cvgidcollection def
+/targets s_to 1 add t_to cvgidcollection def
+
+/pg /poisson_generator << /rate 1.0 >> Create def
+/sd /spike_detector Create def
+/detector_label  (.) (/simple_spikes) join def
+sd
+<<
+   /withtime true
+   /to_file true
+   /label detector_label
+>> SetStatus
+
+pg pg cvgidcollection sources Connect
+sources targets Connect
+
+sources sd sd cvgidcollection Connect
+targets sd sd cvgidcollection Connect
+
+10.0 Simulate
+
+0 GetStatus /local_spike_counter get ==
