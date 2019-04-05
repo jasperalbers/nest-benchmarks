@@ -60,6 +60,31 @@
       	make install -j $build_ppn
       </parameter>
     </parameterset>
+
+    <parameterset name="build_nest_boost">
+      <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
+      <parameter name="exec">
+        source /etc/profile.d/modules.sh
+        module purge;
+        module load $modules
+        module load $boost_module
+        module unload PrgEnv-gnu
+        module load PrgEnv-intel/6.0.4
+        module load $gsl_module
+        module load $cmake_module
+        export CRAYPE_LINK_TYPE=dynamic
+        cd $NEST_SRC_DIR
+        # git checkout $nest_branch
+        cd ..
+        rm -rf $NEST_INSTALL_DIR 
+        rm -rf $NEST_BUILD_DIR
+        mkdir -p $NEST_BUILD_DIR
+        cd $NEST_BUILD_DIR
+        echo $PATH
+        cmake $nest_cmake_defs
+        make install -j $build_ppn
+      </parameter>
+    </parameterset>
     
     <parameterset name="build_nest_py">
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
@@ -84,69 +109,29 @@
       </parameter>
     </parameterset>
 
-    <parameterset name="bisect_build_nest">
+    <parameterset name="build_nest_boost_py">
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-	source /etc/profile.d/modules.sh
-	module purge;
-	module load $modules
-	module load $gsl_module
-	module load $cmake_module
-	cd $NEST_SRC_DIR
-	echo "GIT: `git rev-parse HEAD`"
-	cd ..
-	rm -rf $NEST_INSTALL_DIR 
-	rm -rf $NEST_BUILD_DIR
-	mkdir -p $NEST_BUILD_DIR
-	cd $NEST_BUILD_DIR
-	cmake $nest_cmake_defs
-	make install -j $build_ppn
-      </parameter>
-    </parameterset>
-
-    <parameterset name="build_arbor">
-      <parameter name="job_name" type="string">build-${arbor_version}-${system_name}-${arbor_config}</parameter>      
-      <parameter name="exec">
-	module purge
-        source /usr/local/software/lmod/7.7.34/init/bash
-        module use /usr/local/software/haswell/Stages/2018a/UI/Compilers:/usr/local/software/haswell/Stages/2018a/UI/Tools
-	module load $cmake_module 
-	module load $gcc_module 
-	module load $modules
-	cd $ARBOR_SRC_DIR
-	git checkout $arbor_branch
-	cd ..
-	rm -rf $ARBOR_INSTALL_DIR 
-	rm -rf $ARBOR_BUILD_DIR
-	mkdir -p $ARBOR_BUILD_DIR
-	cd $ARBOR_BUILD_DIR
-	export CC=$mpicc_exec
-	export CXX=$mpicxx_exec
-	cmake -E env CXXFLAGS="-std=c++11" cmake $arbor_cmake_defs
-	make -j $build_ppn
-      </parameter>
-    </parameterset>
-
-    <parameterset name="build_arbor_8260">
-      <parameter name="job_name" type="string">build-${arbor_version}-${system_name}-${arbor_config}</parameter>      
-      <parameter name="exec">
-	source /etc/profile.d/modules.sh
-	module purge;
-
-	module load $modules
-	module load $cmake_module
-	module load $gcc_module 
-	cd $ARBOR_SRC_DIR
-	git checkout $arbor_branch
-	cd ..
-	rm -rf $ARBOR_INSTALL_DIR 
-	rm -rf $ARBOR_BUILD_DIR
-	mkdir -p $ARBOR_BUILD_DIR
-	cd $ARBOR_BUILD_DIR
-	export CC=$mpicc_exec
-	export CXX=$mpicxx_exec
-	cmake -E env CXXFLAGS="-std=c++11" cmake $arbor_cmake_defs
-	make -j $build_ppn
+        source /etc/profile.d/modules.sh
+        module purge;
+        module load $modules
+        module load $boost_module
+        module unload PrgEnv-gnu
+        module load PrgEnv-intel/6.0.4
+        module load $gsl_module
+        module load $python_module
+        module load $cmake_module
+        export CRAYPE_LINK_TYPE=dynamic
+        cd $NEST_SRC_DIR
+        # git checkout $nest_branch
+        cd ..
+        rm -rf $NEST_INSTALL_DIR 
+        rm -rf $NEST_BUILD_DIR
+        mkdir -p $NEST_BUILD_DIR
+        cd $NEST_BUILD_DIR
+        echo $PATH
+        cmake $nest_cmake_defs
+        make install -j $build_ppn
       </parameter>
     </parameterset>
 
@@ -175,21 +160,6 @@
       cd $temalloc_version
       ./configure --prefix=${TEMALLOC_INSTALL_DIR} ${temalloc_configure_flags}
       make install -j $build_ppn
-      </parameter>
-    </parameterset>
-
-   <parameterset name="build_asset">
-      <parameter name="job_name" type="string">build-asset-$system_name</parameter>      
-      <parameter name="exec">
-	source /etc/profile.d/modules.sh
-	module purge;
-	module load $modules
-	module load $python_module
-	rm -rf $ASSET_INSTALL_DIR
-	mkdir $ASSET_INSTALL_DIR
-	cp -a $ASSET_SRC_DIR/* $ASSET_INSTALL_DIR
-	cd ${ASSET_INSTALL_DIR}/cython_lib
-	make
       </parameter>
     </parameterset>
     

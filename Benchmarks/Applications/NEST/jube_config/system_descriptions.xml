@@ -45,6 +45,7 @@
     <parameter name="gsl_module">GSL/2.5-CrayIntel-18.08</parameter>
     <parameter name="python_module">cray-python/3.6.5.1</parameter>
     <parameter name="python2_module">cray-python/2.7.15.1 h5py/2.8.0-CrayGNU-18.08-python2-parallel</parameter>
+    <parameter name="boost_module">Boost/1.67.0-CrayGNU-18.08</parameter>
     <parameter name="python_exec">python</parameter>
     <parameter name="cython_exec"></parameter>
     <parameter name="pip_exec"></parameter>
