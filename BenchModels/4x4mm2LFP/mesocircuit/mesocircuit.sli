@@ -1376,6 +1376,8 @@ tic
     CreateNetworkNodes
 toc /CreateTime Set
 
+(mem_after_nodes: ) memory_thisjob cvs join ( kB) join ==
+
 ('CreateTime') ==
 CreateTime ==
 
@@ -1384,13 +1386,23 @@ tic
     ConnectNetworkNodes
 toc /ConnectTime Set
 
+(mem_after_connect: ) memory_thisjob cvs join ( kB) join ==
 (Connecting take: ) ConnectTime cvs join ==
 
 %--------------------%
 
 tic
-    nest_t_sim Simulate
+    Prepare
+    10. Run
+toc /InitTime Set
+(mem_after_ini: ) memory_thisjob cvs join ( kB) join ==
+
+tic
+    nest_t_sim Run
+    Cleanup
 toc /SimTime Set
+
+(Init time: ) InitTime cvs join ==
 
 %--------------------%
 
@@ -1442,6 +1454,7 @@ Rank 0 eq
     (Number of external synapses: ) join K_bg_total cvs join ( \n) join
     (Creating   took ) join CreateTime cvs join ( s\n) join
     (Connecting took ) join ConnectTime cvs join ( s\n) join
+    (Init       took ) join InitTime cvs join ( s\n) join
     (Simulating took ) join SimTime cvs join ( s\n) join
     (Writing    took ) join WriteTime cvs join ( s\n) join
     (Memory on Rank 0: ) join memory_thisjob cvs join ( kB\n) join
@@ -1458,6 +1471,7 @@ Rank 0 eq
 } if
 
 0 /num_connections get cvs ( # num_connections) join ==
+0 /local_spike_counter get cvs ( # local_spike_counter) join ==
 
 (Memory: ) memory_thisjob cvs join ( kB) join ==
 

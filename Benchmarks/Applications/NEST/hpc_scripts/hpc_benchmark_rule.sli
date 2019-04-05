@@ -167,9 +167,7 @@
 /presimtime 90. ms def  % simulation time until reaching equilibrium
 /dt 0.1 ms def          % simulation step
 /path_name (.) def      % path where all files will have to be written
-/record_spikes false def % record excitatory spikes
-
-/conn_scale 0.5 def  % scaling factor for the number of connections
+/record_spikes true def % record excitatory spikes
 
 % -------------------------------------------------------------------------------------
 
@@ -224,19 +222,21 @@ def
 /brunel_params
 <<
   /NE 9000 scale mul round cvi   % number of excitatory neurons
+  /NI 2250 scale mul round cvi   % number of inhibitory neurons
+
   conn_rule (one) eq
   {
-    /NI 9000 scale mul round cvi   % number of inhibitory neurons
+    /NE 9000 scale mul 10 mul round cvi def
+    /NI NE def
   } if
   conn_rule (all) eq
   {
-    /all_scale 1 0.625 scale conn_scale div mul sqrt div def
+    %all_scale 1 0.625 scale 0.5 div mul sqrt div def
+    /all_scale 0.01 sqrt def
     /NE 9000 scale mul all_scale mul iround def
     /NI 2250 scale mul all_scale mul iround def
-  } if
-  currentdict keys /NI MemberQ not
-  {
-    /NI 2250 scale mul round cvi   % number of inhibitory neurons
+    NE ==
+    NI ==
   } if
 
   /model_params
@@ -297,15 +297,19 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
 /BuildNetwork
 {
-  scale 10 geq
-  {
-    /CE 9000 conn_scale mul iround def %number of incoming excitatory connections
-    % /CI 2250 def %number of incomining inhibitory connections
-  }
-  { % small networks: 10% connectivity
-    /CE NE 0.1 conn_scale mul mul iround def %number of incoming excitatory connections
-    % /CI NI 0.1 mul iround def %number of incomining inhibitory connections
-  } ifelse
+  %scale 10 geq
+  %{
+  %  /CE 9000 0.5 mul iround def %number of incoming excitatory connections
+  %  /CI 2250 0.5 mul iround def %number of incoming inhibitory connections
+    %/CE 9000 def %number of incoming excitatory connections
+    %/CI 2250 def %number of incoming inhibitory connections
+  %}
+  %{ % small networks: 10% connectivity
+    %/CE NE 0.1 0.5 mul mul iround def %number of incoming excitatory connections
+    %/CI NI 0.1 0.5 mul mul iround def %number of incoming inhibitory connections
+  /CE NE 0.01 mul iround def %number of incoming excitatory connections
+  /CI NI 0.01 mul iround def %number of incoming inhibitory connections
+  %} ifelse
 
   % Fixed connection rule
   conn_rule (all) eq
@@ -321,31 +325,33 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   conn_rule (in) eq
   {
     /E_conn_spec << /rule (fixed_indegree) /indegree CE /autapses false /multapses true >> def
-    /I_conn_spec << /rule (fixed_indegree) /indegree CE /autapses false /multapses true >> def
+    /I_conn_spec << /rule (fixed_indegree) /indegree CI /autapses false /multapses true >> def
   } if
   conn_rule (out) eq
   {
     /E_conn_spec << /rule (fixed_outdegree) /outdegree CE /autapses false /multapses true >> def
-    /I_conn_spec << /rule (fixed_outdegree) /outdegree CE /autapses false /multapses true >> def
+    /I_conn_spec << /rule (fixed_outdegree) /outdegree CI /autapses false /multapses true >> def
   } if
   conn_rule (tot) eq
   {
     /CEt CE NE mul def
-    /CIt CE NI mul def
+    /CIt CI NI mul def
+    CEt ==
+    CIt ==
     /E_conn_spec << /rule (fixed_total_number) /N CEt /autapses false /multapses true >> def
     /I_conn_spec << /rule (fixed_total_number) /N CIt /autapses false /multapses true >> def
   } if
   conn_rule (bern) eq
   {
     /p_CE CE NE cvd div def
-    /p_CI CE NI cvd div def
+    /p_CI CI NI cvd div def
     /E_conn_spec << /rule (pairwise_bernoulli) /p p_CE /autapses false /multapses true >> def
     /I_conn_spec << /rule (pairwise_bernoulli) /p p_CI /autapses false /multapses true >> def
   } if
   conn_rule (sym-bern) eq
   {
     /p_CE CE NE cvd div 0.5 mul def
-    /p_CI CE NI cvd div 0.5 mul def
+    /p_CI CI NI cvd div 0.5 mul def
     /E_conn_spec << /rule (symmetric_pairwise_bernoulli) /p p_CE /autapses false /multapses true /make_symmetric true >> def
     /I_conn_spec << /rule (symmetric_pairwise_bernoulli) /p p_CI /autapses false /multapses true /make_symmetric true >> def
   } if
@@ -393,17 +399,17 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
       E_net GetLocalNodes
       {
           dup
-	  /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
+	        /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
           << /V_m mean_potential sigma_potential normal Random mul add >>
-	  SetStatus
+	        SetStatus
       } forall
 
       I_net GetLocalNodes
       {
           dup
-	  /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
-	  << /V_m mean_potential sigma_potential normal Random mul add >>
-	  SetStatus
+	        /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
+	        << /V_m mean_potential sigma_potential normal Random mul add >>
+	        SetStatus
       } forall
   } if
 
@@ -501,8 +507,9 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
   /pre_conns 0 GetStatus /num_connections get def
   tic
-  E_neurons E_neurons E_conn_spec
-                      << /model /syn_ex_ex /delay delays >> Connect
+
+  E_neurons E_neurons E_conn_spec << /model /syn_ex_ex /delay delays >> Connect
+  
   toc /InnerConnectTime Set
   /post_conns 0 GetStatus /num_connections get def
   InnerConnectTime cvs ( # EE inner_conn_time ) join logger /log call
@@ -515,8 +522,9 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
   /pre_conns 0 GetStatus /num_connections get def
   tic
-  I_neurons E_neurons I_conn_spec
-                      << /model /syn_in  /delay delays >> Connect
+
+  I_neurons E_neurons I_conn_spec << /model /syn_in  /delay delays >> Connect
+  
   toc /InnerConnectTime Set
   /post_conns 0 GetStatus /num_connections get def
   InnerConnectTime cvs ( # IE inner_conn_time ) join logger /log call
@@ -528,8 +536,9 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
   /pre_conns 0 GetStatus /num_connections get def
   tic
-  E_neurons I_neurons E_conn_spec
-                      << /model /syn_ex  /delay delays >> Connect
+  
+  E_neurons I_neurons E_conn_spec << /model /syn_ex  /delay delays >> Connect
+  
   toc /InnerConnectTime Set
   /post_conns 0 GetStatus /num_connections get def
   InnerConnectTime cvs ( # EI inner_conn_time ) join logger /log call
@@ -541,9 +550,10 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
   /pre_conns 0 GetStatus /num_connections get def
   tic
-  I_neurons I_neurons I_conn_spec
-                      << /model /syn_in  /delay delays >> Connect
+  
+  I_neurons I_neurons I_conn_spec << /model /syn_in  /delay delays >> Connect
 
+  
   toc /InnerConnectTime Set
   /post_conns 0 GetStatus /num_connections get def
   InnerConnectTime cvs ( # II inner_conn_time ) join logger /log call
@@ -604,25 +614,25 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
   % - Presimulation: equilibrate system -----------------
 
-  % tic
+  tic
 
-  % presimtime Run
+  presimtime Run
 
-  % toc /PresimTime Set
+  toc /PresimTime Set
 
-  % memory_thisjob cvs ( # virt_mem_after_presim) join logger /log call
-  % PresimTime cvs ( # presim_time) join logger /log call
+  memory_thisjob cvs ( # virt_mem_after_presim) join logger /log call
+  PresimTime cvs ( # presim_time) join logger /log call
 
   % - Simulation -----------------
 
-  % tic
+  tic
 
-  % simtime Run
+  simtime Run
 
-  % toc /SimCPUTime Set
+  toc /SimCPUTime Set
 
   memory_thisjob cvs ( # virt_mem_after_sim) join logger /log call
-  % SimCPUTime cvs ( # sim_time) join logger /log call
+  SimCPUTime cvs ( # sim_time) join logger /log call
 
   % - Cleanup and output -----------
 
@@ -633,6 +643,8 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
     E_detector ComputeRate cvs ( # average rate) join logger /log call
   } if
 
+  % E_neurons size I_neurons size add cvs ( # num_neurons) join logger /log call
+  % 0 /num_connections get cvs ( # num_connections) join logger /log call
   0 /min_delay get cvs ( # min_delay) join logger /log call
   0 /max_delay get cvs ( # max_delay) join logger /log call
   0 /local_spike_counter get cvs ( # local_spike_counter) join logger /log call

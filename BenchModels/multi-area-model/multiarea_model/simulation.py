@@ -308,10 +308,21 @@ class Simulation:
         self.save_network_gids()
 
         print("Network size:", nest.GetKernelStatus('network_size'))
+        print("Saved network in {0:2f} seconds.".format(time.time() - t3))
 
-        nest.Simulate(self.T)
         t4 = time.time()
-        self.time_simulate = t4 - t3
+        nest.Prepare()
+        nest.Run(10.)
+        self.time_init = time.time() - t4
+        self.init_memory = self.memory()
+        print("Init time in {0:.2f} seconds.".format(self.time_init))
+
+        t5 = time.time()
+        #nest.Simulate(self.T)
+        nest.Run(self.T)
+        nest.Cleanup()
+        t6 = time.time()
+        self.time_simulate = t6 - t5
         self.total_memory = self.memory()
         print("Simulated network in {0:.2f} seconds.".format(self.time_simulate))
         self.logging()
@@ -334,13 +345,16 @@ class Simulation:
         d = {'time_prepare': self.time_prepare,
              'time_network_local': self.time_network_local,
              'time_network_global': self.time_network_global,
+             'time_init': self.time_init,
              'time_simulate': self.time_simulate,
              'base_memory': self.base_memory,
              'network_memory': self.network_memory,
+             'init_memory': self.init_memory,
              'total_memory': self.total_memory,
              'time_create': self.time_create,
              'time_connect':self.time_connect,
-             'num_connections': nest.GetKernelStatus('num_connections')}
+             'num_connections': nest.GetKernelStatus('num_connections'),
+             'local_spike_counter': nest.GetKernelStatus('local_spike_counter')}
         print(d)
         
         if nest.Rank() < 30:
