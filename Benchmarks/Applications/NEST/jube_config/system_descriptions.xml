@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jube>
-  
-  <parameterset name="system_sdv">
-    <parameter name="system_name" type="string">sdv</parameter>
-      <parameter name="partition" type="string">sdv</parameter>
-    <parameter name="modules">intel/18.1 parastation/5.2.0-1-intel extoll</parameter>
-    <parameter name="cmake_module">cmake/3.6.2</parameter>
-    <parameter name="gcc_module">gcc/7.2.0-64bit</parameter>
-    <parameter name="gsl_module">gsl/2.4-icc</parameter>
-    <parameter name="python_module">python/3.6.3-optimized-icc</parameter>
-    <parameter name="python_exec">python3</parameter>
-    <parameter name="cython_exec">cython</parameter>
-    <parameter name="pip_exec">pip3</parameter>
-    <parameter name="mpicc_exec">mpicc</parameter>
-    <parameter name="mpicxx_exec">mpicxx</parameter>
-    <parameter name="build_nodes" type="int">1</parameter>
-    <parameter name="build_ppn" type="int">48</parameter>
-  </parameterset>
 
   <parameterset name="system_stallo">
     <parameter name="system_name" type="string">stallo</parameter>

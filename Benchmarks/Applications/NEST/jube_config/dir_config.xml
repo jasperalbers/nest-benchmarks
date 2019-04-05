@@ -13,12 +13,6 @@
     <parameter name="NEST_BUILD_DIR" type="string">${bench_work}/jube_builds/${nest_version}/${system_name}-${nest_config}</parameter>
     <parameter name="NEST_SRC_DIR" type="string">${bench_work}/${nest_version}/src</parameter>
 
-    <!-- Arbor does not support install right now, there for BUILD and INSTALL are intentionally identical -->
-    <parameter name="ARBOR_SRC_DIR" type="string">${bench_work}/${arbor_version}/src</parameter>
-    <parameter name="ARBOR_INSTALL_DIR" type="string">${bench_work}/${arbor_version}-${system_name}-${arbor_config}/install</parameter>
-    <parameter name="ARBOR_BUILD_DIR" type="string">${bench_work}/${arbor_version}-${system_name}-${arbor_config}/install</parameter>
-    <parameter name="ARBOR_DATA_DIR" type="string">${bench_home}/Arbor_data</parameter>
-
     <!-- Jemalloc cannot be built out-of-tree, thus no BUILD -->
     <parameter name="JEMALLOC_INSTALL_DIR" type="string">${bench_work}/${jemalloc_version}-${system_name}/install</parameter>
     <parameter name="JEMALLOC_SRC_DIR" type="string">${bench_work}/${jemalloc_version}</parameter>
@@ -26,10 +20,5 @@
     <parameter name="TEMALLOC_INSTALL_DIR" type="string">${bench_work}/${temalloc_version}-${system_name}/install</parameter>
     <parameter name="TEMALLOC_SRC_DIR" type="string">${bench_work}/${temalloc_version}</parameter>
 
-    <!-- ASSET needs to compile cythonized code. To allow
-	 system-specific directories, we copy manually to an
-	 installation directory and compile there. -->
-    <parameter name="ASSET_SRC_DIR" type="string">${bench_home}/ASSET</parameter>
-    <parameter name="ASSET_INSTALL_DIR" type="string">${bench_work}/asset-${system_name}</parameter>
   </parameterset>
 </jube>

@@ -87,20 +87,7 @@
   <parameterset name="nest_5g">
     <parameter name="nest_version" type="string">NEST-5G</parameter>
     <parameter name="nest_branch" type="string">5g</parameter>
-  </parameterset>
-
-  <parameterset name="nest_github">
-    <parameter name="nest_version" type="string">NEST-Github</parameter>
-  </parameterset>
-
-  <parameterset name="arbor">
-    <parameter name="arbor_version" type="string">Arbor</parameter>
-    <parameter name="arbor_branch" type="string">master</parameter>
-  </parameterset>
-
-  <parameterset name="asset">
-    <parameter name="assert_version" type="string"></parameter>
-  </parameterset>
+  </parameterset>  
 
   <parameterset name="jemalloc">
     <parameter name="jemalloc_version" type="string">jemalloc-5.0.1</parameter>
@@ -302,53 +289,6 @@
       -Dwith-readline=OFF \
       -DCMAKE_C_COMPILER=$mpicc_exec \
       -DCMAKE_CXX_COMPILER=$mpicxx_exec
-    </parameter>
-  </parameterset>
-
-  <parameterset name="arbor_plain">
-    <parameter name="arbor_config" type="string">plain</parameter>
-    <parameter name="arbor_cmake_defs" type="string">\
-      $ARBOR_SRC_DIR \
-      -DCMAKE_INSTALL_PREFIX:PATH=$ARBOR_INSTALL_DIR \
-      -DARB_THREADING_MODEL=cthread \
-      -DARB_WITH_PROFILING=ON \
-      -DARB_WITH_MPI=ON
-    </parameter>
-  </parameterset>
-
-  <parameterset name="arbor_avx2">
-    <parameter name="arbor_config" type="string">avx2</parameter>
-    <parameter name="arbor_cmake_defs" type="string">\
-      $ARBOR_SRC_DIR \
-      -DCMAKE_INSTALL_PREFIX:PATH=$ARBOR_INSTALL_DIR \
-      -DARB_THREADING_MODEL=cthread \
-      -DARB_VECTORIZE_TARGET=AVX2 \
-      -DARB_WITH_PROFILING=ON \
-      -DARB_WITH_MPI=ON
-    </parameter>
-  </parameterset>
-
-  <parameterset name="arbor_avx512">
-    <parameter name="arbor_config" type="string">avx512</parameter>
-    <parameter name="arbor_cmake_defs" type="string">\
-      $ARBOR_SRC_DIR \
-      -DCMAKE_INSTALL_PREFIX:PATH=$ARBOR_INSTALL_DIR \
-      -DARB_THREADING_MODEL=cthread \
-      -DARB_VECTORIZE_TARGET=AVX512 \
-      -DARB_WITH_PROFILING=ON \
-      -DARB_WITH_MPI=ON
-    </parameter>
-  </parameterset>
-
-    <parameterset name="arbor_vec_nompi">
-    <parameter name="arbor_config" type="string">vec_nompi</parameter>
-    <parameter name="arbor_cmake_defs" type="string">\
-      $ARBOR_SRC_DIR \
-      -DCMAKE_INSTALL_PREFIX:PATH=$ARBOR_INSTALL_DIR \
-      -DARB_THREADING_MODEL=cthread \
-      -DARB_VECTORIZE=ON \
-      -DARB_ARCH=native \
-      -DARB_WITH_MPI=OFF
     </parameter>
   </parameterset>
 
