@@ -4,22 +4,22 @@
 NUM\_VPS & rule &                        &                      \\
 \midrule
 36   & bernoulli &              40.908003 &          1940.089396 \\
-     & indegree &              40.906589 &          1469.877652 \\
+     & indegree &              40.906589 &          1517.802262 \\
      & outdegree &                    NaN &                  NaN \\
 72   & bernoulli &              40.907134 &          2562.934243 \\
-     & indegree &              40.906597 &          1512.825228 \\
+     & indegree &              40.906597 &          1547.808778 \\
      & outdegree &                    NaN &                  NaN \\
 144  & bernoulli &              40.906575 &          3673.697436 \\
-     & indegree &              40.906601 &          1577.815149 \\
+     & indegree &              40.906601 &          1561.034421 \\
      & outdegree &                    NaN &                  NaN \\
 288  & bernoulli &              40.906233 &          6054.802209 \\
-     & indegree &              40.906603 &          1614.220878 \\
+     & indegree &              40.906603 &          1568.998234 \\
      & outdegree &                    NaN &                  NaN \\
 576  & bernoulli &                    NaN &                  NaN \\
-     & indegree &              40.906604 &          1745.053730 \\
+     & indegree &              40.906604 &          1739.791976 \\
      & outdegree &                    NaN &                  NaN \\
 1152 & bernoulli &              40.904242 &         20194.503133 \\
-     & indegree &                    NaN &                  NaN \\
+     & indegree &              40.904177 &          2062.749952 \\
      & outdegree &                    NaN &                  NaN \\
 \bottomrule
 \end{tabular}
