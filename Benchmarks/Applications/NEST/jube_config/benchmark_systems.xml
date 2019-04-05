@@ -17,24 +17,6 @@
       ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
-
-  <parameterset name="hpc_benchmark_vg">
-    <parameter name="benchmark_system_name" type="string">
-      hpc_benchmark_vg
-    </parameter>
-    <parameter name="slifile" type="string">
-      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
-    </parameter>
-  </parameterset>
-  
-  <parameterset name="hpc_mam_benchmark">
-    <parameter name="benchmark_system_name" type="string">
-      hpc_mam_benchmark
-    </parameter>
-    <parameter name="slifile" type="string">
-      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
-    </parameter>
-  </parameterset>
   
   <parameterset name="4x4_mesocircuit">
     <parameter name="benchmark_system_name" type="string">
@@ -60,9 +42,18 @@
     </parameter>
   </parameterset>
 
-  <parameterset name="hpc_benchmark_split">
+  <parameterset name="hpc_benchmark_rule_new">
     <parameter name="benchmark_system_name" type="string">
-      hpc_benchmark_split
+      hpc_benchmark_rule_new
+    </parameter>
+    <parameter name="slifile" type="string">
+      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
+    </parameter>
+  </parameterset>
+
+  <parameterset name="population_blocks">
+    <parameter name="benchmark_system_name" type="string">
+      population_blocks
     </parameter>
     <parameter name="slifile" type="string">
       ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
@@ -78,15 +69,6 @@
     </parameter>
   </parameterset>
 
-  <parameterset name="hpc_benchmark_stripped">
-    <parameter name="benchmark_system_name" type="string">
-      hpc_benchmark_stripped
-    </parameter>
-    <parameter name="slifile" type="string">
-      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
-    </parameter>
-  </parameterset>
-
   <parameterset name="hpc_benchmark_spikes">
     <parameter name="benchmark_system_name" type="string">
       hpc_benchmark_spikes
@@ -95,6 +77,5 @@
       ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
-
 
 </jube>
