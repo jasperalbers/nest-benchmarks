@@ -13,7 +13,7 @@
 
     <parameterset name="scale_check">
       <parameter name="base_vp" type="int">36</parameter>
-      <parameter name="base_scale" type="int">15</parameter>
+      <parameter name="base_scale" type="int">10</parameter>
       <parameter name="SIMTIME" type="float">1000</parameter>
       <parameter name="NUMBER_OF_NODES" type="int">1</parameter>
       <!--<parameter name="NUM_VPS" type="int" mode="python">1</parameter>-->
@@ -62,6 +62,7 @@
         <column>T_ini_max</column>
         <column>T_equ</column>
         <column>T_sim</column>
+        <column>VSize_mem_sum</column>
         <column>VSize_sum</column>
         <column>N_spks_sum</column>
         <column>Rate_sum</column>

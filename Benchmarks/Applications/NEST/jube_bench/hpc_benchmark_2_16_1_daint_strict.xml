@@ -47,7 +47,7 @@
     <!-- Create result table -->
     <result>
       <use>analyse_scale_check</use>      <!-- use existing analyser -->
-      <table name="NEST_2_16_1_daint" style="pretty" sort="number">
+      <table name="NEST_2_16_1_daint" style="csv" sort="number">
         <column>NUMBER_OF_NODES</column>
         <column>TASKS_PER_NODE</column>
         <column>THREADS_PER_TASK</column>

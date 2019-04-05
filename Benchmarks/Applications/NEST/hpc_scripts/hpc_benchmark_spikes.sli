@@ -286,8 +286,8 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
     /total_num_virtual_procs nvp
     /resolution  dt
     /overwrite_files true
-    /rng_seeds 123456 [0 nvp 1 sub] add Range % local RNG seeds
-    /grng_seed 123456 nvp add                 % global RNG seed
+    %/rng_seeds 123456 [0 nvp 1 sub] add Range % local RNG seeds
+    %/grng_seed 123456 nvp add                 % global RNG seed
   >> SetStatus
 
   /iaf_psc_alpha    model_params    SetDefaults
@@ -322,6 +322,10 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
           << /V_m mean_potential sigma_potential normal Random mul add >>
       SetStatus
       } forall
+
+      ('====================================================================') ==
+      E_net GetLocalNodes length ==
+      ('====================================================================') ==
 
       I_net GetLocalNodes
       { 
@@ -436,6 +440,9 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   E_neurons E_neurons << /rule (fixed_indegree) /indegree CE /autapses false /multapses true >>
                       << /model /syn_ex_ex /delay delays >> Connect
 
+  << /source [ E_from 2345 add E_from 2346 add ] Range
+     /target [ E_from 10245 add E_from 10255 add ] Range >> GetConnections { GetStatus /weight get } Map ==
+
   M_INFO (BuildNetwork)
   (Connecting inhibitory -> excitatory population.) message
 
@@ -453,6 +460,9 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
   I_neurons I_neurons << /rule (fixed_indegree) /indegree CI /autapses false /multapses true >>
                       << /model /syn_in  /delay delays >> Connect
+
+  << /source [ I_from 864 add I_from 865 add ] Range
+     /target [ I_from 1864 add I_from 1865 add ] Range >> GetConnections { GetStatus /weight get } Map ==
 
 
   record_spikes true eq
@@ -520,6 +530,8 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   tic
 
   simtime Run
+
+  %inisimtime presimtime add simtime add Simulate
 
   toc /SimCPUTime Set
 
