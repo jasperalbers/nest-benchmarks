@@ -26,7 +26,7 @@ t_sim = float(sys.argv[3])
 K_scaling = float(sys.argv[4])
 
 d = {}
-conn_params = {'replace_non_simulated_areas': 'het_poisson_stat',
+conn_params = {#'replace_non_simulated_areas': 'het_poisson_stat',
                'g': -11.,
                'K_stable': os.path.join(base_path, 'K_stable.npy'),
                'fac_nu_ext_TH': 1.2,
