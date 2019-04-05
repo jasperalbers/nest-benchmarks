@@ -1,0 +1,19 @@
+\begin{tabular}{llrr}
+\toprule
+     &             &  memory\_per\_connection &  time\_per\_connection \\
+NUM\_VPS & rule &                        &                      \\
+\midrule
+36   & few neurons &              38.798595 &          2301.772112 \\
+     & many neurons &              40.906589 &          1419.393271 \\
+72   & few neurons &              46.339141 &          1776.952921 \\
+     & many neurons &              40.906597 &          1455.514778 \\
+144  & few neurons &              45.015434 &          1791.593021 \\
+     & many neurons &              40.906601 &          1498.177792 \\
+288  & few neurons &              40.348652 &          1752.691982 \\
+     & many neurons &              40.906603 &          1554.919486 \\
+576  & few neurons &              39.463708 &          1862.944596 \\
+     & many neurons &              40.906604 &          1714.620880 \\
+1152 & few neurons &              39.593160 &          2042.129084 \\
+     & many neurons &              40.904177 &          1987.094456 \\
+\bottomrule
+\end{tabular}

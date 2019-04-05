@@ -1,0 +1,8 @@
+NUMBER_OF_NODES,TASKS_PER_NODE,THREADS_PER_TASK,SCALE,PLASTIC,RULE,NUM_VPS,num_tasks,T_nrns,T_conns_min,T_conns_max,T_conns_sum,T_ini_min,T_ini_max,T_equ,T_sim,VSize_nodes_sum,VSize_mem_sum,VSize_ini_sum,VSize_sum,N_spks_sum,Rate_sum,N_nrns,N_conns_sum,d_min,d_max
+1,6,6,20,true,out,36,6,0.42,392.23,398.74,2377.53,,,,,1927392,133534944,,,,,,,,
+2,6,6,40,true,out,72,12,0.36,676.15,691.17,8221.07,,,,,4023664,267238768,,,,,,,,
+4,6,6,80,true,out,144,24,0.36,1233.3,1276.79,30113.820000000003,,,,,8050312,534480520,,,,,,,,
+8,6,6,160,true,out,288,48,0.53,,,,,,,,16104080,,,,,,,,,
+16,6,6,320,true,out,576,96,0.44,4563.26,4751.64,446097.37000000005,,,,,32421864,2138142696,,,,,,,,
+32,6,6,640,true,out,1152,192,0.42,,,,,,,,65888024,,,,,,,,,
+

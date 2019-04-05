@@ -1,0 +1,25 @@
+\begin{tabular}{llrr}
+\toprule
+     &         &  memory\_per\_connection &  time\_per\_connection \\
+NUM\_VPS & rule &                        &                      \\
+\midrule
+36   & NBLOCKS &              41.085523 &          2009.497507 \\
+     & increasing NBLOCKS &              41.085523 &          2020.352707 \\
+     & population &              29.937254 &          1249.488000 \\
+72   & NBLOCKS &              41.085531 &          2027.494688 \\
+     & increasing NBLOCKS &              41.085531 &          4140.402678 \\
+     & population &              29.868442 &          1275.840000 \\
+144  & NBLOCKS &              41.085535 &          2130.333658 \\
+     & increasing NBLOCKS &              43.901238 &         12554.414558 \\
+     & population &              29.868442 &          1324.080000 \\
+288  & NBLOCKS &              41.085537 &          2286.163072 \\
+     & increasing NBLOCKS &              47.311514 &         48065.830926 \\
+     & population &              29.868442 &          1372.752000 \\
+576  & NBLOCKS &              41.085538 &          2547.402186 \\
+     & increasing NBLOCKS &                    NaN &                  NaN \\
+     & population &              29.868442 &          1595.520000 \\
+1152 & NBLOCKS &              41.083101 &          3133.726081 \\
+     & increasing NBLOCKS &                    NaN &                  NaN \\
+     & population &              29.868442 &          2480.832000 \\
+\bottomrule
+\end{tabular}
