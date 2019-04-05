@@ -1,7 +1,0 @@
-NUMBER_OF_NODES,TASKS_PER_NODE,THREADS_PER_TASK,SCALE,PLASTIC,RULE,T_nrns,EE_inner_conn_time,IE_inner_conn_time,EI_inner_conn_time,II_inner_conn_time,EE_conns_per_sec,IE_conns_per_sec,EI_conns_per_sec,II_conns_per_sec,T_conns_min,T_conns_max,T_ini_min,T_ini_max,T_equ,T_sim,VSize_sum,VSize_edg_sum,N_spks_sum,Rate_sum,N_nrns,N_conns_sum,d_min,d_max
-1,24,1,20,true,tot,0.12,,,,,,,,,,,,,,,,,,,,,,
-2,24,1,40,true,tot,0.14,,,,,,,,,,,,,,,,,,,,,,
-4,24,1,80,true,tot,0.17,,,,,,,,,,,,,,,,,,,,,,
-8,24,1,160,true,tot,0.16,,,,,,,,,,,,,,,,,,,,,,
-16,24,1,320,true,tot,0.18,,,,,,,,,,,,,,,,,,,,,,
-
