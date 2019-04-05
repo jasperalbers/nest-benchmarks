@@ -51,6 +51,15 @@
     </parameter>
   </parameterset>
 
+  <parameterset name="hpc_population_comp_benchmark">
+    <parameter name="benchmark_system_name" type="string">
+      hpc_population_comp_benchmark
+    </parameter>
+    <parameter name="slifile" type="string">
+      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
+    </parameter>
+  </parameterset>
+
   <parameterset name="population_blocks">
     <parameter name="benchmark_system_name" type="string">
       population_blocks

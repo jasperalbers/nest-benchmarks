@@ -5,12 +5,16 @@
 - **hpc split into many Connect calls**: hpc_benchmark_conn_sort_daint_strict_split_new.xml
     - enten med ```<parameter name="NBLOCKS" type="int" mode="python">1000</parameter>```
     - eller med `<parameter name="NBLOCKS" type="int" mode="python">1000*$NUMBER_OF_NODES</parameter>`
+- **hpc med mange koblinger per neuron** (for sammenligning med population): hpc_benchmark_pop_comp_conn_sort_daint_strict.xml
 - **Population model**: population_conn_sort_daint_strict.xml
 - **Multi-Area Model**: multi-area-model_conn_sort_daint_strict.xml
 - **4x4 mesocircuit**: 4x4_mesocircuit_conn_sort_daint_strict.xml
 - **hpc med forskjellig regel**: hpc_benchmark_conn_sort_daint_strict_rule.xml
 
 For å kjøre hpc med fixed VP, different threads kjører jeg hpc_benchmark_conn_sort_daint_strict.xml med NUMBER_OF_NODES=1 eller 36, og forskjellige tråder.
+
+HPC med mange koblinger må kjøres med en `basis_scale=44.4` for å best kunne sammenligne med population model.
+HPC med rules må kjøres med `basis_scale=5` for at fixed_outdegree kan gå gjennom.
 
 
 
@@ -44,21 +48,13 @@ Du må ha installert NEST med python (build_nest_conn_sort_py_daint_strict.xml) 
 
 For å installere:
 
-> > > > > > > > > >```
-> > > > > > > > > >
-> > > > > > > > > >```
-> > > > > > > > > >
-> > > > > > > > > >> > > > > > > > > module load cray-python/2.7.15.1
-> > > > > > > > > >> > > > > > > > >
-> > > > > > > > > >> > > > > > > > > module load PyExtensions/2.7.15.1-CrayGNU-18.08
-> > > > > > > > > >> > > > > > > > >
-> > > > > > > > > >> > > > > > > > > module load h5py/2.8.0-CrayGNU-18.08-python2-parallel
-
-pip install NeuroTools
+```
+> module load cray-python/2.7.15.1
+> module load PyExtensions/2.7.15.1-CrayGNU-18.08
+> module load h5py/2.8.0-CrayGNU-18.08-python2-parallel
+> pip install NeuroTools
 
 ```bash
-
-```
 
 Gå så til mesocirucuit mappen og kjør `run python setup.py install --user`
 
