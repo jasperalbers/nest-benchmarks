@@ -1,25 +1,19 @@
 \begin{tabular}{llrr}
 \toprule
-     &           &  memory\_per\_connection &  time\_per\_connection \\
+       &           &  memory\_per\_connection &  time\_per\_connection \\
 NUM\_VPS & rule &                        &                      \\
 \midrule
-36   & bernoulli &              41.247848 &          1953.741982 \\
-     & indegree &              41.210017 &          1517.802262 \\
-     & outdegree &                    NaN &                  NaN \\
-72   & bernoulli &              41.283378 &          2607.588629 \\
-     & indegree &              41.240363 &          1547.808778 \\
-     & outdegree &                    NaN &                  NaN \\
-144  & bernoulli &              42.529100 &          3697.019791 \\
-     & indegree &              42.532767 &          1561.034421 \\
-     & outdegree &                    NaN &                  NaN \\
-288  & bernoulli &              42.621388 &          6046.696337 \\
-     & indegree &              42.610549 &          1568.998234 \\
-     & outdegree &                    NaN &                  NaN \\
-576  & bernoulli &              44.417621 &         10807.151708 \\
-     & indegree &              44.394832 &          1739.791976 \\
-     & outdegree &                    NaN &                  NaN \\
-1152 & bernoulli &              49.580289 &         20159.661731 \\
-     & indegree &              49.507399 &          2062.749952 \\
-     & outdegree &                    NaN &                  NaN \\
+36.0   & indegree &              95.551012 &          2387.022931 \\
+       & outdegree &              65.639037 &          8297.362806 \\
+72.0   & indegree &              74.608330 &          1933.324778 \\
+       & outdegree &              50.108097 &         11969.770667 \\
+144.0  & indegree &              61.671087 &          1820.031005 \\
+       & outdegree &              50.010993 &         21512.746600 \\
+288.0  & indegree &              51.638179 &          1788.243543 \\
+       & outdegree &              89.236790 &         39432.036751 \\
+576.0  & indegree &              58.207751 &          1840.191074 \\
+       & outdegree &             135.048466 &         54262.577514 \\
+1152.0 & indegree &              66.722641 &          1945.426593 \\
+       & outdegree &             138.617756 &        111407.077350 \\
 \bottomrule
 \end{tabular}

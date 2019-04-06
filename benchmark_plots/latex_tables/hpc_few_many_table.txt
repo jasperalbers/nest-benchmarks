@@ -3,17 +3,17 @@
      &             &  memory\_per\_connection &  time\_per\_connection \\
 NUM\_VPS & rule &                        &                      \\
 \midrule
-36   & few neurons &             100.158346 &          2301.772112 \\
-     & many neurons &              41.197881 &          1419.393271 \\
-72   & few neurons &              74.446588 &          1776.952921 \\
-     & many neurons &              41.264633 &          1455.514778 \\
-144  & few neurons &              61.802534 &          1791.593021 \\
-     & many neurons &              42.538835 &          1498.177792 \\
-288  & few neurons &              51.951665 &          1752.691982 \\
-     & many neurons &              42.612066 &          1554.919486 \\
-576  & few neurons &              58.207751 &          1862.944596 \\
-     & many neurons &              44.486655 &          1714.620880 \\
-1152 & few neurons &              66.927929 &          2042.129084 \\
-     & many neurons &              49.499309 &          1987.094456 \\
+36   & few neurons &              41.197881 &          1419.393271 \\
+     & many neurons &              42.092179 &          1552.697848 \\
+72   & few neurons &              41.264633 &          1455.514778 \\
+     & many neurons &                    NaN &                  NaN \\
+144  & few neurons &              42.538835 &          1498.177792 \\
+     & many neurons &              43.898669 &          1618.270778 \\
+288  & few neurons &              42.612066 &          1554.919486 \\
+     & many neurons &              45.708776 &          1777.374166 \\
+576  & few neurons &              44.486655 &          1714.620880 \\
+     & many neurons &              51.092823 &          2151.209344 \\
+1152 & few neurons &              49.499309 &          1987.094456 \\
+     & many neurons &              52.811267 &          3068.791609 \\
 \bottomrule
 \end{tabular}
