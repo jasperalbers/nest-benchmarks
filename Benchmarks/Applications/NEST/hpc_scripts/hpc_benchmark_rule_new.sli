@@ -223,12 +223,17 @@ def
 
   conn_rule (all) eq
   {
-    %all_scale 1 0.625 scale 0.5 div mul sqrt div def
     /all_scale 0.01 sqrt def
     /NE 9000 scale mul all_scale mul iround def
     /NI 2250 scale mul all_scale mul iround def
     NE ==
     NI ==
+  } if
+
+  conn_rule (one) eq
+  {
+    /NE 9000 scale mul round cvi def
+    /NI 9000 scale mul round cvi def
   } if
 
   /model_params
@@ -305,7 +310,7 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   /iaf_psc_alpha [NE] LayoutNetwork /E_net Set  % subnet gets own gid
   /E_from E_net 1 add def                    % gid of first child
   /E_to E_from NE add 1 sub def              % gid of last child
-  
+
   M_INFO (BuildNetwork)
   (Creating inhibitory population.) message  % show message
   /iaf_psc_alpha [NI] LayoutNetwork /I_net Set  % subnet gets own gid
