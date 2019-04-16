@@ -1,19 +1,37 @@
 \begin{tabular}{llrr}
 \toprule
-       &           &  memory\_per\_connection &  time\_per\_connection \\
+     &            &  memory\_per\_connection &  time\_per\_connection \\
 NUM\_VPS & rule &                        &                      \\
 \midrule
-36.0   & indegree &              95.551012 &          2387.022931 \\
-       & outdegree &              65.639037 &          8297.362806 \\
-72.0   & indegree &              74.608330 &          1933.324778 \\
-       & outdegree &              50.108097 &         11969.770667 \\
-144.0  & indegree &              61.671087 &          1820.031005 \\
-       & outdegree &              50.010993 &         21512.746600 \\
-288.0  & indegree &              51.638179 &          1788.243543 \\
-       & outdegree &              89.236790 &         39432.036751 \\
-576.0  & indegree &              58.207751 &          1840.191074 \\
-       & outdegree &             135.048466 &         54262.577514 \\
-1152.0 & indegree &              66.722641 &          1945.426593 \\
-       & outdegree &             138.617756 &        111407.077350 \\
+36   & all\_to\_all &              78.960075 &          1563.440754 \\
+     & bernoulli &              55.490478 &          2004.783439 \\
+     & indegree &              55.803430 &          1869.354472 \\
+     & outdegree &              48.173536 &          6246.234038 \\
+     & symmetric bernoulli &             103.351116 &         15543.077449 \\
+72   & all\_to\_all &              69.169954 &          1777.295056 \\
+     & bernoulli &              48.268972 &          2040.705739 \\
+     & indegree &              47.898334 &          1812.921509 \\
+     & outdegree &              45.021093 &         12541.696013 \\
+     & symmetric bernoulli &             104.305773 &         27583.942828 \\
+144  & all\_to\_all &              56.521220 &          1706.455993 \\
+     & bernoulli &              44.507131 &          1921.634056 \\
+     & indegree &              45.476254 &          1692.254327 \\
+     & outdegree &              64.355788 &         18994.509350 \\
+     & symmetric bernoulli &              93.964155 &         54634.594413 \\
+288  & all\_to\_all &              51.004836 &          1795.450267 \\
+     & bernoulli &              48.514791 &          2096.196032 \\
+     & indegree &              47.814349 &          1726.423465 \\
+     & outdegree &              76.260008 &         29925.353490 \\
+     & symmetric bernoulli &             117.564502 &        127037.167240 \\
+576  & all\_to\_all &              46.225952 &          1737.728167 \\
+     & bernoulli &              54.255325 &          2551.201061 \\
+     & indegree &              54.114560 &          1801.794951 \\
+     & outdegree &              93.729715 &         54932.870231 \\
+     & symmetric bernoulli &                    NaN &                  NaN \\
+1152 & all\_to\_all &              45.980741 &          1782.197126 \\
+     & bernoulli &              68.351317 &          3677.545725 \\
+     & indegree &              68.358277 &          1946.848929 \\
+     & outdegree &              95.952706 &        101504.467618 \\
+     & symmetric bernoulli &                    NaN &                  NaN \\
 \bottomrule
 \end{tabular}
