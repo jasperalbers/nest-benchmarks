@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jube>
 
-  <!-- This version runs all MPI/Thread Combinations for 24 VPs in one
-       script, scale 20 -->
+  <!-- HPC with many synapses per neuron -->
 
   <include-path>
     <path>../jube_config/</path>

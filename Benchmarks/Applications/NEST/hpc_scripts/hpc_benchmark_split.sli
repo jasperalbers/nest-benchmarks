@@ -22,7 +22,7 @@
 
 /*
    HPC Benchmark for NEST for DEEP-EST
-
+   
    Modified from NEST-2.14.0 version as follows, based on Ippen et al (2017)
 
    - Uses iaf_psc_alpha neuron model
@@ -66,7 +66,7 @@
     - Normal NEST output is mixed with logging lines
     - Logging lines have the format
 
-      	      <rank> <value> # <tag>
+              <rank> <value> # <tag>
 
       where the tag uniquely identifies the value being logged. Tags
       can contain spaces and each rank will write each tag once.
@@ -118,13 +118,13 @@
      networks. Neural Comput 19(6):1437-67
    Helias et al (2012). Supercomputers ready for use as discovery machines for
      neuroscience. Front. Neuroinform. 6:26
-   Kunkel et al (2014). Spiking network simulation code for petascale
+   Kunkel et al (2014). Spiking network simulation code for petascale 
      computers. Front. Neuroinform. 8:78
    Ippen et al (2017). Constructing Neuronal Network Models in Massively Parallel
      Environments. Front. Neuroinform. 11:30.
-
+     
 */
-
+  
 %%% PARAMETER SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % define all relevant parameters: changes should be made here
@@ -142,6 +142,7 @@
 /user_d_max statusdict/userargs :: 0 get (_) breakup 6 get double def
 /user_nblocks statusdict/userargs :: 0 get (_) breakup 7 get int def
 
+
 (GIT: ) =only statusdict/rcsinfo :: ==
 
 (user_scale  : ) =only user_scale ==
@@ -153,11 +154,10 @@
 (user_d_max  : ) =only user_d_max ==
 (user_nblocks  : ) =only user_nblocks ==
 
-
 /nvp user_nvp def % total number of virtual processes
 /scale user_scale def %  scaling factor of the network size, total network size = scale*11250 neurons
 /simtime user_simtime def
-/Nrec 0 def
+/Nrec user_numrec def
 /plastic user_plastic def
 /d_min user_d_min def
 /d_max user_d_max def
@@ -167,7 +167,7 @@
 /presimtime 90. ms def  % simulation time until reaching equilibrium
 /dt 0.1 ms def          % simulation step
 /path_name (.) def      % path where all files will have to be written
-/record_spikes false def % record excitatory spikes
+/record_spikes true def % record excitatory spikes 
 
 % -------------------------------------------------------------------------------------
 
@@ -204,12 +204,12 @@ def
 {
   /taumem set
   /tausyn set
-
+  
   (
   a = taumem / tausyn;
   b = 1.0 / tausyn - 1.0 / taumem;
   ) execmath
-
+  
 } def
 
 % Inverting this equation numerically leads to tau_syn = 0.32582722403722841 ms,
@@ -261,7 +261,7 @@ def
     /mu     0.4          %STDP weight dependence exponent (potentiation)
     /tau_plus 15.0       %time constant for potentiation
   >>
-
+  
   /eta 1.685         %scaling of external stimulus
   /filestem path_name
 
@@ -271,7 +271,7 @@ def
 % values visible
 brunel_params dup using
 
-% create one single random number generator
+% create one single random number generator    
 rngdict /knuthlfg get 238 CreateRNG /myrng Set
 
 % normal distribution to draw initial membrane potentials from
@@ -282,7 +282,7 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
 /BuildNetwork
 {
-
+  
   tic % start timer on construction
   % set global kernel parameters
   0
@@ -298,7 +298,7 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   /iaf_psc_alpha [NE] LayoutNetwork /E_net Set  % subnet gets own gid
   /E_from E_net 1 add def                    % gid of first child
   /E_to E_from NE add 1 sub def              % gid of last child
-
+  
   M_INFO (BuildNetwork)
   (Creating inhibitory population.) message  % show message
   /iaf_psc_alpha [NI] LayoutNetwork /I_net Set  % subnet gets own gid
@@ -320,17 +320,17 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
       E_net GetLocalNodes
       {
           dup
-	  /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
+    /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
           << /V_m mean_potential sigma_potential normal Random mul add >>
-	  SetStatus
+    SetStatus
       } forall
 
       I_net GetLocalNodes
-      {
+      { 
           dup
-	  /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
-	  << /V_m mean_potential sigma_potential normal Random mul add >>
-	  SetStatus
+    /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
+    << /V_m mean_potential sigma_potential normal Random mul add >>
+    SetStatus
       } forall
   } if
 
@@ -343,11 +343,11 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   scale 10 geq
   {
     /CE 9000 def %number of incoming excitatory connections
-    /CI 2250 def %number of incomining inhibitory connections
+    /CI 2250 def %number of incomining inhibitory connections    
   }
   { % small networks: 10% connectivity
     /CE NE 0.1 mul iround def %number of incoming excitatory connections
-    /CI NI 0.1 mul iround def %number of incomining inhibitory connections
+    /CI NI 0.1 mul iround def %number of incomining inhibitory connections    
   } ifelse
 
   M_INFO (BuildNetwork)
@@ -397,12 +397,11 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
   memory_thisjob cvs ( # virt_mem_after_nodes) join logger /log call
 
-  % Split nodes
-  tic
+
   M_INFO (BuildNetwork)
   (Splitting nodes.) message
 
-  % /n_src_blocks 100 def
+  %/n_src_blocks 100 def
   /n_src_blocks nblocks 0.1 mul iround def
   /E_bsz E_to E_from sub 1 add nblocks div def
   /I_bsz I_to I_from sub 1 add nblocks div def
@@ -420,7 +419,7 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   (CE_block = ) CE_block cvs join (, CI_block = ) CI_block cvs join join message
 
   toc /SplitNodesTime Set
-  % mpi_rank cvs (] ) join (SplitNodes time     : ) join  =only SplitNodesTime =only ( s) =
+  %mpi_rank cvs (] ) join (SplitNodes time     : ) join  =only SplitNodesTime =only ( s) =
 
   SplitNodesTime cvs ( # split_time_nodes) join logger /log call
 
@@ -435,7 +434,7 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
   plastic
   {
-    stdp_params /weight JE_pA put
+    stdp_params /weight JE_pA put 
     /stdp_pl_synapse_hom_hpc /syn_ex_ex stdp_params CopyModel
   }
   {
@@ -463,115 +462,91 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   }
   ifelse
 
-  /pre_conns 0 GetStatus /num_connections get def
-  tic
-  % E_neurons E_neurons << /rule (fixed_indegree) /indegree CE /autapses false /multapses true >>
-  %                     << /model /syn_ex_ex /delay delays >> Connect
-  [ E_sources E_blocks ]
-  {
-    /t Set
-    { t
-      << /rule (fixed_indegree) /indegree CE_block /autapses false /multapses true >>
-      << /model /syn_ex_ex /delay delays >>
+
+  M_INFO (BuildNetwork)
+  (Connecting stimulus generators.) message
+  
+  % Connect Poisson generator to neuron      
+
+  E_stimulus E_stimulus cvgidcollection E_neurons << /rule (all_to_all) >> << /model /syn_ex >> Connect
+  E_stimulus E_stimulus cvgidcollection I_neurons << /rule (all_to_all) >> << /model /syn_ex >> Connect
+
+  M_INFO (BuildNetwork)
+  (Connecting excitatory -> excitatory population.) message
+
+  [ E_sources E_blocks ] 
+  { 
+    /t Set 
+    { t 
+      << /rule (fixed_indegree) /indegree CE_block /autapses false /multapses true >> 
+      << /model /stdp_pl_synapse_hom_hpc >> 
       Connect
     }
     forall
   }
   ScanThread
-  toc /InnerConnectTime Set
-  /post_conns 0 GetStatus /num_connections get def
-  InnerConnectTime cvs ( # EE inner_conn_time ) join logger /log call
-  % Replacing conns_per_sec with NaN if InnerConnectTime is zero.
-  post_conns pre_conns sub InnerConnectTime dup 0.0 eq {pop (nan) cvd}{div} ifelse cvs ( # EE conns_per_sec ) join logger /log call
 
   M_INFO (BuildNetwork)
   (Connecting inhibitory -> excitatory population.) message
 
-  /pre_conns 0 GetStatus /num_connections get def
-  tic
-  % I_neurons E_neurons << /rule (fixed_indegree) /indegree CI /autapses false /multapses true >>
-  %                     << /model /syn_in  /delay delays >> Connect
-  [ I_sources E_blocks ]
-  {
+  [ I_sources E_blocks ] 
+  { 
     /t Set
-    { t
-      << /rule (fixed_indegree) /indegree CI_block /autapses false /multapses true >>
-      << /model /syn_in  /delay delays >>
+    { t 
+      << /rule (fixed_indegree) /indegree CI_block /autapses false /multapses true >> 
+      << /model /syn_in >> 
       Connect
     }
     forall
   }
   ScanThread
-  toc /InnerConnectTime Set
-  /post_conns 0 GetStatus /num_connections get def
-  InnerConnectTime cvs ( # IE inner_conn_time ) join logger /log call
-  % Replacing conns_per_sec with NaN if InnerConnectTime is zero.
-  post_conns pre_conns sub InnerConnectTime dup 0.0 eq {pop (nan) cvd}{div} ifelse cvs ( # IE conns_per_sec ) join logger /log call
 
-  /pre_conns 0 GetStatus /num_connections get def
-  tic
   M_INFO (BuildNetwork)
   (Connecting excitatory -> inhibitory population.) message
-
-  % E_neurons I_neurons << /rule (fixed_indegree) /indegree CE /autapses false /multapses true >>
-  %                     << /model /syn_ex  /delay delays >> Connect
-  [ E_sources I_blocks ]
-  {
-    /t Set
-    { t
-      << /rule (fixed_indegree) /indegree CE_block /autapses false /multapses true >>
-      << /model /syn_ex  /delay delays >>
+  
+  [ E_sources I_blocks ] 
+  { 
+    /t Set 
+    { t 
+      << /rule (fixed_indegree) /indegree CE_block /autapses false /multapses true >> 
+      << /model /syn_ex >> 
       Connect
     }
     forall
   }
   ScanThread
-  toc /InnerConnectTime Set
-  /post_conns 0 GetStatus /num_connections get def
-  InnerConnectTime cvs ( # EI inner_conn_time ) join logger /log call
-  % Replacing conns_per_sec with NaN if InnerConnectTime is zero.
-  post_conns pre_conns sub InnerConnectTime dup 0.0 eq {pop (nan) cvd}{div} ifelse cvs ( # EI conns_per_sec ) join logger /log call
 
-  /pre_conns 0 GetStatus /num_connections get def
-  tic
+  
   M_INFO (BuildNetwork)
   (Connecting inhibitory -> inhibitory population.) message
 
-  % I_neurons I_neurons << /rule (fixed_indegree) /indegree CI /autapses false /multapses true >>
-  %                     << /model /syn_in  /delay delays >> Connect
-  [ I_sources I_blocks ]
-  {
-    /t Set
-    { t
-      << /rule (fixed_indegree) /indegree CI_block /autapses false /multapses true >>
-      << /model /syn_in  /delay delays >>
+  [ I_sources I_blocks ] 
+  { 
+    /t Set 
+    { t 
+      << /rule (fixed_indegree) /indegree CI_block /autapses false /multapses true >> 
+      << /model /syn_in >> 
       Connect
     }
     forall
   }
   ScanThread
-  toc /InnerConnectTime Set
-  /post_conns 0 GetStatus /num_connections get def
-  InnerConnectTime cvs ( # II inner_conn_time ) join logger /log call
-  % Replacing conns_per_sec with NaN if InnerConnectTime is zero.
-  post_conns pre_conns sub InnerConnectTime dup 0.0 eq {pop (nan) cvd}{div} ifelse cvs ( # II conns_per_sec ) join logger /log call
 
-  % --- No recording ---
-  % record_spikes true eq
-  % {
-  %   E_neurons size Nrec lt
-  %   {
-  %     M_ERROR (BuildNetwork)
-  %     (Networks is smaller than number of neurons to record from!) message
-  %     1 quit_i
-  %   } if
+  record_spikes true eq
+  {
+    E_neurons size Nrec lt
+    {
+      M_ERROR (BuildNetwork)
+      (Networks is smaller than number of neurons to record from!) message
+      1 quit_i
+    } if
 
-  %   M_INFO (BuildNetwork)
-  %   (Connecting spike detectors.) message
+    M_INFO (BuildNetwork)
+    (Connecting spike detectors.) message
 
-  %   E_from E_from Nrec add 1 sub cvgidcollection
-  %   E_detector E_detector cvgidcollection << /rule (all_to_all) >> << /model /syn_std >> Connect
-  % } if
+    E_from E_from Nrec add 1 sub cvgidcollection 
+    E_detector E_detector cvgidcollection << /rule (all_to_all) >> << /model /syn_std >> Connect
+  } if
 
   % read out time used for building
   toc /BuildEdgeTime Set
@@ -595,7 +570,7 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   BuildNetwork
 
   % - Initial simulation: rig and calibrate -----------------
-
+  
   tic
 
   Prepare
@@ -609,7 +584,7 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   % - Presimulation: equilibrate system -----------------
 
   tic
-
+  
   presimtime Run
 
   toc /PresimTime Set
@@ -631,7 +606,7 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   % - Cleanup and output -----------
 
   Cleanup
-
+  
   record_spikes true eq
   {
     E_detector ComputeRate cvs ( # average rate) join logger /log call
@@ -644,7 +619,7 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   0 /local_spike_counter get cvs ( # local_spike_counter) join logger /log call
 
   logger /done call
-
+  
 } def
 
 % ------------------------------------------------------------------------------------
@@ -707,13 +682,14 @@ def
     /log
     {
       /value Set
+      
       cout Rank <- ( ) <- value <- endl flush pop
     }
 
     % closes file
     /done
     {
-	% nothing to do since we only log to stdout
+  % nothing to do since we only log to stdout
     }
 
 >> def

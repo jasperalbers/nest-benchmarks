@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jube>
 
-  <!-- This version runs all MPI/Thread Combinations for 24 VPs in one
-       script, scale 20 -->
+  <!-- 4x4 mesocircuit model -->
 
   <include-path>
     <path>../jube_config/</path>
@@ -34,9 +33,9 @@
 
     <!-- Analyse -->
     <analyser name="analyse_scale_check">
-      <use from="bench_jobs.xml">nest_pattern_meso_stdcout</use>      <!-- use existing patternset -->
+      <use from="bench_jobs.xml">nest_pattern_meso_stdcout</use>
       <analyse step="bench">
-        <file>stdout</file>        <!-- file which should be scanned -->
+        <file>stdout</file>
       </analyse>
     </analyser>
 

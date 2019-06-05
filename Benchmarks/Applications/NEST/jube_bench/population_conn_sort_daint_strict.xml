@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jube>
 
-  <!-- This version runs all MPI/Thread Combinations for 16 VPs in one
-       script, scale 4 -->
+  <!-- Population blocks model -->
 
   <include-path>
     <path>../jube_config/</path>
