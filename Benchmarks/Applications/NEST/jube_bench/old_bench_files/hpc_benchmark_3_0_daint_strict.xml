@@ -58,10 +58,14 @@
         <column>T_nrns</column>
         <column>T_conns_min</column>
         <column>T_conns_max</column>
+        <column>T_conns_sum</column>
         <column>T_ini_min</column>
         <column>T_ini_max</column>
         <column>T_equ</column>
         <column>T_sim</column>
+        <column>VSize_nodes_sum</column>
+        <column>VSize_mem_sum</column>
+        <column>VSize_ini_sum</column>
         <column>VSize_sum</column>
         <column>N_spks_sum</column>
         <column>Rate_sum</column>
