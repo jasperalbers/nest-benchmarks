@@ -1,7 +1,5 @@
 build_jemalloc/
 jemalloc/
 jube-parse.log
-NEST-2.14/
-NEST-5G/
 build_nest/
 __pycache__/
