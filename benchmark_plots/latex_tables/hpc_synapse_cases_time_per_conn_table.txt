@@ -1,0 +1,14 @@
+\begin{tabular}{lrrrrrr}
+\toprule
+{} & \multicolumn{2}{l}{Conn. Creation Time per Conn. (min)} & \multicolumn{2}{l}{Conn. Exchange Time per Conn. (min)} & \multicolumn{2}{l}{Total Conn. Time per Conn.} \\
+Case &                             Default & many synapses &                             Default & many synapses &                    Default & many synapses \\
+NUM\_VPS &                                     &               &                                     &               &                            &               \\
+\midrule
+36      &                        2.144994e-08 &  2.232986e-08 &                        1.666617e-08 &  1.990392e-08 &               3.942759e-08 &  4.443154e-08 \\
+72      &                        1.061041e-08 &  1.119095e-08 &                        8.487145e-09 &  1.067454e-08 &               2.021548e-08 &  2.370897e-08 \\
+144     &                        5.351623e-09 &  5.556446e-09 &                        4.419360e-09 &  5.503403e-09 &               1.040401e-08 &  1.211970e-08 \\
+288     &                        2.650135e-09 &  2.770717e-09 &                        2.410650e-09 &  3.288631e-09 &               5.399026e-09 &  6.514212e-09 \\
+576     &                        1.294453e-09 &  1.371097e-09 &                        1.489744e-09 &  2.414432e-09 &               2.976772e-09 &  4.039482e-09 \\
+1152    &                        6.467326e-10 &  6.815454e-10 &                        9.763330e-10 &  1.957566e-09 &               1.724908e-09 &  2.772468e-09 \\
+\bottomrule
+\end{tabular}
