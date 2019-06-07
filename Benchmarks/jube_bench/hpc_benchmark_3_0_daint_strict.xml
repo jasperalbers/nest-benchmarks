@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jube>
 
-  <!-- This version runs all MPI/Thread Combinations for 24 VPs in one
-       script, scale 20 -->
+  <!-- HPC-benchmark on NEST-3 -->
 
   <include-path>
     <path>../jube_config/</path>
   </include-path>
 
 
-  <benchmark name="hpc_3_0_daint" outpath="../../../../../BenchWork/jube_hpc/nest_3">
+  <benchmark name="hpc_3_0_daint" outpath="../../../BenchWork/jube_hpc/nest_3">
 
     <parameterset name="scale_check">
       <parameter name="base_vp" type="int">36</parameter>
