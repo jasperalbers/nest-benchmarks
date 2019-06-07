@@ -2,7 +2,7 @@
   <parameterset name="dir_config">
 
     <!-- Adjust the next four paths according to your setup -->
-    <parameter name="bench_home" type="string">${HOME}/nest-benchmarks/Benchmarks/Applications/NEST</parameter>
+    <parameter name="bench_home" type="string">${HOME}/nest-benchmarks/Benchmarks</parameter>
     <parameter name="bench_work" type="string">${HOME}/BenchWork</parameter>
     <parameter name="mesocircuit_home" type="string">${HOME}/nest-benchmarks/BenchModels/4x4mm2LFP/mesocircuit</parameter>
     <parameter name="MAM_home" type="string">${HOME}/nest-benchmarks/BenchModels/multi-area-model</parameter>
