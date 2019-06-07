@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jube>
 
+  <parameterset name="nest">
+    <parameter name="nest_version" type="string">NEST</parameter>
+    <parameter name="nest_branch" type="string">master</parameter>
+  </parameterset>
+
   <parameterset name="nest_2_14">
     <parameter name="nest_version" type="string">NEST-2.14</parameter>
     <parameter name="nest_branch" type="string">master</parameter>

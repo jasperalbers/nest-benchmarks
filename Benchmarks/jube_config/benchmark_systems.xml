@@ -42,7 +42,7 @@
     </parameter>
   </parameterset>
 
-  <parameterset name="hpc_population_comp_benchmark">
+  <parameterset name="hpc_synapse_benchmark">
     <parameter name="benchmark_system_name" type="string">
       hpc_population_comp_benchmark
     </parameter>
