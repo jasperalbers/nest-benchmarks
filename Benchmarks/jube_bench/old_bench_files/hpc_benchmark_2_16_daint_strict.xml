@@ -5,20 +5,20 @@
        script, scale 20 -->
 
   <include-path>
-    <path>../jube_config/</path>
+    <path>../../jube_config/</path>
   </include-path>
 
 
-  <benchmark name="hpc_2_16_daint" outpath="../../../../../BenchWork/jube_hpc/nest_2.16">
+  <benchmark name="hpc_2_16_daint" outpath="../../../../BenchWork/jube_hpc/nest_2.16">
 
     <parameterset name="scale_check">
       <parameter name="base_vp" type="int">36</parameter>
-      <parameter name="base_scale" type="int">10</parameter>
+      <parameter name="base_scale" type="int">20</parameter>
       <parameter name="SIMTIME" type="float">1000</parameter>
-      <parameter name="NUMBER_OF_NODES" type="int">8</parameter>
+      <parameter name="NUMBER_OF_NODES" type="int">1</parameter>
       <parameter name="NUM_VPS" type="int" mode="python">$base_vp*$NUMBER_OF_NODES</parameter>
       <parameter name="SCALE" type="int" mode="python">$base_scale*$NUMBER_OF_NODES</parameter>
-      <parameter name="THREADS_PER_TASK" type="int">1,3,4,6,9,18</parameter>
+      <parameter name="THREADS_PER_TASK" type="int">1,3,6,9,18,36</parameter>
       <parameter name="NUM_REC" type="int">1000</parameter>
       <parameter name="PLASTIC" type="string">true</parameter>
       <parameter name="D_MIN" type="float">1.5</parameter>
