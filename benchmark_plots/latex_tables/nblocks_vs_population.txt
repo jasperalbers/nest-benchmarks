@@ -1,0 +1,14 @@
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+{} & \multicolumn{3}{l}{Conn. Creation Time per Conn. (min)} & \multicolumn{3}{l}{Conn. Exchange Time per Conn. (min)} & \multicolumn{3}{l}{Total Conn. Time per Conn.} \\
+Case &                             NBLOCKS & increasing NBLOCKS &    population &                             NBLOCKS & increasing NBLOCKS &    population &                    NBLOCKS & increasing NBLOCKS &    population \\
+NUM\_VPS &                                     &                    &               &                                     &                    &               &                            &                    &               \\
+\midrule
+36      &                        3.718382e-08 &       3.718382e-08 &  1.770000e-08 &                        1.735800e-08 &       1.726278e-08 &  1.583200e-08 &               5.581938e-08 &       5.612091e-08 &  3.470800e-08 \\
+72      &                        1.885377e-08 &       4.593822e-08 &  8.886000e-09 &                        8.744468e-09 &       8.637345e-09 &  8.100000e-09 &               2.815965e-08 &       5.750559e-08 &  1.772000e-08 \\
+144     &                        9.694696e-09 &       7.750313e-08 &  4.616000e-09 &                        4.526969e-09 &       4.388076e-09 &  4.146000e-09 &               1.479398e-08 &       8.718343e-08 &  9.195000e-09 \\
+288     &                        5.081434e-09 &       1.466059e-07 &  2.424500e-09 &                        2.421195e-09 &       2.364396e-09 &  2.187500e-09 &               7.938066e-09 &       1.668952e-07 &  4.766500e-09 \\
+576     &                        2.790176e-09 &                NaN &  1.334000e-09 &                        1.431292e-09 &                NaN &  1.351250e-09 &               4.422573e-09 &                NaN &  2.770000e-09 \\
+1152    &                        1.652979e-09 &                NaN &  8.071250e-10 &                        9.623777e-10 &                NaN &  1.209250e-09 &               2.720248e-09 &                NaN &  2.153500e-09 \\
+\bottomrule
+\end{tabular}
