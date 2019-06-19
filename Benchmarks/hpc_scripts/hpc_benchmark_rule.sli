@@ -332,17 +332,17 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
       E_net GetLocalNodes
       {
           dup
-      /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
+          /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
           << /V_m mean_potential sigma_potential normal Random mul add >>
-      SetStatus
+          SetStatus
       } forall
 
       I_net GetLocalNodes
       { 
           dup
-      /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
-      << /V_m mean_potential sigma_potential normal Random mul add >>
-      SetStatus
+          /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
+          << /V_m mean_potential sigma_potential normal Random mul add >>
+          SetStatus
       } forall
   } if
 
@@ -385,8 +385,8 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   } if
   conn_rule (tot) eq
   {
-    /CEt CE NE mul def
-    /CIt CI NI mul def
+    /CEt CE NE mul 0.65 mul iround def
+    /CIt CI NI mul 1.8 mul iround def
     CEt ==
     CIt ==
     /E_conn_spec << /rule (fixed_total_number) /N CEt /autapses false /multapses true >> def
@@ -528,6 +528,8 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
     E_from E_from Nrec add 1 sub cvgidcollection 
     E_detector E_detector cvgidcollection << /rule (all_to_all) >> << /model /syn_std >> Connect
   } if
+
+  %0 /num_connections get cvs ( # num_connections) join ==
 
   % read out time used for building
   toc /BuildEdgeTime Set

@@ -316,17 +316,17 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
       E_net GetLocalNodes
       {
           dup
-	  /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
-          << /V_m mean_potential sigma_potential normal Random mul add >>
-	  SetStatus
+	        /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
+            << /V_m mean_potential sigma_potential normal Random mul add >>
+	        SetStatus
       } forall
 
       I_net GetLocalNodes
       { 
           dup
-	  /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
-	  << /V_m mean_potential sigma_potential normal Random mul add >>
-	  SetStatus
+	        /vp get rdevs exch get /normal Set  % Gaussian generator for VP of node
+	          << /V_m mean_potential sigma_potential normal Random mul add >>
+	        SetStatus
       } forall
   } if
 
