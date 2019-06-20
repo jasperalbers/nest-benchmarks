@@ -529,7 +529,7 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
     E_detector E_detector cvgidcollection << /rule (all_to_all) >> << /model /syn_std >> Connect
   } if
 
-  %0 /num_connections get cvs ( # num_connections) join ==
+  0 /num_connections get cvs ( # num_connections) join ==
 
   % read out time used for building
   toc /BuildEdgeTime Set
