@@ -1,5 +1,5 @@
-import random
-#import nest.topology
+import numpy as np
+import nest.topology
 from functools import partial
 import time
 
@@ -8,37 +8,40 @@ log = logging.getLogger(__name__)
 
 def CreateLayer(thedict):
     start = time.time()
-    #nest.topology.CreateLayer(thedict)
+    layer = nest.topology.CreateLayer(thedict)
     log.info("%5.1f sec for creating %d neurons", time.time()-start, len(thedict['positions']))
+    return layer
 
 def CreatePopulations():
-    x = partial(random.normalvariate, 0, 1.5)
-    coords = lambda n: [[x(), x(), x()] for i in range(int(n/100)+10)]
+    x = partial(np.random.uniform, -1.9, 1.9)
+    coords = lambda n: [[x(), x(), x()] for i in range(int(n/2))]
+
+    coords_2d = lambda n: [[x(), x()] for i in range(int(n/2))]
 
     populations = dict()
     populations['bs'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1024)})
     #populations['CMPf'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1060)})
-    populations['CMPf'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(12000)})
+    populations['CMPf'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.], "positions": coords_2d(12000)})
     #populations['CMPf'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(20)})
     #populations['CMPf'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(224)})
     #populations['CMPf'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(26)})
     #populations['CMPf'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(28)})
     #populations['CSN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(12000)})
-    populations['CSN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(24168)})
+    populations['CSN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.], "positions": coords_2d(24168)})
     #populations['CSN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(332)})
     #populations['FSI'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(212)})
     #populations['FSI'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(224)})
-    populations['FSI'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(332)})
+    populations['FSI'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.], "positions": coords_2d(332)})
     #populations['FSI'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(4)})
     populations['go'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1024)})
-    populations['GPe'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(100)})
+    populations['GPe'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.], "positions": coords_2d(100)})
     #populations['GPe'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(20)})
     #populations['GPe'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(64)})
     populations['GPi2d'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(56)})
     populations['GPi3d'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(56)})
     #populations['GPi'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(26)})
     #populations['GPi'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(30)})
-    populations['GPi'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(56)})
+    populations['GPi'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.], "positions": coords_2d(56)})
     populations['gr'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(409600)})
     #populations['M1_L1_ENGC'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(3341)})
     #populations['M1_L1_ENGC'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(3642)})
@@ -462,13 +465,13 @@ def CreatePopulations():
     #populations['M1_L6_SST'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(4022)})
     #populations['M1_L6_SST'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(4101)})
     populations['M1_L6_SST'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(4302)})
-    populations['MSN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(10576)})
+    populations['MSN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.], "positions": coords_2d(10576)})
     #populations['MSN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1060)})
     #populations['MSN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(212)})
     #populations['MSN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(24168)})
     populations['pkj'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1024)})
     populations['pons'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1024)})
-    populations['PTN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(12000)})
+    populations['PTN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.], "positions": coords_2d(12000)})
     #populations['PTN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(212)})
     #populations['PTN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(4)})
     #populations['PTN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(86)})
@@ -498,7 +501,7 @@ def CreatePopulations():
     #populations['STN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(30)})
     #populations['STN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(32)})
     #populations['STN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(64)})
-    populations['STN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(86)})
+    populations['STN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.], "positions": coords_2d(86)})
     #populations['thalamic_nucleus_IN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1020)})
     #populations['thalamic_nucleus_IN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1023)})
     populations['thalamic_nucleus_IN'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1028)})
@@ -517,4 +520,7 @@ def CreatePopulations():
     #populations['thalamic_reticular_neucleus_RE'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1027)})
     populations['thalamic_reticular_neucleus_RE'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1029)})
     populations['vn'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1024)})
+
+    log.info("%5.1d number of nodes", nest.GetKernelStatus('network_size'))
+
     return populations
