@@ -102,7 +102,7 @@
 /user_plastic statusdict/userargs :: 0 get (_) breakup 2 get (true) eq def
 
 
-(GIT: ) =only statusdict/rcsinfo :: ==
+(GIT: ) =only statusdict/version :: ==
 
 (user_scale  : ) =only user_scale ==
 (user_nvp    : ) =only user_nvp ==

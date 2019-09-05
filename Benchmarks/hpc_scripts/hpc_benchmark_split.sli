@@ -143,7 +143,7 @@
 /user_nblocks statusdict/userargs :: 0 get (_) breakup 7 get int def
 
 
-(GIT: ) =only statusdict/rcsinfo :: ==
+(GIT: ) =only statusdict/version :: ==
 
 (user_scale  : ) =only user_scale ==
 (user_nvp    : ) =only user_nvp ==
