@@ -1,0 +1,13 @@
+\begin{tabular}{lrrrrrr}
+\toprule
+{} &  Conn. Creation (min) &  Conn. Exchange (min) &  Conn. Total &  connections &       ini &     other \\
+N\_VP &                       &                       &              &              &           &           \\
+\midrule
+36   &                 96.22 &                 44.47 &       153.41 &     2.743245 &  0.017093 &  0.060077 \\
+72   &                229.32 &                 44.13 &       305.57 &     2.743245 &  0.026072 &  0.112227 \\
+144  &                731.69 &                 45.62 &       848.92 &     2.826579 &  0.018721 &  0.209293 \\
+288  &               2634.76 &                 44.50 &      2937.91 &     2.933350 &  0.117605 &  0.332148 \\
+576  &                   NaN &                   NaN &          NaN &          NaN &       NaN &       NaN \\
+1152 &                   NaN &                   NaN &          NaN &          NaN &       NaN &       NaN \\
+\bottomrule
+\end{tabular}
