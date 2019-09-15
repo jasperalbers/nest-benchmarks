@@ -385,8 +385,8 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
   } if
   conn_rule (tot) eq
   {
-    /CEt CE NE mul 0.5 mul iround def
-    /CIt CI NI mul 0.5 mul iround def
+    /CEt NE 0.3 mul iround def
+    /CIt NI 0.3 mul iround def
     CEt ==
     CIt ==
     /E_conn_spec << /rule (fixed_total_number) /N CEt /autapses false /multapses true >> def

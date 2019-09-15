@@ -1,14 +1,14 @@
-\begin{tabular}{lrrrrrrrrrrrr}
+\begin{tabular}{lrrrrrrrrrrrrrrrr}
 \toprule
-{} & \multicolumn{3}{l}{Conn. Creation (min)} & \multicolumn{3}{l}{Conn. Exchange (min)} & \multicolumn{3}{l}{Conn. Total} & \multicolumn{3}{l}{Memory per Rank} \\
-Case &           all\_to\_all & bernoulli & indegree &           all\_to\_all & bernoulli & indegree &  all\_to\_all & bernoulli & indegree &      all\_to\_all & bernoulli &  indegree \\
-N\_VP &                      &           &          &                      &           &          &             &           &          &                 &           &           \\
+{} & \multicolumn{4}{l}{Conn. Creation (min)} & \multicolumn{4}{l}{Conn. Exchange (min)} & \multicolumn{4}{l}{Conn. Total} & \multicolumn{4}{l}{Memory per Rank} \\
+Case &           all to all & fixed indegree & fixed outdegree & pairwise bernoulli &           all to all & fixed indegree & fixed outdegree & pairwise bernoulli &  all to all & fixed indegree & fixed outdegree & pairwise bernoulli &      all to all & fixed indegree & fixed outdegree & pairwise bernoulli \\
+N\_VP &                      &                &                 &                    &                      &                &                 &                    &             &                &                 &                    &                 &                &                 &                    \\
 \midrule
-36   &                 0.66 &      9.13 &     6.81 &                 0.58 &      5.78 &     5.90 &        1.42 &     15.90 &    14.88 &        0.093571 &  0.414480 &  0.409923 \\
-72   &                 1.27 &     18.22 &    13.89 &                 1.24 &     10.67 &    11.37 &        2.80 &     31.20 &    29.00 &        0.136742 &  0.750159 &  0.751190 \\
-144  &                 2.55 &     22.76 &    14.08 &                 2.62 &     11.21 &    11.75 &        5.68 &     36.92 &    29.53 &        0.200035 &  0.770510 &  0.772002 \\
-288  &                 5.09 &     31.65 &    13.73 &                 4.55 &     12.14 &    13.40 &       10.83 &     46.50 &    31.74 &        0.350553 &  0.824498 &  0.821378 \\
-576  &                10.13 &     49.65 &    13.66 &                 9.38 &     13.39 &    13.85 &       21.90 &     67.38 &    31.86 &        0.623707 &  0.947909 &  0.950245 \\
-1152 &                20.00 &     85.46 &    13.72 &                17.16 &     15.07 &    15.66 &       41.96 &    109.23 &    33.69 &        1.214741 &  0.937261 &  0.935498 \\
+36   &                 0.66 &           6.81 &           49.05 &               9.13 &                 0.58 &           5.90 &            6.36 &               5.78 &        1.42 &          14.88 &           56.49 &              15.90 &        0.093571 &       0.409923 &        0.660086 &           0.414480 \\
+72   &                 1.27 &          13.89 &          161.89 &              18.22 &                 1.24 &          11.37 &           49.83 &              10.67 &        2.80 &          29.00 &          232.98 &              31.20 &        0.136742 &       0.751190 &        1.227427 &           0.750159 \\
+144  &                 2.55 &          14.08 &          291.34 &              22.76 &                 2.62 &          11.75 &           54.01 &              11.21 &        5.68 &          29.53 &          358.07 &              36.92 &        0.200035 &       0.772002 &        1.444623 &           0.770510 \\
+288  &                 5.09 &          13.73 &          548.32 &              31.65 &                 4.55 &          13.40 &           58.79 &              12.14 &       10.83 &          31.74 &          669.47 &              46.50 &        0.350553 &       0.821378 &        1.440587 &           0.824498 \\
+576  &                10.13 &          13.66 &         1061.11 &              49.65 &                 9.38 &          13.85 &           64.71 &              13.39 &       21.90 &          31.86 &         1214.53 &              67.38 &        0.623707 &       0.950245 &        1.568372 &           0.947909 \\
+1152 &                20.00 &          13.72 &         2085.83 &              85.46 &                17.16 &          15.66 &           73.92 &              15.07 &       41.96 &          33.69 &         2267.22 &             109.23 &        1.214741 &       0.935498 &        1.551029 &           0.937261 \\
 \bottomrule
 \end{tabular}
