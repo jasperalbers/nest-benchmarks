@@ -2,13 +2,15 @@
 
 To run the benchmarks you need to clone the github repository [nest-benchmarks](https://github.com/compneuronmbu/nest-benchmarks.git)
 
-This will create the folder `nest-benchmarks`, and it contains all jube files and sli scripts etc. needed to run the benchmarks. On the same level as `nest-benchmarks` you also need to create a folder called `BenchWork`, where NEST will be installed, and where the jube files will be generated.
+This will create the folder `nest-benchmarks`, and it contains all JUBE files and sli scripts etc. needed to run the benchmarks. On the same level as `nest-benchmarks` you also need to create a folder called `BenchWork`, where NEST will be installed, and where the JUBE files will be generated.
 
 ### First step
 
 You might need to adjust the path for `bench_home`, `bench_work`, `mesocircuit_home` and `MAM_home` folders defined in `nest-benchmarks/Benchmarks/jube_config/dir_config.xml`. 
 
 If you for instance are running from the `$SCRATCH` folder, you should replace `${HOME}` with `$SCRATCH`.
+
+The benchmarks are run using the automatic benchmarking environment [JUBE](https://www.fz-juelich.de/ias/jsc/EN/Expertise/Support/Software/JUBE/_node.html), so if you not already have this installed, you will need to do so.
 
 ### Software Installation
 
@@ -23,7 +25,7 @@ cd NEST
 git clone https://github.com/nest/nest-simulator.git src
 ```
 
-You need to clone into`src`. If you want a specific version of NEST, you need to adjust accordingly.
+You need to clone into`src`. If you want a specific version of NEST, you need to adjust accordingly, you can find our build files [here](https://github.com/compneuronmbu/nest-benchmarks/tree/master/Benchmarks/jube_build) to see which build files we have already created.
 
 Once the source code is in place, build and install NEST via JUBE:
 
@@ -71,7 +73,7 @@ jube run nest-benchmarks/Benchmarks/jube_build/build_jemalloc_daint.xml
 
 ### Running Benchmarks
 
-The jube files for the benchmarks can be found in `<PATH>/nest-benchmarks/Benchmarks/jube_bench/`, while the benchmark scripts can be found in `<PATH>/nest-benchmarks/Benchmarks/hpc_scipts`/ **or** in `<PATH>/nest-benchmarks/BenchModels/`.
+The JUBE files for the benchmarks can be found in `<PATH>/nest-benchmarks/Benchmarks/jube_bench/`, while the benchmark scripts can be found in `<PATH>/nest-benchmarks/Benchmarks/hpc_scipts`/ **or** in `<PATH>/nest-benchmarks/BenchModels/`.
 
 To run a benchmark, run
 
@@ -79,9 +81,9 @@ To run a benchmark, run
 jube run nest-benchmarks/Benchmarks/jube_bench/<benchmark_file.xml>
 ```
 
-You will get a jube `id`.
+You will get a job `id`.
 
-These are the benchmarks we run, with corresponding jube files:
+These are the benchmarks we currently have, with corresponding JUBE files:
 
 - **HPC_benchmark**
 
@@ -91,7 +93,7 @@ These are the benchmarks we run, with corresponding jube files:
 
   - `hpc_benchmark_daint_strict.xml`
 
-    - where we have changed the parameter `PLASTIC` to false:
+    - where we change the parameter `PLASTIC` to false:
 
       ​	`<parameter name="PLASTIC" type="string">false</parameter>`
 
@@ -99,7 +101,7 @@ These are the benchmarks we run, with corresponding jube files:
 
   - `hpc_benchmark_daint_strict.xml`
 
-    - where we have changed the parameters `D_MIN` and `D_MAX`:
+    - where we change the parameters `D_MIN` and `D_MAX`:
 
       ​	 `<parameter name="D_MIN" type="float">0.1</parameter>` 
 
@@ -149,7 +151,7 @@ These are the benchmarks we run, with corresponding jube files:
 
 **HPC split into many `Connect` calls**
 
-This is the hpc_benchmark, but split into a lot `Connect` calls. We split the excitatory and inhibitory neurons into `NBLOCKS` populations each. For each of the excitatory and inhibitory blocks, we connect to `0.1*NBLOCKS` populations.
+This is the hpc_benchmark, but split into a lot of`Connect` calls. We split the excitatory and inhibitory neurons into `NBLOCKS` populations each. For each of the excitatory and inhibitory blocks, we connect to `0.1*NBLOCKS` populations.
 
 With`<parameter name="NBLOCKS" type="int" mode="python">1000</parameter>`, we have a constant number of `NBLOCKS = 1000`, but when `<parameter name="NBLOCKS" type="int" mode="python">1000*$NUMBER_OF_NODES</parameter>`, `NBLOCKS` increase with the number of nodes, so we get more and more `Connect` calls.
 
@@ -159,9 +161,7 @@ This is the hpc_benchmark, but with about 5000 connections per neuron.
 
 **Population model**
 
-The model has several populations (minimum 20 populations). Each population have 5000 neurons, and each neuron has 5000 connections. Each population connects to 20 other populations, which are chosen randomly. There are thus 250 connections per neuron and projection. The way we scale up is by adding more populations. We still connect to 20 other populations.
-
-
+The model has several populations (minimum 20 populations). Each population has 5000 neurons, and each neuron has 5000 connections. Each population connects to 20 other populations, which are chosen randomly. There are thus 250 connections per neuron and projection. The way we scale up is by adding more populations. We still connect to 20 other populations.
 
 #### To run MAM:
 
@@ -178,7 +178,7 @@ pip install nested_dict --user
 pip install dicthash --user
 ```
 
-On Piz-Daint we use Python 3 `module load cray-python/3.6.5.1`.
+On Piz-Daint we use the Python 3 `module load cray-python/3.6.5.1`.
 
 #### To run 4x4:
 
@@ -211,9 +211,9 @@ All of the benchmarks are run with the following number of nodes, VPs, scales, t
 
 
 
-### Analyse Benchmarks
+### Analyze Benchmarks
 
-When the benchmark is finished running, tell jube to analyse the results
+When the benchmark is finished running, tell JUBE to analyze the results
 
 ```bash
 jube analyse BenchWork/<jube_directory>/<nest_version>/ -i id
