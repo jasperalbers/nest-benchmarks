@@ -1,14 +1,14 @@
-\begin{tabular}{lrrrrrrrrr}
+\begin{tabular}{lrrrrrr}
 \toprule
-{} & \multicolumn{3}{l}{Conn. Creation Time per Conn. (min)} & \multicolumn{3}{l}{Conn. Exchange Time per Conn. (min)} & \multicolumn{3}{l}{Total Conn. Time per Conn.} \\
-Case &                             NBLOCKS & increasing NBLOCKS & population &                             NBLOCKS & increasing NBLOCKS & population &                    NBLOCKS & increasing NBLOCKS & population \\
-N\_VP &                                     &                    &            &                                     &                    &            &                            &                    &            \\
+{} & \multicolumn{2}{l}{Conn. Creation Time per Conn. (min)} & \multicolumn{2}{l}{Conn. Exchange Time per Conn. (min)} & \multicolumn{2}{l}{Total Conn. Time per Conn.} \\
+Case &                             NBLOCKS & population &                             NBLOCKS & population &                    NBLOCKS & population \\
+N\_VP &                                     &            &                                     &            &                            &            \\
 \midrule
-36   &                           37.854336 &          38.175707 &   18.30000 &                           18.076130 &          17.643668 &   15.70000 &                  61.810366 &          60.866091 &    37.5240 \\
-72   &                           19.317975 &          45.491867 &    9.32800 &                            8.833738 &           8.754387 &    8.00000 &                  30.928995 &          60.618132 &    19.1580 \\
-144  &                            9.944652 &          75.262804 &    4.79100 &                            4.523993 &           4.692546 &    4.04500 &                  15.861253 &          87.321269 &     9.8530 \\
-288  &                            5.202444 &         140.718658 &    2.52200 &                            2.423178 &           2.376680 &    2.19100 &                   8.406733 &         156.909453 &     5.1835 \\
-576  &                            2.857625 &                NaN &    1.36775 &                            1.412446 &                NaN &    1.36150 &                   4.703029 &                NaN &     2.9665 \\
-1152 &                            1.690422 &                NaN &    0.83475 &                            0.974156 &                NaN &    1.19875 &                   2.902507 &                NaN &     2.2115 \\
+36   &                           37.854336 &   18.30000 &                           18.076130 &   15.70000 &                  61.810366 &    37.5240 \\
+72   &                           19.317975 &    9.32800 &                            8.833738 &    8.00000 &                  30.928995 &    19.1580 \\
+144  &                            9.944652 &    4.79100 &                            4.523993 &    4.04500 &                  15.861253 &     9.8530 \\
+288  &                            5.202444 &    2.52200 &                            2.423178 &    2.19100 &                   8.406733 &     5.1835 \\
+576  &                            2.857625 &    1.36775 &                            1.412446 &    1.36150 &                   4.703029 &     2.9665 \\
+1152 &                            1.690422 &    0.83475 &                            0.974156 &    1.19875 &                   2.902507 &     2.2115 \\
 \bottomrule
 \end{tabular}
