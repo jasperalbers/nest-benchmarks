@@ -1,0 +1,14 @@
+\begin{tabular}{lrrrrrrrr}
+\toprule
+{} & \multicolumn{2}{l}{Conn. Creation (min)} & \multicolumn{2}{l}{Conn. Exchange (min)} & \multicolumn{2}{l}{Conn. Total} & \multicolumn{2}{l}{Memory per Rank} \\
+Case &              Default & population &              Default & population &     Default & population &         Default & population \\
+N\_VP &                      &            &                      &            &             &            &                 &            \\
+\midrule
+36   &                55.93 &      45.75 &                47.75 &      39.25 &      110.79 &      93.81 &        2.822043 &   2.150646 \\
+72   &                56.16 &      46.64 &                50.03 &      40.00 &      113.02 &      95.79 &        2.821839 &   2.170461 \\
+144  &                56.73 &      47.91 &                47.69 &      40.45 &      111.17 &      98.53 &        2.905517 &   2.262454 \\
+288  &                55.07 &      50.44 &                52.39 &      43.82 &      119.53 &     103.67 &        2.910500 &   2.163512 \\
+576  &                53.97 &      54.71 &                59.77 &      54.46 &      126.65 &     118.66 &        3.035068 &   2.445441 \\
+1152 &                53.90 &      66.78 &                83.27 &      95.90 &      150.91 &     176.92 &        3.382232 &   2.501953 \\
+\bottomrule
+\end{tabular}

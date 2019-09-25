@@ -1,0 +1,14 @@
+\begin{tabular}{lrrrrrrrrrrrr}
+\toprule
+{} & \multicolumn{3}{l}{Conn. Creation Time \textbackslashn per Conn. (min)} & \multicolumn{3}{l}{Conn. Exchange Time \textbackslashn per Conn. (min)} & \multicolumn{3}{l}{Memory per connection} & \multicolumn{3}{l}{Total Conn. Time per Conn.} \\
+Case &                             all to all & fixed indegree & pairwise bernoulli &                             all to all & fixed indegree & pairwise bernoulli &            all to all & fixed indegree & pairwise bernoulli &                 all to all & fixed indegree & pairwise bernoulli \\
+N\_VP &                                        &                &                    &                                        &                &                    &                       &                &                    &                            &                &                    \\
+\midrule
+36   &                               0.426577 &       0.493706 &           0.558054 &                               0.335574 &       0.370280 &           0.357815 &              0.028443 &       0.022084 &           0.021747 &                   0.762152 &       0.863986 &           0.915869 \\
+72   &                               0.429470 &       0.470713 &           0.567144 &                               0.364054 &       0.362065 &           0.328227 &              0.024926 &       0.020869 &           0.020892 &                   0.796367 &       0.833063 &           0.895371 \\
+144  &                               0.439446 &       0.492045 &           0.703658 &                               0.395359 &       0.350689 &           0.334764 &              0.022213 &       0.021666 &           0.021648 &                   0.834806 &       0.843018 &           1.038706 \\
+288  &                               0.438746 &       0.483797 &           0.958210 &                               0.340614 &       0.371167 &           0.374865 &              0.021882 &       0.023136 &           0.023179 &                   0.779360 &       0.855248 &           1.333359 \\
+576  &                               0.430217 &       0.491192 &           1.537259 &                               0.331374 &       0.398471 &           0.391354 &              0.021718 &       0.026963 &           0.027106 &                   0.761947 &       0.889947 &           1.928613 \\
+1152 &                               0.426487 &       0.497449 &           2.669282 &                               0.304532 &       0.448813 &           0.425208 &              0.021776 &       0.026589 &           0.026630 &                   0.731196 &       0.946547 &           3.094774 \\
+\bottomrule
+\end{tabular}
