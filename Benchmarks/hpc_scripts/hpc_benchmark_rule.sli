@@ -351,20 +351,11 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
 
   /N E_neurons size I_neurons size add def
 
-  scale 10 geq
-  {
-    /CE 9000 def %number of incoming excitatory connections
-    /CI 2250 def %number of incomining inhibitory connections    
-  }
-  { % small networks: 10% connectivity
-    /CE NE 0.1 mul iround def %number of incoming excitatory connections
-    /CI NI 0.1 mul iround def %number of incomining inhibitory connections    
-  } ifelse
 
   /CE 9000 def %number of incoming excitatory connections
   /CI 2250 def %number of incomining inhibitory connections    
 
-    % Fixed connection rule
+  % Fixed connection rule
   conn_rule (all) eq
   {
     /EE_conn_spec << /rule (all_to_all) /autapses true >> def
