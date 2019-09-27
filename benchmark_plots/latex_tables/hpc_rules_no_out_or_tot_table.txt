@@ -1,0 +1,14 @@
+\begin{tabular}{lrrrrrrrrrrrr}
+\toprule
+{} & \multicolumn{3}{l}{Conn. Creation (min)} & \multicolumn{3}{l}{Conn. Exchange (min)} & \multicolumn{3}{l}{Conn. Total} & \multicolumn{3}{l}{Memory per VP} \\
+Case &           all to all & fixed indegree & pairwise bernoulli &           all to all & fixed indegree & pairwise bernoulli &  all to all & fixed indegree & pairwise bernoulli &    all to all & fixed indegree & pairwise bernoulli \\
+N\_VP &                      &                &                    &                      &                &                    &             &                &                    &               &                &                    \\
+\midrule
+36   &                12.45 &          14.28 &              16.30 &                 9.65 &          11.16 &              10.63 &       23.94 &          27.73 &              30.92 &      0.749755 &       0.754855 &           0.754530 \\
+72   &                12.46 &          14.21 &              19.23 &                10.88 &          11.35 &              11.06 &       26.07 &          29.52 &              34.27 &      0.756658 &       0.769299 &           0.758394 \\
+144  &                12.38 &          14.16 &              24.42 &                10.26 &          11.90 &              11.41 &       25.64 &          29.99 &              40.11 &      0.761072 &       0.786707 &           0.787575 \\
+288  &                12.43 &          14.11 &              35.00 &                11.35 &          12.47 &              12.26 &       26.83 &          31.06 &              51.29 &      0.763594 &       0.836700 &           0.835324 \\
+576  &                12.37 &          13.82 &              56.46 &                10.63 &          13.59 &              13.58 &       25.84 &          32.14 &              74.32 &      0.771211 &       0.967500 &           0.970321 \\
+1152 &                12.38 &          13.75 &              99.22 &                11.31 &          14.48 &              15.12 &       27.24 &          33.00 &             120.53 &      0.787419 &       0.945985 &           0.947477 \\
+\bottomrule
+\end{tabular}
