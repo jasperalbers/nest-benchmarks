@@ -1,6 +1,6 @@
 \begin{tabular}{lrrrrrrrr}
 \toprule
-{} & \multicolumn{2}{l}{Conn. Creation Time \textbackslash n per Conn. (min)} & \multicolumn{2}{l}{Conn. Exchange Time \textbackslash n per Conn. (min)} & \multicolumn{2}{l}{Memory per connection} & \multicolumn{2}{l}{Total Conn. Time per Conn.} \\
+{} & \multicolumn{2}{l}{Conn. Creation Time \textbackslashn per Conn. (min)} & \multicolumn{2}{l}{Conn. Exchange Time \textbackslashn per Conn. (min)} & \multicolumn{2}{l}{Memory per connection} & \multicolumn{2}{l}{Total Conn. Time per Conn.} \\
 Case &                          HPC Benchmark & Population &                          HPC Benchmark & Population &         HPC Benchmark & Population &              HPC Benchmark & Population \\
 N\_VP &                                        &            &                                        &            &                       &            &                            &            \\
 \midrule
