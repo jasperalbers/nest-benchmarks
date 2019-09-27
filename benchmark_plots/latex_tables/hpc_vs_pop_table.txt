@@ -1,14 +1,14 @@
-\begin{tabular}{lrrrrrrrrrrrr}
+\begin{tabular}{lrrrrrrrr}
 \toprule
-{} & \multicolumn{3}{l}{Conn. Creation (min)} & \multicolumn{3}{l}{Conn. Exchange (min)} & \multicolumn{3}{l}{Conn. Total} & \multicolumn{3}{l}{Memory per VP} \\
-Case &        HPC Benchmark & Population & Population - old &        HPC Benchmark & Population & Population - old & HPC Benchmark & Population & Population - old & HPC Benchmark & Population & Population - old \\
-N\_VP &                      &            &                  &                      &            &                  &               &            &                  &               &            &                  \\
+{} & \multicolumn{2}{l}{Conn. Creation (min)} & \multicolumn{2}{l}{Conn. Exchange (min)} & \multicolumn{2}{l}{Conn. Total} & \multicolumn{2}{l}{Memory per VP} \\
+Case &        HPC Benchmark & Population &        HPC Benchmark & Population & HPC Benchmark & Population & HPC Benchmark & Population \\
+N\_VP &                      &            &                      &            &               &            &               &            \\
 \midrule
-36   &                55.93 &      48.28 &            45.75 &                47.75 &      39.54 &            39.25 &        110.79 &      96.29 &            93.81 &      2.822043 &   2.150645 &         2.150646 \\
-72   &                56.16 &      51.07 &            46.64 &                50.03 &      40.45 &            40.00 &        113.02 &     101.00 &            95.79 &      2.821839 &   2.178273 &         2.170461 \\
-144  &                56.73 &      56.66 &            47.91 &                47.69 &      40.79 &            40.45 &        111.17 &     106.78 &            98.53 &      2.905517 &   2.262888 &         2.262454 \\
-288  &                55.07 &      67.07 &            50.44 &                52.39 &      44.65 &            43.82 &        119.53 &     120.55 &           103.67 &      2.910500 &   2.176532 &         2.163512 \\
-576  &                53.97 &      90.89 &            54.71 &                59.77 &      55.47 &            54.46 &        126.65 &     208.39 &           118.66 &      3.035068 &   2.445441 &         2.445441 \\
-1152 &                53.90 &     135.16 &            66.78 &                83.27 &     107.55 &            95.90 &        150.91 &     271.06 &           176.92 &      3.382232 &   2.511455 &         2.501953 \\
+36   &                55.93 &      48.28 &                47.75 &      39.54 &        110.79 &      96.29 &      2.822043 &   2.150645 \\
+72   &                56.16 &      51.07 &                50.03 &      40.45 &        113.02 &     101.00 &      2.821839 &   2.178273 \\
+144  &                56.73 &      56.66 &                47.69 &      40.79 &        111.17 &     106.78 &      2.905517 &   2.262888 \\
+288  &                55.07 &      67.07 &                52.39 &      44.65 &        119.53 &     120.55 &      2.910500 &   2.176532 \\
+576  &                53.97 &      90.89 &                59.77 &      55.47 &        126.65 &     208.39 &      3.035068 &   2.445441 \\
+1152 &                53.90 &     135.16 &                83.27 &     107.55 &        150.91 &     271.06 &      3.382232 &   2.511455 \\
 \bottomrule
 \end{tabular}
