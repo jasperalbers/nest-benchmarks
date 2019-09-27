@@ -136,7 +136,7 @@
 
   /num_neurons 5000                % number of neurons per population
   /num_pop 20 scale mul round cvi  % number of populations
-  /num_pop_connections base_pop    % each population connect to 20 populations,
+  /num_pop_connections 100         % each population connect to 100 populations,
                                    % as long as scale > 1.
 
   /model_params
@@ -225,7 +225,6 @@ brunel_params dup using
   /rng nvp base_seed add rngdict/MT19937 :: exch CreateRNG def
 
   /targets [ num_pop ] { ; rng population_vector num_pop_connections RandomSubset } Table def
-  %/targets [ num_pop ] { ; population_vector } Table def
 
   toc /FindTargetsTime Set
 
@@ -233,23 +232,11 @@ brunel_params dup using
 
   tic    % Start timer for connection time
 
-  /conn_degree 250 def % number of connections per neuron
+  /conn_degree 50 def % number of connections per neuron
   /conn_dict 
   <<
    /rule (fixed_indegree) /indegree conn_degree /autapses false /multapses true
   >> def
-  %<<
-  %  /rule (fixed_outdegree) /outdegree conn_degree /autapses false /multapses true
-  %>> def
-  %<<
-  %  /rule (fixed_total_number) /N conn_degree num_neurons mul /autapses false /multapses true
-  %>> def
-  %<<
-  %  /rule (pairwise_bernoulli) /p conn_degree num_neurons cvd div /autapses false /multapses true
-  %>> def
-  %<<
-  %  /rule (symmetric_pairwise_bernoulli) /p conn_degree num_neurons cvd div 0.5 mul /autapses false /multapses true /make_symmetric true  
-  %>> def
 
 
   % Create custom synapse types with appropriate values for
