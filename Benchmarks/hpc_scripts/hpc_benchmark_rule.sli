@@ -151,6 +151,7 @@
 (user_plastic: ) =only user_plastic ==
 (user_d_min  : ) =only user_d_min ==
 (user_d_max  : ) =only user_d_max ==
+(user_rule   : ) =only conn_rule ==
 
 /nvp user_nvp def % total number of virtual processes
 /scale user_scale def %  scaling factor of the network size, total network size = scale*11250 neurons
@@ -390,6 +391,10 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
     /CIIt NI CI mul def
     /CEIt NE CI mul def
     /CIEt NI CE mul def
+    CEEt ==
+    CIIt ==
+    CEIt ==
+    CIEt ==
     /EE_conn_spec << /rule (fixed_total_number) /N CEEt /autapses true /multapses true >> def
     /II_conn_spec << /rule (fixed_total_number) /N CIIt /autapses true /multapses true >> def
     /IE_conn_spec << /rule (fixed_total_number) /N CIEt /autapses true /multapses true >> def
