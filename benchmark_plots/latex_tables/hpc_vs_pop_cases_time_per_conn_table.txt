@@ -1,14 +1,14 @@
 \begin{tabular}{lrrrrrrrr}
 \toprule
-{} & \multicolumn{2}{l}{Conn. Creation Time \textbackslashn per Conn. (min)} & \multicolumn{2}{l}{Conn. Exchange Time \textbackslashn per Conn. (min)} & \multicolumn{2}{l}{Memory per connection} & \multicolumn{2}{l}{Total Conn. Time per Conn.} \\
+{} & \multicolumn{2}{l}{Conn. Creation Time \textbackslash n per Conn. (min)} & \multicolumn{2}{l}{Conn. Exchange Time \textbackslash n per Conn. (min)} & \multicolumn{2}{l}{Memory per connection} & \multicolumn{2}{l}{Total Conn. Time per Conn.} \\
 Case &                          HPC Benchmark & Population &                          HPC Benchmark & Population &         HPC Benchmark & Population &              HPC Benchmark & Population \\
 N\_VP &                                        &            &                                        &            &                       &            &                            &            \\
 \midrule
-36   &                               0.795378 &   0.695232 &                               0.679050 &   0.569376 &             42.236336 &  32.244851 &                   1.575539 &   1.386576 \\
-72   &                               0.798649 &   0.735408 &                               0.711474 &   0.582480 &             42.273624 &  32.577042 &                   1.607252 &   1.454400 \\
-144  &                               0.806755 &   0.815904 &                               0.678197 &   0.587376 &             43.551069 &  33.885041 &                   1.580944 &   1.537632 \\
-288  &                               0.783148 &   0.965808 &                               0.745036 &   0.642960 &             43.626989 &  32.549644 &                   1.699831 &   1.735920 \\
-576  &                               0.767505 &   1.308816 &                               0.849987 &   0.798768 &             45.523682 &  36.702005 &                   1.801084 &   3.000816 \\
-1152 &                               0.766510 &   1.946304 &                               1.184179 &   1.548720 &             50.803273 &  37.711863 &                   2.146085 &   3.903264 \\
+36   &                               0.716452 &   0.695232 &                               0.630557 &   0.569376 &             30.746833 &  32.244851 &                   1.511545 &   1.386576 \\
+72   &                               0.716594 &   0.735408 &                               0.672225 &   0.582480 &             31.629118 &  32.577042 &                   1.540272 &   1.454400 \\
+144  &                               0.719723 &   0.815904 &                               0.663265 &   0.587376 &             31.593706 &  33.885041 &                   1.572269 &   1.537632 \\
+288  &                               0.696116 &   0.965808 &                               0.699529 &   0.642960 &             35.155870 &  32.549644 &                   1.576678 &   1.735920 \\
+576  &                               0.709626 &   1.308816 &                               0.843161 &   0.798768 &             36.843384 &  36.702005 &                   1.729411 &   3.000816 \\
+1152 &                               0.700240 &   1.946304 &                               1.164839 &   1.548720 &             37.342100 &  37.711863 &                   2.053364 &   3.903264 \\
 \bottomrule
 \end{tabular}
