@@ -9,7 +9,7 @@ the simulation class instance.
 
 This script should be run after having run python run_example_createParams.py N_scaling num_processes sim_time K_scaling  as
 
-mpirun/srun python run_example_simulate.py N_scaling num_processes
+mpirun/srun python run_example_simulate.py N_scaling num_processes nest_version
 """
 
 import json
@@ -19,10 +19,11 @@ import sys
 import shutil
 
 from config import base_path, data_path
-from multiarea_model import MultiAreaModel
+from multiarea_model import MultiAreaModel, MultiAreaModel3
 
 scale = sys.argv[1]
 num_proc = sys.argv[2]
+NEST_version = int(sys.argv[3])
 
 
 # Load simulation and network labels
@@ -45,14 +46,19 @@ fn = os.path.join(data_path,
                   label,
                   '_'.join(('custom_params',
                             label,
-                           str(nest.Rank()))))
+                            str(nest.Rank()))))
 with open(fn, 'r') as f:
     custom_params = json.load(f)
 
 os.remove(fn)
 
-M = MultiAreaModel(network_label,
-                   simulation=True,
-                   sim_spec=custom_params['sim_params'])
-M.simulation.simulate()
+if NEST_version == 2:
+    M = MultiAreaModel(network_label,
+                       simulation=True,
+                       sim_spec=custom_params['sim_params'])
+elif NEST_version == 3:
+    M = MultiAreaModel3(network_label,
+                        simulation=True,
+                        sim_spec=custom_params['sim_params'])
 
+M.simulation.simulate()
