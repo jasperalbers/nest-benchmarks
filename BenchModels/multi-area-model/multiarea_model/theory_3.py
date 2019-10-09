@@ -167,10 +167,10 @@ class Theory:
             initial_rates = next(gen)
             print("Iteration: {}".format(iteration))
             for i in range(dim):
-                nest.SetStatus(neurons[i], {'rate': initial_rates[i]})
+                neurons[i].set('rate', initial_rates[i])
             # simulate
             nest.Simulate(T + dt)
-            data = nest.GetStatus(multimeter)[0]['events']
+            data = multimeter.get('events')
             # Extract the data of this iteration
             ind = np.where(np.logical_and(data['times'] > total_time,
                                           data['times'] <= total_time + T))

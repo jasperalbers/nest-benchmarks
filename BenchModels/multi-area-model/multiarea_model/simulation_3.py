@@ -180,7 +180,7 @@ class Simulation:
         label = '-'.join((self.label,
                           status_dict['label']))
         status_dict.update({'label': label})
-        nest.SetStatus(self.spike_detector, status_dict)
+        self.spike_detector.set(status_dict)
 
         if self.params['recording_dict']['record_vm']:
             self.voltmeter = nest.Create('voltmeter')
@@ -188,7 +188,7 @@ class Simulation:
             label = '-'.join((self.label,
                               status_dict['label']))
             status_dict.update({'label': label})
-            nest.SetStatus(self.voltmeter, status_dict)
+            self.voltmeter.set(status_dict)
 
     def create_areas(self):
         """
@@ -318,7 +318,6 @@ class Simulation:
         print("Init time in {0:.2f} seconds.".format(self.time_init))
 
         t5 = time.time()
-        #nest.Simulate(self.T)
         nest.Run(self.T)
         nest.Cleanup()
         t6 = time.time()
@@ -357,14 +356,13 @@ class Simulation:
              'local_spike_counter': nest.GetKernelStatus('local_spike_counter')}
         print(d)
         
-        if nest.Rank() < 30:
-            fn = os.path.join(self.data_dir,
-                              'recordings',
-                              '_'.join((self.label,
-                                        'logfile',
-                                        str(nest.Rank()))))
-            with open(fn, 'w') as f:
-                json.dump(d, f)
+        fn = os.path.join(self.data_dir,
+                          'recordings',
+                          '_'.join((self.label,
+                                    'logfile',
+                                    str(nest.Rank()))))
+        with open(fn, 'w') as f:
+            json.dump(d, f)
 
     def save_network_gids(self):
         with open(os.path.join(self.data_dir,
@@ -470,10 +468,10 @@ class Area:
                 DC = K_ext * W_ext * tau_syn * 1.e-3 * \
                     self.network.params['rate_ext']
                 I_e += DC
-            nest.SetStatus(gid, {'I_e': I_e})
+            gid.set('I_e', I_e)
 
-            # Store first and last GID of each population
-            self.gids[pop] = gid#(gid[0], gid[-1])
+            # Store GIDCollection of each population
+            self.gids[pop] = gid
 
             # Initialize membrane potentials
             # This could also be done after creating all areas, which
@@ -509,9 +507,8 @@ class Area:
             for pop in self.populations:
                 K_ext = self.external_synapses[pop]
                 W_ext = self.network.W[self.name][pop]['external']['external']
-                pg = nest.Create('poisson_generator', 1)
-                nest.SetStatus(
-                    pg, {'rate': self.network.params['input_params']['rate_ext'] * K_ext})
+                pg = nest.Create('poisson_generator')
+                pg.set('rate', self.network.params['input_params']['rate_ext'] * K_ext)
                 syn_spec = {'weight': W_ext}
                 nest.Connect(pg,
                              self.gids[pop],
@@ -559,16 +556,14 @@ class Area:
                     dt = self.simulation.params['dt']
                     T = self.simulation.params['t_sim']
                     assert(len(cc_input[source_pop]) == int(T))
-                    nest.SetStatus(curr_gen, {'amplitude_values': K * cc_input[source_pop] * 1e-3,
-                                              'amplitude_times': np.arange(dt,
-                                                                           T + dt,
-                                                                           1.)})
+                    curr_gen.set({'amplitude_values': K * cc_input[source_pop] * 1e-3,
+                                  'amplitude_times': np.arange(dt, T + dt, 1.)})
                     nest.Connect(curr_gen,
                                  self.gids[pop],
                                  syn_spec=syn_spec)
                 elif 'poisson_stat' in input_type:  # hom. and het. poisson lead here
                     pg = nest.Create('poisson_generator')
-                    nest.SetStatus(pg, {'rate': K * cc_input[source_pop]})
+                    pg.set('rate', K * cc_input[source_pop])
                     nest.Connect(pg,
                                  self.gids,
                                  syn_spec=syn_spec)
