@@ -21,24 +21,32 @@
  */
 
 /*
+  Population model for NEST 2.x
+
+  The population model creates scale * 20 populations, where each population
+  consist of 5000 neurons. When connecting, we connect each population with
+  100 other random populations, and use a indegree of 50 connections per neuron.
+
+  This model focuses on connection, no simulation is carried out, except for a
+  short simulation to carry out the exchange needed because of connection.
+
    - Uses iaf_psc_alpha neuron model
    - Connections use stdp_pl_synapse_hom_hpc if plastic is true,
      else static_synapse
 
    - Network size: scale * 20 * 5000
-   - Connectivity: 10% for scale < 10, otherwise CE = 9000, CI = 2250
+   - Connectivity: 50 * 100 * num_populations
 
    User arguments
    --------------
    - All are required
    - Script must be run as
 
-      <bin_path>/nest <script_path>/population_blocks.sli \
-         --userargs=<scale>_<num_vp>_<plastic>
+      <bin_path>/nest <script_path>/population_blocks.sli --userargs=<scale>_<num_vp>_<plastic>
 
     - Individual arguments must be separated with _ for JUBE compatibility
     - Arguments:
-      - scale (int)    : network size is scale * 11.250 (>= 8 recommended)
+      - scale (int)    : network size is scale * 20 * 5000 (scale >= 5 recommended)
       - num_vp (int)   : number of virtual processes (MPI ranks x threads per rank)
       - plastic (bool) : if true, use plastic E->E synapses, otherwise static
 
@@ -48,7 +56,7 @@
     2. Neuron (node) creation
     3. Network connection setup
     4. Initial simulation (single time step)
-    7. Finalization
+    5. Finalization
 
     Benchmark output
     ----------------
@@ -128,16 +136,15 @@
 
 /brunel_params
 <<
-  /base_pop 20 def
-  scale 1 leq
-  {
-    /base_pop 20 scale mul round cvi def
-  } if
-
   /num_neurons 5000                % number of neurons per population
-  /num_pop 20 scale mul round cvi  % number of populations
-  /num_pop_connections 100         % each population connect to 100 populations,
-                                   % as long as scale > 1.
+  /num_pop 20 scale mul round cvi  % number of populations (20 * scale)
+  /num_pop_connections 100         % each population connect to 100 populations
+
+  scale 4 leq
+  {
+    % if scale is less than 5, we only connect to num_pop per population
+    /num_pop_connections 20 scale mul round cvi def
+  } if
 
   /model_params
   <<
@@ -267,9 +274,6 @@ brunel_params dup using
     /delays d_min def
   }
   ifelse
-
-  targets size ==
-  population_vector size ==
 
   [ targets population_vector ] 
   { 
