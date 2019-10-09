@@ -5,7 +5,7 @@
       hpc_benchmark
     </parameter>
     <parameter name="slifile" type="string">
-      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
+      ${bench_home}/benchmark_scripts/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
 
@@ -14,7 +14,7 @@
       hpc_benchmark_nest3
     </parameter>
     <parameter name="slifile" type="string">
-      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
+      ${bench_home}/benchmark_scripts/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
   
@@ -38,7 +38,7 @@
       hpc_benchmark_rule
     </parameter>
     <parameter name="slifile" type="string">
-      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
+      ${bench_home}/benchmark_scripts/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
 
@@ -47,7 +47,7 @@
       hpc_population_comp_benchmark
     </parameter>
     <parameter name="slifile" type="string">
-      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
+      ${bench_home}/benchmark_scripts/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
 
@@ -56,7 +56,7 @@
       population_blocks
     </parameter>
     <parameter name="slifile" type="string">
-      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
+      ${bench_home}/benchmark_scripts/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
 
@@ -65,7 +65,7 @@
       hpc_benchmark_split
     </parameter>
     <parameter name="slifile" type="string">
-      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
+      ${bench_home}/benchmark_scripts/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
 
@@ -74,7 +74,16 @@
       hpc_mam_benchmark_jari
     </parameter>
     <parameter name="slifile" type="string">
-      ${bench_home}/hpc_scripts/${benchmark_system_name}.sli
+      ${bench_home}/benchmark_scripts/${benchmark_system_name}.sli
+    </parameter>
+  </parameterset>
+
+  <parameterset name="topology_benchmark">
+    <parameter name="benchmark_system_name" type="string">
+      topology_benchmark
+    </parameter>
+    <parameter name="slifile" type="string">
+      ${bench_home}/benchmark_scripts/${benchmark_system_name}.py
     </parameter>
   </parameterset>
 
