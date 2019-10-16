@@ -1,6 +1,6 @@
 \begin{tabular}{lrrrrrrrrrrrr}
 \toprule
-{} & \multicolumn{3}{l}{Conn. Creation Time \textbackslashn per Conn. (min)} & \multicolumn{3}{l}{Conn. Exchange Time \textbackslashn per Conn. (min)} & \multicolumn{3}{l}{Memory per connection} & \multicolumn{3}{l}{Total Conn. Time per Conn.} \\
+{} & \multicolumn{3}{l}{Conn. Creation Time \textbackslash n per Conn. (min)} & \multicolumn{3}{l}{Conn. Exchange Time \textbackslash n per Conn. (min)} & \multicolumn{3}{l}{Memory per connection} & \multicolumn{3}{l}{Total Conn. Time per Conn.} \\
 Case &                             all to all & fixed indegree & pairwise bernoulli &                             all to all & fixed indegree & pairwise bernoulli &            all to all & fixed indegree & pairwise bernoulli &                 all to all & fixed indegree & pairwise bernoulli \\
 N\_VP &                                        &                &                    &                                        &                &                    &                       &                &                    &                            &                &                    \\
 \midrule
