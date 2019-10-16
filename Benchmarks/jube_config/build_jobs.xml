@@ -42,7 +42,6 @@
     <parameterset name="build_nest">
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-      	source /etc/profile.d/modules.sh
       	module purge;
       	module load $modules
       	module load $gsl_module
@@ -64,7 +63,6 @@
     <parameterset name="build_nest_boost">
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        source /etc/profile.d/modules.sh
         module purge;
         module load $modules
         module load $boost_module
@@ -89,7 +87,6 @@
     <parameterset name="build_nest_py">
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        source /etc/profile.d/modules.sh
       	module purge;
       	module load $modules
       	module load $gsl_module
@@ -112,7 +109,6 @@
     <parameterset name="build_nest_boost_py">
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        source /etc/profile.d/modules.sh
         module purge;
         module load $modules
         module load $boost_module
@@ -138,7 +134,6 @@
     <parameterset name="build_jemalloc">
       <parameter name="job_name" type="string">build-jemalloc-$system_name</parameter>      
       <parameter name="exec">
-    	source /etc/profile.d/modules.sh
     	module purge;
     	module load $modules
     	cd ${bench_work}/jemalloc
@@ -152,7 +147,6 @@
     <parameterset name="run_nest_installcheck">
       <parameter name="job_name" type="string">icheck-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-    	source /etc/profile.d/modules.sh
     	module purge;
     	module load $modules
     	module load $python_module

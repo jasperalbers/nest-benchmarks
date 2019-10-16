@@ -90,7 +90,6 @@
     <parameterset name="bench_nest">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        source /etc/profile.d/modules.sh 
         module purge;
         module load $modules; 
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
@@ -102,7 +101,6 @@
     <parameterset name="bench_nest_boost">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        source /etc/profile.d/modules.sh 
         module purge;
         module load $modules; 
         module load $boost-module;
@@ -117,7 +115,6 @@
     <parameterset name="bench_nest_mpirun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        source /etc/profile.d/modules.sh 
         module purge;
         module load $modules; 
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
@@ -129,8 +126,6 @@
     <parameterset name="bench_nest_meso_mpirun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        source /etc/profile.d/modules.sh 
-	
         rm -rf ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}
         module purge;
         module load $python2_module; 
@@ -147,8 +142,6 @@
     <parameterset name="bench_nest_meso_srun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        source /etc/profile.d/modules.sh 
-  
         rm -rf ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}
         module purge;
         module load $modules;
@@ -166,8 +159,6 @@
     <parameterset name="bench_nest_meso_boost_srun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        source /etc/profile.d/modules.sh 
-  
         rm -rf ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}
         module purge;
         module load $modules;
@@ -189,8 +180,6 @@
     <parameterset name="bench_nest_MAM_mpirun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
       <parameter name="exec">
-        source /etc/profile.d/modules.sh
-
         module purge;
         module load $modules;
         module load $gsl_module;
@@ -209,8 +198,6 @@
     <parameterset name="bench_nest_MAM_srun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
       <parameter name="exec">
-        source /etc/profile.d/modules.sh
-
         module purge;
         module load $modules;
         module load $gsl_module;
@@ -229,8 +216,6 @@
     <parameterset name="bench_nest_MAM_boost_srun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
       <parameter name="exec">
-        source /etc/profile.d/modules.sh
-
         module purge;
         module load $modules; 
         module load $boost-module;
@@ -252,7 +237,6 @@
         <parameterset name="bench_nest_mpirun_noje">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-      	source /etc/profile.d/modules.sh 
       	module purge;
       	module load $modules; 
       	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
@@ -264,7 +248,6 @@
     <parameterset name="bench_nest_noje">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        source /etc/profile.d/modules.sh
         module purge;
         module load $modules;
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
@@ -276,8 +259,6 @@
  <parameterset name="bench_nest_rule">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-    	source /etc/profile.d/modules.sh
-
     	module purge;
     	module load $modules;
       module load $boost-module;
@@ -294,8 +275,6 @@
   <parameterset name="bench_nest_split">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-    	source /etc/profile.d/modules.sh
-
     	module purge;
     	module load $modules;
       module load $boost-module;
@@ -312,7 +291,6 @@
   <parameterset name="bench_nest_rule_mpirun">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-    	source /etc/profile.d/modules.sh
     	module purge;
     	module load $modules;
     	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
@@ -324,7 +302,6 @@
   <parameterset name="bench_nest_split_mpirun">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-    	source /etc/profile.d/modules.sh
     	module purge;
     	module load $modules;
     	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
@@ -336,8 +313,6 @@
   <parameterset name="bench_nest_population">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-      source /etc/profile.d/modules.sh
-
       module purge;
       module load $modules;
       module load $boost-module;
@@ -372,8 +347,6 @@
   <parameterset name="bench_nest_topology">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-      source /etc/profile.d/modules.sh
-
       module purge;
       module load $modules;
       module load $gsl_module;
