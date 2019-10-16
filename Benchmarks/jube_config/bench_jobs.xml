@@ -273,18 +273,6 @@
       </parameter>
     </parameterset>
 
-    <parameterset name="bench_nest_temalloc">
-      <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
-      <parameter name="exec">
-        source /etc/profile.d/modules.sh
-        module purge;
-        module load $modules;
-        source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
-        export OMP_NUM_THREADS=$THREADS_PER_TASK
-        srun ${TEMALLOC_INSTALL_DIR}/bin/temalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile}  --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_${PLASTIC}_${D_MIN}_${D_MAX}
-      </parameter>
-    </parameterset>
-
  <parameterset name="bench_nest_rule">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
@@ -360,6 +348,41 @@
       export OMP_NUM_THREADS=$THREADS_PER_TASK
 
       srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile} --userargs=${SCALE}_${totVPs}_${PLASTIC}
+    </parameter>
+  </parameterset>
+
+  <parameterset name="bench_population_py">
+    <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
+    <parameter name="exec">
+      module purge;
+      module load $modules;
+      module load $boost-module;
+      module unload PrgEnv-gnu
+      module load PrgEnv-intel/6.0.4
+      module load $gsl_module;
+      module load $python_module;
+
+      source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+      export OMP_NUM_THREADS=$THREADS_PER_TASK
+
+      srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${pythonfile} ${SCALE} ${totVPs} ${PLASTIC} ${RULE}
+    </parameter>
+  </parameterset>
+
+  <parameterset name="bench_nest_topology">
+    <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
+    <parameter name="exec">
+      source /etc/profile.d/modules.sh
+
+      module purge;
+      module load $modules;
+      module load $gsl_module;
+      module load $python_module;
+      
+      source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+      export OMP_NUM_THREADS=$THREADS_PER_TASK
+
+      srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/../TopologyConnect/topology_benchmark.py ${SCALE} ${totVPs}
     </parameter>
   </parameterset>
 
