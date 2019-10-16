@@ -20,6 +20,7 @@
       <parameter name="SCALE" type="float" mode="python">$base_scale*$NUMBER_OF_NODES</parameter>
       <parameter name="K_SCALE" type="float" mode="python">1.</parameter>
       <parameter name="THREADS_PER_TASK" type="int">6</parameter>
+      <parameter name="NEST_VERSION" type="int">2</parameter>
     </parameterset>
 
     <step name="bench">

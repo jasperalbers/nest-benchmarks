@@ -189,9 +189,9 @@
         export PYTHONPATH=${MAM_home}/multi-area-model/:$PYTHONPATH;
         export OMP_NUM_THREADS=$THREADS_PER_TASK
        
-        python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE}
+        python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
 
-        mpirun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs}
+        mpirun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs} ${NEST_VERSION}
       </parameter>
     </parameterset>
 
@@ -207,9 +207,9 @@
         export PYTHONPATH=${MAM_home}/multi-area-model/:$PYTHONPATH;
         export OMP_NUM_THREADS=$THREADS_PER_TASK
        
-        srun -n 1 python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE}
+        srun -n 1 python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
 
-        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs}
+        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs} ${NEST_VERSION}
       </parameter>
     </parameterset>
 
@@ -228,13 +228,13 @@
         export PYTHONPATH=${MAM_home}/multi-area-model/:$PYTHONPATH;
         export OMP_NUM_THREADS=$THREADS_PER_TASK
        
-        srun -n 1 python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE}
+        srun -n 1 python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
 
-        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs}
+        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs} ${NEST_VERSION}
       </parameter>
     </parameterset>
 
-        <parameterset name="bench_nest_mpirun_noje">
+    <parameterset name="bench_nest_mpirun_noje">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
       	module purge;
