@@ -8,12 +8,12 @@
   </include-path>
 
 
-  <benchmark name="hpc_daint" outpath="../../../BenchWork/jube_hpc/nest">
+  <benchmark name="topology_daint" outpath="../../../BenchWork/jube_topology/nest">
 
     <parameterset name="scale_check">
       <parameter name="base_vp" type="int">36</parameter>
       <parameter name="base_scale" type="float">1</parameter>
-      <parameter name="NUMBER_OF_NODES" type="int">1</parameter>
+      <parameter name="NUMBER_OF_NODES" type="int">1,2,4</parameter>
       <parameter name="NUM_VPS" type="int" mode="python">$base_vp*$NUMBER_OF_NODES</parameter>
       <parameter name="SCALE" type="int" mode="python">$base_scale</parameter>
       <parameter name="THREADS_PER_TASK" type="int">6</parameter>

@@ -16,9 +16,9 @@ def CreatePopulations(scale):
     t0 = time.time()
 
     x = partial(np.random.uniform, -1.9, 1.9)
-    coords = lambda n: [[x(), x(), x()] for i in range(int(n/scale))]
+    coords = lambda n: [[x(), x(), x()] for i in range(int(n*scale))]
 
-    coords_2d = lambda n: [[x(), x()] for i in range(int(n/scale))]
+    coords_2d = lambda n: [[x(), x()] for i in range(int(n*scale))]
 
     populations = dict()
     populations['bs'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1024)})
