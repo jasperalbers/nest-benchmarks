@@ -13,9 +13,9 @@
     <parameterset name="scale_check">
       <parameter name="base_vp" type="int">36</parameter>
       <parameter name="base_scale" type="float">1</parameter>
-      <parameter name="NUMBER_OF_NODES" type="int">1,2,4</parameter>
+      <parameter name="NUMBER_OF_NODES" type="int">1,2,4,8</parameter>
       <parameter name="NUM_VPS" type="int" mode="python">$base_vp*$NUMBER_OF_NODES</parameter>
-      <parameter name="SCALE" type="int" mode="python">$base_scale</parameter>
+      <parameter name="SCALE" type="int" mode="python">$base_scale*$NUMBER_OF_NODES</parameter>
       <parameter name="THREADS_PER_TASK" type="int">6</parameter>
     </parameterset>
 
@@ -50,6 +50,11 @@
         <column>count</column>
         <column>T_nrns</column>
         <column>T_conns_max</column>
+        <column>T_conns_min</column>
+        <column>VSize_nodes_sum</column>
+        <column>VSize_mem_sum</column>
+        <column>VSize_ini_sum</column>
+        <column>VSize_sum</column>
         <column>N_nrns</column>
         <column>N_conns_sum</column>
       </table>
