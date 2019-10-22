@@ -29,7 +29,10 @@
   
   <parameterset name="MAM_benchmark">
     <parameter name="benchmark_system_name" type="string">
-      multi-area-model
+      run_example_simulate
+    </parameter>
+    <parameter name="pythonfile" type="string">
+      ${bench_model}/multi-area-model/${benchmark_system_name}.py
     </parameter>
   </parameterset>
 

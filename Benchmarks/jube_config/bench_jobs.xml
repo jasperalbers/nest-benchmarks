@@ -130,12 +130,12 @@
         module purge;
         module load $python2_module; 
         export OMP_NUM_THREADS=$THREADS_PER_TASK
-        mpirun -np 1 python ${mesocircuit_home}/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
+        mpirun -np 1 python ${bench_model}/4x4mm2LFP/mesocircuit/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
         
         module purge;
         module load $modules; 
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
-        mpirun -np ${num_tasks} ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
+        mpirun -np ${num_tasks} ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${bench_model}/4x4mm2LFP/mesocircuit/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
       </parameter>
     </parameterset>
 
@@ -147,12 +147,12 @@
         module load $modules;
         module load $python2_module; 
         export OMP_NUM_THREADS=$THREADS_PER_TASK
-        srun -n 1 python ${mesocircuit_home}/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
+        srun -n 1 python ${bench_model}/4x4mm2LFP/mesocircuit/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
         
         module purge;
         module load $modules;
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
-        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
+        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${bench_model}/4x4mm2LFP/mesocircuit/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
       </parameter>
     </parameterset>
 
@@ -168,12 +168,12 @@
         module load $python2_module;
 
         export OMP_NUM_THREADS=$THREADS_PER_TASK
-        srun -n 1 python ${mesocircuit_home}/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
+        srun -n 1 python ${bench_model}/4x4mm2LFP/mesocircuit/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
         
         module purge;
         module load $modules;
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
-        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
+        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${bench_model}/4x4mm2LFP/mesocircuit/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
       </parameter>
     </parameterset>
 
@@ -189,9 +189,9 @@
         export PYTHONPATH=${MAM_home}/multi-area-model/:$PYTHONPATH;
         export OMP_NUM_THREADS=$THREADS_PER_TASK
        
-        python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
+        python $${bench_model}/multi-area-model/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
 
-        mpirun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs} ${NEST_VERSION}
+        mpirun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${pythonfile} ${SCALE} ${totVPs} ${NEST_VERSION}
       </parameter>
     </parameterset>
 
@@ -207,9 +207,9 @@
         export PYTHONPATH=${MAM_home}/multi-area-model/:$PYTHONPATH;
         export OMP_NUM_THREADS=$THREADS_PER_TASK
        
-        srun -n 1 python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
+        srun -n 1 python $${bench_model}/multi-area-model/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
 
-        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs} ${NEST_VERSION}
+        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${pythonfile} ${SCALE} ${totVPs} ${NEST_VERSION}
       </parameter>
     </parameterset>
 
@@ -228,9 +228,9 @@
         export PYTHONPATH=${MAM_home}/multi-area-model/:$PYTHONPATH;
         export OMP_NUM_THREADS=$THREADS_PER_TASK
        
-        srun -n 1 python ${MAM_home}/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
+        srun -n 1 python ${bench_model}/multi-area-model/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
 
-        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/run_example_simulate.py ${SCALE} ${totVPs} ${NEST_VERSION}
+        srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${pythonfile} ${SCALE} ${totVPs} ${NEST_VERSION}
       </parameter>
     </parameterset>
 
