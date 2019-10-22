@@ -3,13 +3,24 @@
 from populations import CreatePopulations
 from conn_rules import ConnectAll
 import nest
+import sys
 import logging
 log = logging.getLogger()
 logging.basicConfig(level=logging.DEBUG, filename='mylog.log', filemode='w')
 
+args = sys.argv
 
+if len(args) > 1:
+    scale = int(args[1])
+    totVPs = int(args[2])
+else:
+    scale = 100
+    totVPs = 4
+
+print("scale: ", scale)
+print("totVPs: ", totVPs)
 
 if __name__ == '__main__':
-    nest.SetKernelStatus({'local_num_threads': 2})
-    pops = CreatePopulations()
+    nest.SetKernelStatus({'total_num_virtual_procs': totVPs})
+    pops = CreatePopulations(scale)
     ConnectAll(pops)

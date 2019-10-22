@@ -349,13 +349,16 @@
     <parameter name="exec">
       module purge;
       module load $modules;
+      module load $boost-module;
+      module unload PrgEnv-gnu
+      module load PrgEnv-intel/6.0.4
       module load $gsl_module;
       module load $python_module;
       
       source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
       export OMP_NUM_THREADS=$THREADS_PER_TASK
 
-      srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${MAM_home}/../TopologyConnect/topology_benchmark.py ${SCALE} ${totVPs}
+      srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${pythonfile} ${SCALE} ${totVPs}
     </parameter>
   </parameterset>
 

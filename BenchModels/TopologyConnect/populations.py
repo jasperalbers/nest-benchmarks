@@ -12,11 +12,13 @@ def CreateLayer(thedict):
     log.info("%5.1f sec for creating %d neurons", time.time()-start, len(thedict['positions']))
     return layer
 
-def CreatePopulations():
-    x = partial(np.random.uniform, -1.9, 1.9)
-    coords = lambda n: [[x(), x(), x()] for i in range(int(n/2))]
+def CreatePopulations(scale):
+    t0 = time.time()
 
-    coords_2d = lambda n: [[x(), x()] for i in range(int(n/2))]
+    x = partial(np.random.uniform, -1.9, 1.9)
+    coords = lambda n: [[x(), x(), x()] for i in range(int(n/scale))]
+
+    coords_2d = lambda n: [[x(), x()] for i in range(int(n/scale))]
 
     populations = dict()
     populations['bs'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1024)})
@@ -521,6 +523,11 @@ def CreatePopulations():
     populations['thalamic_reticular_neucleus_RE'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1029)})
     populations['vn'] = CreateLayer({"elements": "iaf_psc_alpha", "extent": [4.,4.,4.], "positions": coords(1024)})
 
-    log.info("%5.1d number of nodes", nest.GetKernelStatus('network_size'))
+    #log.info("%5.1d number of nodes", nest.GetKernelStatus('network_size'))
+
+    t_end = time.time() - t0
+    print('{} # num_neurons'.format(nest.GetKernelStatus('network_size')))
+    print('{} # build_time_nodes'.format(t_end))
+    print('{} # virt_mem_after_nodes'.format(nest.ll_api.sli_func('memory_thisjob')))
 
     return populations

@@ -627,5 +627,11 @@ def ConnectAll(pops):
     ConnectLayers(pops['STN'], pops['GPi'], projections={'number_of_connections': 30, 'synapse_model': 'static_synapse_lbl', 'connection_type': 'convergent', 'allow_oversized_mask': True, 'weights': 1.0324537798093458, 'allow_multapses': True, 'mask': {'circular': {'radius': 2.0}}, 'delays': 3.0})
     Connect(nest.GetNodes(pops['STN'])[0], nest.GetNodes(pops['GPi'])[0], syn_spec={'weight': 0.025811344495233646, 'delay': 3.0, 'model': 'static_synapse'})
 
-    log.info("%5.1f sec for connecting ALL populations", time.time() - start_conn_time)
-    log.info("%5.1d number of connections", nest.GetKernelStatus('num_connections'))
+    #log.info(" sec for connecting ALL populations: %5.1f", time.time() - start_conn_time)
+    #log.info(" number of connections: %5.1d", nest.GetKernelStatus('num_connections'))
+
+    t_end = time.time() - start_conn_time
+    print('{} # num_connections'.format(nest.GetKernelStatus('num_connections')))
+    print('{} # build_edge_time'.format(t_end))
+    print('{} # virt_mem_after_edges'.format(nest.ll_api.sli_func('memory_thisjob')))
+    print('{} # virt_mem_after_sim'.format(nest.ll_api.sli_func('memory_thisjob'))) # No simulation, just here for consistency

@@ -100,8 +100,8 @@
     <parameter name="benchmark_system_name" type="string">
       topology_benchmark
     </parameter>
-    <parameter name="slifile" type="string">
-      ${bench_home}/benchmark_scripts/${benchmark_system_name}.py
+    <parameter name="pythonfile" type="string">
+      ${bench_model}/TopologyConnect/${benchmark_system_name}.py
     </parameter>
   </parameterset>
 
