@@ -108,4 +108,13 @@
     </parameter>
   </parameterset>
 
+  <parameterset name="topology_benchmark_3">
+    <parameter name="benchmark_system_name" type="string">
+      topology_benchmark_nest3
+    </parameter>
+    <parameter name="pythonfile" type="string">
+      ${bench_model}/TopologyConnect/${benchmark_system_name}.py
+    </parameter>
+  </parameterset>
+
 </jube>
