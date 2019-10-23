@@ -634,4 +634,4 @@ def ConnectAll(pops):
     print('{} # num_connections'.format(nest.GetKernelStatus('num_connections')))
     print('{} # build_edge_time'.format(t_end))
     print('{} # virt_mem_after_edges'.format(nest.ll_api.sli_func('memory_thisjob')))
-    print('{} # virt_mem_after_sim'.format(nest.ll_api.sli_func('memory_thisjob'))) # No simulation, just here for consistency
+

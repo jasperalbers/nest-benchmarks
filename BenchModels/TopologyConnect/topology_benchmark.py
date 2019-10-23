@@ -4,6 +4,7 @@ from populations import CreatePopulations
 from conn_rules import ConnectAll
 import nest
 import sys
+import time
 import logging
 log = logging.getLogger()
 logging.basicConfig(level=logging.DEBUG, filename='mylog.log', filemode='w')
@@ -24,3 +25,16 @@ if __name__ == '__main__':
     nest.SetKernelStatus({'total_num_virtual_procs': totVPs})
     pops = CreatePopulations(scale)
     ConnectAll(pops)
+    
+    # Init time and memory
+    tic = time.time()
+    nest.Prepare()
+    nest.Run(10.)
+
+    InitializationTime = time.time() - tic
+
+    logger.log('{} # init_time'.format(InitializationTime))
+    logger.log('{} # virt_mem_after_init'.format(memory_thisjob()))
+
+
+    print('{} # virt_mem_after_sim'.format(nest.ll_api.sli_func('memory_thisjob'))) # No simulation, just here for consistency
