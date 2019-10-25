@@ -31,11 +31,6 @@
     GNU General Public License for more details.
 */
 
-
-% NEST topology module for creating and connecting neurons
-topology using
-
-
 /CheckParameters
 % raise errors if wrong parameters are provided
 {
@@ -76,7 +71,6 @@ topology using
 
     ResetKernel
     % kernel parameters
-    0
     <<
        /resolution dt
        /total_num_virtual_procs n_vp
@@ -84,7 +78,7 @@ topology using
        /rng_seeds master_seed [0 n_vp 1 sub] add Range % local RNG seeds
        /grng_seed master_seed n_vp add                 % global RNG seed
        /data_path output_path
-    >> SetStatus
+    >> SetKernelStatus
 
     % random number generators
 %    /seed_offset master_seed n_vp add def
@@ -270,7 +264,11 @@ topology using
 } def
 
 
-
+% topology layer subnets each containing the neurons
+% spike detectors
+% voltmeters
+% Poisson generators
+% DC generators
 /CreateNetworkNodes
 % create nodes of neurons and devices
 %
@@ -283,24 +281,15 @@ topology using
 
     % create and configure neurons
     neuron_model model_params SetDefaults
-    % arrays of GIDs:
-    % topology layer subnets each containing the neurons
-    /topo_layer_subnet_GIDs [num_layers num_pops_per_layer] 0 LayoutArray def
-    % spike detectors
-    /spike_detector_GIDs [num_layers num_pops_per_layer] 0 LayoutArray def
-    % voltmeters
-    /voltmeter_GIDs [num_layers num_pops_per_layer] 0 LayoutArray def
-    % Poisson generators
-    /poisson_GIDs [num_layers num_pops_per_layer] 0 LayoutArray def
-    % DC generators
-    /dc_GIDs  [num_layers num_pops_per_layer] 0 LayoutArray def
+    
+    % arrays of GIDCollectionss:
+    /topo_layer_GCs        [num_layers num_pops_per_layer] 0 LayoutArray def
+    /spike_detector_GCs    [num_layers num_pops_per_layer] 0 LayoutArray def
+    /voltmeter_GCs         [num_layers num_pops_per_layer] 0 LayoutArray def
+    /poisson_GCs           [num_layers num_pops_per_layer] 0 LayoutArray def
+    /dc_GCs                [num_layers num_pops_per_layer] 0 LayoutArray def
 
-    % first, create spike detectors in a subnet so that they have a continous
-    % range of GIDs (for round-robin distribution on MPI processes)
-    0 ChangeSubnet
-    /subnet Create /spike_detector_subnet Set
-    spike_detector_subnet ChangeSubnet
-
+    % first, create spike detectors
     0 1 num_layers 1 sub
     {
         /layer_idx Set
@@ -319,9 +308,10 @@ topology using
                 /to_memory false
                 /start transient
             >> SetStatus
-            spike_detector_GIDs [layer_idx pop_idx]
+            % store the GIDCollection
+            spike_detector_GCs [layer_idx pop_idx]
             this_spike_detector put
-            /spike_detector_GIDs Set
+            /spike_detector_GCs Set
 
         } for % loop over EX and IN populations
     } for % loop over layers
@@ -331,23 +321,16 @@ topology using
     0 1 num_layers 1 sub
     {
         /layer_idx Set
-        0 ChangeSubnet % change to the root node
-        /subnet Create /layer_subnet Set
         0 1 num_pops_per_layer 1 sub
         {
             /pop_idx Set
-            layer_subnet ChangeSubnet
-            /subnet Create /population_subnet Set
-            population_subnet ChangeSubnet
 
             % create neurons at spatial positions with topology
             % topology LAYER containing one population != cortical LAYER
 
             % dimensions of topology layer
             /dim_topo 2 def % 2D sheet = 2 coordinates per neuron
-            % get virtual process of neuron subnet for accessing the
-            % RNG on this vp
-            CurrentSubnet /vp get /node_vp Set
+
             % number of neurons on this vp
             num_neurons layer_idx get pop_idx get
             /num_neurons_vp Set
@@ -396,21 +379,20 @@ topology using
             <<
                 /positions pos
                 /extent [extent_length extent_length]
-                /center [0. 0.]
                 /elements neuron_model
                 /edge_wrap pbc
             >>
             def
 
-            topo_layer_dict CreateLayer /topo_layer_subnet Set
+            topo_layer_dict CreateLayer /topo_layer_gc Set
 
             % add the GID of the topology layer to the GID collection
-            topo_layer_subnet_GIDs [layer_idx pop_idx]
-            topo_layer_subnet put
-            /topo_layer_subnet_GIDs Set
+            topo_layer_GCs [layer_idx pop_idx]
+            topo_layer_gc put
+            /topo_layer_GCs Set
 
             % initialize membrane potentials
-            topo_layer_subnet GetLocalChildren
+            topo_layer_gc LocalOnly
             {
                 dup /vp get /node_vp Set
                 << /V_m normal_rdvs node_vp get Random Vm0_std mul
@@ -418,12 +400,8 @@ topology using
                 >> SetStatus
             } forall
 
-
-            population_subnet ChangeSubnet
             % create and configure stimulus and recording devices,
             % one per population
-            /subnet Create /device_subnet Set
-            device_subnet ChangeSubnet
 
             /voltmeter Create /this_voltmeter Set
             this_voltmeter
@@ -435,8 +413,8 @@ topology using
                /stop rec_voltage_stop transient add
                /interval dt_voltage
             >> SetStatus
-            voltmeter_GIDs [layer_idx pop_idx] this_voltmeter put
-            /voltmeter_GIDs Set
+            voltmeter_GCs [layer_idx pop_idx] this_voltmeter put
+            /voltmeter_GCs Set
 
             /poisson_generator Create /this_poisson_generator Set
             K_bg layer_idx get pop_idx get /this_K_bg Set
@@ -445,9 +423,9 @@ topology using
                /rate this_K_bg bg_rate mul
             >> SetStatus
 
-            poisson_GIDs [layer_idx pop_idx] this_poisson_generator
+            poisson_GCs [layer_idx pop_idx] this_poisson_generator
             put
-            /poisson_GIDs Set
+            /poisson_GCs Set
 
             % WARNING: currently, dc generators are not used.
             % they are created and connected but in network_params the
@@ -459,20 +437,15 @@ topology using
             <<
                /amplitude dc_amp
             >> SetStatus
-            dc_GIDs [layer_idx pop_idx] this_dc_generator put
-            /dc_GIDs Set
+            dc_GCs [layer_idx pop_idx] this_dc_generator put
+            /dc_GCs Set
 
         } for % loop over EX and IN populations
     } for % loop over layers
 
-
     % create and configure thalamic neurons (parrots) and their Poisson inputs
-    0 ChangeSubnet
     num_neurons_th 0 gt
     {
-        /subnet Create /th_subnet Set
-        th_subnet ChangeSubnet
-
         % create position array for thalamic neurons
         /th_pos [ num_neurons_th ] { ; [global_rng drand global_rng drand ] } Table
         0.5 sub extent_length mul def
@@ -480,8 +453,10 @@ topology using
         % extract GIDs of thalamic neurons which are in the circular area to be
         % activated with an external stimulus
         /GIDs_th_pos [] def
-        % counter starts at 2 because th_subnet + topo_layer subnet come first
-        /counter 2  def
+        % counter starts at 1 because other populations come first
+        /counter 1  def
+        dc_GCs num_layers 1 sub get num_pops_per_layer 1 sub get /global_id get /last_gid Set
+
         th_pos
         {
             /this_pos Set
@@ -494,7 +469,7 @@ topology using
             lt
             {
                 % GID of neuron with position this_pos
-                /gid th_subnet counter add def
+                /gid last_gid counter add def
                 GIDs_th_pos gid append /GIDs_th_pos Set
             } if
             /counter counter 1 add def
@@ -503,25 +478,13 @@ topology using
         % topology layer dictionary
         /topo_layer_dict << /positions th_pos
                             /extent [extent_length extent_length]
-                            /center [0. 0.]
                             /elements /parrot_neuron
                             /edge_wrap pbc
                          >> def
 
-        topo_layer_dict CreateLayer /th_topo_layer_subnet_GID Set
-
-        % retrieve GID list of all thalamic neurons
-        th_topo_layer_subnet_GID 1 add /first_glob_thal_GID Set
-        num_neurons_th
-        first_glob_thal_GID add 1 sub /last_glob_thal_GID Set
-        [first_glob_thal_GID last_glob_thal_GID] Range
-        /GIDs_th_neurons Set
-
+        topo_layer_dict CreateLayer /GIDs_th_neurons Set
 
         % stimulus for the thalamic population
-        /subnet Create /th_device_subnet Set
-        th_device_subnet ChangeSubnet
-
         th_poisson_input {
             % poisson input to thalamic neurons
             /poisson_generator Create /th_input_GID Set
@@ -565,13 +528,11 @@ topology using
         <<
             /positions stim_pos
             /extent[extent_length extent_length]
-            /center [0. 0.]
             /elements /stim_spike_generator
             /edge_wrap pbc
         >> def
 
     /stim_spike_generator_layer_GID stim_layer_dict CreateLayer def
-
 } def
 
 
@@ -595,13 +556,7 @@ topology using
             /source_pop Set
 
             % get neuron IDs
-            topo_layer_subnet_GIDs source_layer get source_pop get
-            dup /source_layer_GID Set
-
-            source_layer_GID 1 add /first_glob_source_GID Set
-            num_neurons source_layer get source_pop get
-            first_glob_source_GID add 1 sub /last_glob_source_GID Set
-            [first_glob_source_GID last_glob_source_GID] Range /source_nodes Set
+            topo_layer_GCs source_layer get source_pop get /source_nodes Set
 
             % number of source neurons
             /num_sources num_neurons source_layer get source_pop get def
@@ -614,7 +569,7 @@ topology using
                     /target_pop Set
 
                     % get neuron IDs
-                    topo_layer_subnet_GIDs target_layer get target_pop get
+                    topo_layer_GCs target_layer get target_pop get
                     /target_layer_GID Set
 
                     % number of target neurons
@@ -718,11 +673,11 @@ topology using
                                 sigma_delays source_pop get /sigma_delay Set
 
                                 /inverse_speed 1. prop_speed div def
-                                % linear parameter:  p(d) = c + a*d
-                                << /linear
-                                    << /a inverse_speed
-                                       /c min_delay >> >>
-                                CreateParameter /pure_linear_delay Set
+                                % Create linear parameter:  p(d) = c + a*d
+
+                                << /distance << >> >> CreateParameter /dist Set
+                                << /constant << /value min_delay >> >> CreateParameter
+                                << /constant << /value inverse_speed >> >> CreateParameter dist mul add /pure_linear_delay Set
 
                                 % additive noise from normal distribution,
                                 % sum of linear and normal parameter must
@@ -731,10 +686,8 @@ topology using
                                 /min_diff -1. max_diff mul def
                                 << /normal
                                     << /mean 0.
-                                       /sigma sigma_delay
-                                       /min min_diff
-                                       /max max_diff >> >>
-                                CreateParameter /noise_delay Set
+                                       /sigma sigma_delay >> >>
+                                CreateParameter min_diff max_diff redraw /noise_delay Set
 
                                 % sum up purely linear delay with noise
                                 pure_linear_delay noise_delay add
@@ -766,7 +719,7 @@ topology using
                             % (repeat factor allows to create multapses)
                             repeat_factor
                             {
-                                source_layer_GID
+                                source_nodes
                                 target_layer_GID
                                 conn_dict
                                 ConnectLayers
@@ -850,14 +803,12 @@ topology using
             % WARNING: shouldn't be used without random positions
             num_neurons_rec_spikes source_layer get source_pop get
             Take
-            spike_detector_GIDs source_layer get source_pop get
-            1 arraystore
+            spike_detector_GCs source_layer get source_pop get
             /all_to_all
             Connect
 
             % connect to the voltmeter
-            voltmeter_GIDs source_layer get source_pop get
-            1 arraystore
+            voltmeter_GCs source_layer get source_pop get
             source_nodes
             % record from a continuous range of IDs
             num_neurons_rec_voltage source_layer get source_pop get
@@ -866,16 +817,14 @@ topology using
             Connect
 
             % connect to the Poisson generators
-            poisson_GIDs source_layer get source_pop get
-            1 arraystore
+            poisson_GCs source_layer get source_pop get
             source_nodes
             /all_to_all
             << /weight PSC_ext /delay delays 0 get >>
             Connect
 
             % connect DC generators
-            dc_GIDs source_layer get source_pop get
-            1 arraystore
+            dc_GCs source_layer get source_pop get
             source_nodes
             /all_to_all
             Connect
@@ -887,16 +836,16 @@ topology using
                 /PSC_stim_sd PSC_ext_sd stim_weight_scale mul def
 
                 /stim_conn_dict << /connection_type (convergent)
-                /weights
+                /weight
                     << /normal << /mean PSC_stim
                                   /sigma PSC_stim_sd >> >>
-                                  /delays dt
+                                  /delay dt
                                   /synapse_model synapse_model
                                   /mask stim_mask >>
                 def
 
                 stim_spike_generator_layer_GID
-                source_layer_GID
+                source_nodes
                 stim_conn_dict
                 ConnectLayers
             } if
@@ -909,9 +858,7 @@ topology using
     connect_method (Connect) eq
     {
         % extract thalamic nodes (source)
-        th_topo_layer_subnet_GID 1 add /first_glob_source_GID Set
-        num_neurons_th first_glob_source_GID add 1 sub /last_glob_source_GID Set
-        [first_glob_source_GID last_glob_source_GID] Range /source_nodes Set
+        topo_layer_gc /source_nodes Set
     } if % connect_method = Connect
 
     % loop over target layers and populations
@@ -922,7 +869,7 @@ topology using
         {
             /target_pop Set
 
-            topo_layer_subnet_GIDs target_layer get target_pop get
+            topo_layer_GCs target_layer get target_pop get
             /target_layer_GID Set
 
             target_layer num_pops_per_layer mul target_pop add
@@ -975,7 +922,7 @@ topology using
                     % connect thalamic neurons with target populations
                     repeat_factor
                     {
-                        th_topo_layer_subnet_GID
+                        topo_layer_gc
                         target_layer_GID
                         conn_dict
                         ConnectLayers
@@ -1030,10 +977,8 @@ topology using
         % connect thalamic poisson_generator
         % to those thalamic neurons (parrots) chosen by position
         th_input_GID
-        1 arraystore
         /thal_poisson_input Set
-
-        thal_poisson_input GIDs_th_pos
+        thal_poisson_input GIDs_th_pos cvgidcollection
         /all_to_all
         Connect
 
@@ -1042,7 +987,6 @@ topology using
             % connect all thalamic neurons to spike detector
             GIDs_th_neurons
             th_spike_detector_GID
-            1 arraystore
             /all_to_all
             Connect
         } if
@@ -1142,12 +1086,11 @@ topology using
 
     conn_profile (gaussian) eq
     {
-        /kernel_profile
-            << /gaussian << /c 0.
-                            /p_center a_scale
-                            /mean 0.
-                            /sigma decay_param >> >>
-        def
+        << /constant << /value a_scale >> >> CreateParameter /p_center Set
+        << /constant << /value -2 decay_param 2.0 pow mul >> >> CreateParameter /sigma Set
+        << /distance << >> >> CreateParameter /dist Set
+
+        /kernel_profile dist 2.0 pow sigma div exp p_center mul def
     } if
 
     conn_profile (exponential) eq
@@ -1166,8 +1109,8 @@ topology using
         << /connection_type conn_type
            /allow_autapses false
            /allow_multapses true
-           /weights weight_param
-           /delays delay_param
+           /weight weight_param
+           /delay delay_param
            /synapse_model synapse_model
            /kernel kernel_profile >>
     def
@@ -1202,7 +1145,7 @@ topology using
         % take the GIDs of the neurons in each topology layer subnet
         % and write minimum and maximum GID to file
         /iter 0 def
-        topo_layer_subnet_GIDs Flatten
+        topo_layer_GCs Flatten
         {
             /topo_layer_subnet_GID Set
             num_neurons Flatten iter get /num_neurons_here Set
@@ -1219,11 +1162,7 @@ topology using
         % write GIDs of thalamic population
         num_neurons_th 0 gt
         {
-            th_topo_layer_subnet_GID 1 add /first_glob_GID Set
-
-            num_neurons_th first_glob_GID add 1 sub /last_glob_GID Set
-
-            [first_glob_GID last_glob_GID] Range /GIDs Set
+            topo_layer_gc /global_id get /GIDs Set
 
             GIDs Min <- (\t) <- GIDs Max <- (\n) <-
 
@@ -1258,7 +1197,7 @@ topology using
 
         num_neurons num_neurons_rec_spikes eq
         {
-            topo_layer_subnet_GIDs Flatten
+            topo_layer_GCs Flatten
             {
                 DumpLayerNodes
             } forall
@@ -1266,7 +1205,7 @@ topology using
         {
             % for picking the correct population of num_neurons_rec_spikes
             /iter 0 def
-            topo_layer_subnet_GIDs Flatten
+            topo_layer_GCs Flatten
             {
                 /topo_layer_subnet_GID Set
 
@@ -1304,7 +1243,7 @@ topology using
         % for the thalamic population, all positions are stored
         num_neurons_th 0 gt
         {
-            th_topo_layer_subnet_GID
+            topo_layer_gc
             % writes: GID x-position y-position
             DumpLayerNodes
         } if
@@ -1381,7 +1320,6 @@ tic
 toc /ConnectTime Set
 
 (mem_after_connect: ) memory_thisjob cvs join ( kB) join ==
-(Connecting take: ) ConnectTime cvs join ==
 
 %--------------------%
 
@@ -1464,8 +1402,8 @@ Rank 0 eq
    % close
 } if
 
-0 /num_connections get cvs ( # num_connections) join ==
-0 /local_spike_counter get cvs ( # local_spike_counter) join ==
+GetKernelStatus /num_connections get cvs ( # num_connections) join ==
+GetKernelStatus /local_spike_counter get cvs ( # local_spike_counter) join ==
 
 (Memory: ) memory_thisjob cvs join ( kB) join ==
 

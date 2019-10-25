@@ -26,6 +26,15 @@
       ${mesocircuit_home}/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
+
+  <parameterset name="4x4_mesocircuit_3">
+    <parameter name="benchmark_system_name" type="string">
+      mesocircuit_nest3
+    </parameter>
+    <parameter name="slifile" type="string">
+      ${mesocircuit_home}/${benchmark_system_name}.sli
+    </parameter>
+  </parameterset>
   
   <parameterset name="MAM_benchmark">
     <parameter name="benchmark_system_name" type="string">
