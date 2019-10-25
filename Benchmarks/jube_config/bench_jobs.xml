@@ -401,7 +401,7 @@
     <patternset name="nest_pattern_meso_stdcout">
       <pattern name="hash" type="string">Hash: $jube_pat_wrd</pattern>
       <pattern name="T_nrns" type="float">Creating   took $jube_pat_fp</pattern> 
-      <pattern name="T_conns" type="float">Connecting take: $jube_pat_fp</pattern>
+      <pattern name="T_conns" type="float">Connecting took: $jube_pat_fp</pattern>
       <pattern name="T_ini" type="float">Init time: $jube_pat_fp</pattern>
       <pattern name="T_sim" type="float">Simulating took $jube_pat_fp</pattern> 
       <pattern name="VSize_nodes" type="int">mem_after_nodes: $jube_pat_int</pattern>  
