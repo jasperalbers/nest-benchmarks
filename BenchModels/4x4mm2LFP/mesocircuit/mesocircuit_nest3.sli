@@ -1402,8 +1402,8 @@ Rank 0 eq
    % close
 } if
 
-(Creating   took ) join CreateTime cvs join ( s\n) join
-(Connecting took ) join ConnectTime cvs join ( s\n) join
+(Creating   took ) CreateTime cvs join ==
+(Connecting took ) ConnectTime cvs join ==
 GetKernelStatus /num_connections get cvs ( # num_connections) join ==
 GetKernelStatus /local_spike_counter get cvs ( # local_spike_counter) join ==
 
