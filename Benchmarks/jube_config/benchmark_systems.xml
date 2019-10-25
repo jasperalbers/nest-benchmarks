@@ -23,7 +23,7 @@
       mesocircuit
     </parameter>
     <parameter name="slifile" type="string">
-      ${mesocircuit_home}/${benchmark_system_name}.sli
+      ${bench_model}/4x4mm2LFP/mesocircuit/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
 
@@ -32,7 +32,7 @@
       mesocircuit_nest3
     </parameter>
     <parameter name="slifile" type="string">
-      ${mesocircuit_home}/${benchmark_system_name}.sli
+      ${bench_model}/4x4mm2LFP/mesocircuit/${benchmark_system_name}.sli
     </parameter>
   </parameterset>
   
