@@ -704,7 +704,7 @@
                             /mask_radius Set
 
                             % connection type
-                            /conn_type (convergent) def
+                            /conn_type (pairwise_bernoulli_on_source) def
 
                             % construct the connection dictionary
                             num_synapses_src_tgt prod
@@ -835,7 +835,7 @@
                 /PSC_stim PSC_ext stim_weight_scale mul def
                 /PSC_stim_sd PSC_ext_sd stim_weight_scale mul def
 
-                /stim_conn_dict << /connection_type (convergent)
+                /stim_conn_dict << /connection_type (pairwise_bernoulli_on_source)
                 /weight
                     << /normal << /mean PSC_stim
                                   /sigma PSC_stim_sd >> >>
@@ -908,7 +908,7 @@
                     /mask_radius Set
 
                     % connection type
-                    /conn_type (divergent) def
+                    /conn_type (pairwise_bernoulli_on_target) def
 
                     % construct the connection dictionary
                     num_synapses_src_tgt prod
@@ -1004,7 +1004,7 @@
     /doubletype    % mask_radius
     /parametertype % weight_param
     /parametertype % delay_param
-    /stringtype    % (convergent) or (divergent)
+    /stringtype    % (pairwise_bernoulli_on_source) or (pairwise_bernoulli_on_target)
 ]
 % constructs a connection dictionary for parameters for a specific population
 % and a repeat factor
