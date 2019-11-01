@@ -7,7 +7,7 @@ import sys
 import time
 import logging
 log = logging.getLogger()
-logging.basicConfig(level=logging.DEBUG, filename='mylog.log', filemode='w')
+logging.basicConfig(level=logging.DEBUG, filename='mylog_nest3.log', filemode='w')
 
 args = sys.argv
 
@@ -15,7 +15,7 @@ if len(args) > 1:
     scale = int(args[1])
     totVPs = int(args[2])
 else:
-    scale = 100
+    scale = 0.1
     totVPs = 4
 
 print("scale: ", scale)
@@ -24,6 +24,7 @@ print("totVPs: ", totVPs)
 if __name__ == '__main__':
     nest.SetKernelStatus({'total_num_virtual_procs': totVPs})
     pops = CreatePopulations(scale)
+    
     ConnectAll(pops)
 
     # Init time and memory
@@ -33,8 +34,7 @@ if __name__ == '__main__':
 
     InitializationTime = time.time() - tic
 
-    logger.log('{} # init_time'.format(InitializationTime))
-    logger.log('{} # virt_mem_after_init'.format(memory_thisjob()))
-
+    print('{} # init_time'.format(InitializationTime))
+    print('{} # virt_mem_after_init'.format(memory_thisjob()))
 
     print('{} # virt_mem_after_sim'.format(nest.ll_api.sli_func('memory_thisjob'))) # No simulation, just here for consistency
