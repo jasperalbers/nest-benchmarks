@@ -623,7 +623,7 @@
                                 /weight_param
                                     << /normal
                                         << /mean mean_weight
-                                           /sigma weight_sd >> >>
+                                           /std weight_sd >> >>
                                CreateParameter def
                             } if % normally distributed weights
 
@@ -640,7 +640,7 @@
 
                                 << /lognormal
                                     << /mu abs_ln_mean
-                                       /sigma abs_ln_sigma >> >>
+                                       /std abs_ln_sigma >> >>
                                 CreateParameter /logn Set
                                 /sign mean_weight Sign 1. mul def
                                 << /constant << /value sign >> >>
@@ -660,7 +660,7 @@
                                 /delay_param
                                     << /normal
                                         << /mean mean_delay
-                                           /sigma delay_sd
+                                           /std delay_sd
                                     % min delay must be at least sim. resolution
                                            /min dt >> >>
                                 CreateParameter def
@@ -686,7 +686,7 @@
                                 /min_diff -1. max_diff mul def
                                 << /normal
                                     << /mean 0.
-                                       /sigma sigma_delay >> >>
+                                       /std sigma_delay >> >>
                                 CreateParameter min_diff max_diff redraw /noise_delay Set
 
                                 % sum up purely linear delay with noise
@@ -838,7 +838,7 @@
                 /stim_conn_dict << /connection_type (pairwise_bernoulli_on_source)
                 /weight
                     << /normal << /mean PSC_stim
-                                  /sigma PSC_stim_sd >> >>
+                                  /std PSC_stim_sd >> >>
                                   /delay dt
                                   /synapse_model synapse_model
                                   /mask stim_mask >>
@@ -885,7 +885,7 @@
                 {
                     % specify weight and delay parameters
                     /weight_param << /normal << /mean PSC_th
-                                                /sigma PSC_th_sd >> >>
+                                                /std PSC_th_sd >> >>
                     CreateParameter def
 
                     /delay_param << /constant << /value dt >> >>
@@ -945,8 +945,8 @@
 
                     % add weight dictionary
                     /weight_dict << /distribution /normal
-                                    /mu PSC_th
-                                    /sigma PSC_th_sd >> def
+                                    /mean PSC_th
+                                    /std PSC_th_sd >> def
                     syn_dict /weight weight_dict put
 
                     % add delay
