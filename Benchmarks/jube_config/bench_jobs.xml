@@ -101,11 +101,10 @@
     <parameterset name="bench_nest_boost">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        module purge;
-        module load $modules; 
-        module load $boost-module;
-        module unload PrgEnv-gnu
-        module load PrgEnv-intel/6.0.5
+        module swap $swap_modules
+        module load $modules
+        module load $boost_module
+
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
         export OMP_NUM_THREADS=$THREADS_PER_TASK
         srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${slifile}  --userargs=${SCALE}_${totVPs}_${SIMTIME}_${NUM_REC}_${PLASTIC}_${D_MIN}_${D_MAX}
@@ -160,11 +159,10 @@
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
         rm -rf ${mesocircuit_home}/parameters/${NUM_VPS}-${SCALE}
-        module purge;
-        module load $modules;
-        module load $boost-module;
-        module unload PrgEnv-gnu
-        module load PrgEnv-intel/6.0.5
+
+        module swap $swap_modules
+        module load $modules
+        module load $boost_module
         module load $python2_module;
 
         export OMP_NUM_THREADS=$THREADS_PER_TASK
@@ -216,13 +214,11 @@
     <parameterset name="bench_nest_MAM_boost_srun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
       <parameter name="exec">
-        module purge;
-        module load $modules; 
-        module load $boost-module;
-        module unload PrgEnv-gnu
-        module load PrgEnv-intel/6.0.5
-        module load $gsl_module;
-        module load $python_module;
+        module swap $swap_modules
+        module load $modules
+        module load $boost_module
+        module load $gsl_module
+        module load $python_module
         
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
         export PYTHONPATH=${MAM_home}/multi-area-model/:$PYTHONPATH;
@@ -259,11 +255,10 @@
  <parameterset name="bench_nest_rule">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-    	module purge;
-    	module load $modules;
-      module load $boost-module;
-      module unload PrgEnv-gnu
-      module load PrgEnv-intel/6.0.5
+      module swap $swap_modules
+      module load $modules
+      module load $boost_module
+      module load $gsl_module
 
     	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
     	export OMP_NUM_THREADS=$THREADS_PER_TASK
@@ -275,11 +270,9 @@
   <parameterset name="bench_nest_split">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-    	module purge;
-    	module load $modules;
-      module load $boost-module;
-      module unload PrgEnv-gnu
-      module load PrgEnv-intel/6.0.5
+      module swap $swap_modules
+      module load $modules
+      module load $boost_module
 
     	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
     	export OMP_NUM_THREADS=$THREADS_PER_TASK
@@ -313,11 +306,9 @@
   <parameterset name="bench_nest_population">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-      module purge;
-      module load $modules;
-      module load $boost-module;
-      module unload PrgEnv-gnu
-      module load PrgEnv-intel/6.0.5
+      module swap $swap_modules
+      module load $modules
+      module load $boost_module
 
       source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
       export OMP_NUM_THREADS=$THREADS_PER_TASK
@@ -329,13 +320,11 @@
   <parameterset name="bench_population_py">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-      module purge;
-      module load $modules;
-      module load $boost-module;
-      module unload PrgEnv-gnu
-      module load PrgEnv-intel/6.0.5
-      module load $gsl_module;
-      module load $python_module;
+      module swap $swap_modules
+      module load $modules
+      module load $boost_module
+      module load $gsl_module
+      module load $python_module
 
       source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
       export OMP_NUM_THREADS=$THREADS_PER_TASK
@@ -347,13 +336,11 @@
   <parameterset name="bench_nest_topology">
     <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
     <parameter name="exec">
-      module purge;
-      module load $modules;
-      module load $boost-module;
-      module unload PrgEnv-gnu
-      module load PrgEnv-intel/6.0.5
-      module load $gsl_module;
-      module load $python_module;
+      module swap $swap_modules
+      module load $modules
+      module load $boost_module
+      module load $gsl_module
+      module load $python_module
       
       source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
       export OMP_NUM_THREADS=$THREADS_PER_TASK

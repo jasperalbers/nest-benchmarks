@@ -63,11 +63,9 @@
     <parameterset name="build_nest_boost">
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        module purge;
+        module swap $swap_modules
         module load $modules
         module load $boost_module
-        module unload PrgEnv-gnu
-        module load PrgEnv-intel/6.0.5
         module load $gsl_module
         module load $cmake_module
         export CRAYPE_LINK_TYPE=dynamic
@@ -109,11 +107,9 @@
     <parameterset name="build_nest_boost_py">
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        module purge;
+        module swap $swap_modules
         module load $modules
         module load $boost_module
-        module unload PrgEnv-gnu
-        module load PrgEnv-intel/6.0.5
         module load $gsl_module
         module load $python_module
         module load $cmake_module
