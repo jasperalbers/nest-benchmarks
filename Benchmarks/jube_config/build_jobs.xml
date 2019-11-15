@@ -66,8 +66,11 @@
         module swap $swap_modules
         module load $modules
         module load $boost_module
+        module unload PrgEnv-gnu
+        module load PrgEnv-intel/6.0.5
         module load $gsl_module
         module load $cmake_module
+        
         export CRAYPE_LINK_TYPE=dynamic
         cd $NEST_SRC_DIR
         # git checkout $nest_branch
