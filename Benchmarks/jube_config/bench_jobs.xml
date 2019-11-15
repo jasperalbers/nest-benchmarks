@@ -104,8 +104,9 @@
         module swap $swap_modules
         module load $modules
         module load $boost_module
+        module unload PrgEnv-gnu
+        module load PrgEnv-intel/6.0.5
         module load $gsl_module
-        module load $python_module
 
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
         export OMP_NUM_THREADS=$THREADS_PER_TASK
