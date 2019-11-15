@@ -104,6 +104,7 @@
         module swap $swap_modules
         module load $modules
         module load $boost_module
+        module load $gsl_module
 
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
         export OMP_NUM_THREADS=$THREADS_PER_TASK
