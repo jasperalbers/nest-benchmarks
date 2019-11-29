@@ -180,7 +180,6 @@ class Simulation:
         label = '-'.join((self.label,
                           status_dict['label']))
         status_dict.update({'label': label})
-        print(status_dict)
         self.spike_detector.set(status_dict)
 
         if self.params['recording_dict']['record_vm']:
