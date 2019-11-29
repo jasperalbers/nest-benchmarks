@@ -135,9 +135,7 @@ class Theory:
             
         multimeter = nest.Create('multimeter', params={'record_from': ['rate'],
                                                        'interval': interval,
-                                                       'to_screen': False,
-                                                       'to_file': False,
-                                                       'to_memory': True})
+                                                       'record_to': 'memory'})
         # multimeter
         nest.Connect(multimeter, neurons)
 
@@ -167,7 +165,7 @@ class Theory:
             initial_rates = next(gen)
             print("Iteration: {}".format(iteration))
             for i in range(dim):
-                neurons[i].set('rate', initial_rates[i])
+                neurons[i].set({'rate': initial_rates[i]})
             # simulate
             nest.Simulate(T + dt)
             data = multimeter.get('events')
