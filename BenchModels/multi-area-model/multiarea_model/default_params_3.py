@@ -246,8 +246,7 @@ recording_dict = {
     # Parameters for the spike detectors
     'spike_dict': {
         'label': 'spikes',
-        'withtime': True,
-        'record_to': ['file'],
+        'record_to': 'ascii',
         'start': 0.},
     # Parameters for the voltmeters
     'vm_dict': {
@@ -255,8 +254,7 @@ recording_dict = {
         'start': 0.,
         'stop': 1000.,
         'interval': 0.1,
-        'withtime': True,
-        'record_to': ['file']}
+        'record_to': 'ascii'}
     }
 sim_params.update({'recording_dict': recording_dict})
 

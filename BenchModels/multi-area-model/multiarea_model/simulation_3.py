@@ -26,8 +26,8 @@ import time
 from .analysis_helpers import _load_npy_to_dict, model_iter
 from config import base_path, data_path
 from copy import deepcopy
-from .default_params import nested_update, sim_params
-from .default_params import check_custom_params
+from .default_params_3 import nested_update, sim_params
+from .default_params_3 import check_custom_params
 from dicthash import dicthash
 from .multiarea_helpers import extract_area_dict, create_vector_mask
 try:

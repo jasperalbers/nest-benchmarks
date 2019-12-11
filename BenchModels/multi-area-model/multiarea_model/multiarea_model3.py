@@ -30,8 +30,8 @@ import numpy as np
 import os
 import pprint
 import shutil
-from .default_params import complete_area_list, nested_update, network_params
-from .default_params import check_custom_params
+from .default_params_3 import complete_area_list, nested_update, network_params
+from .default_params_3 import check_custom_params
 from collections import OrderedDict
 from copy import deepcopy
 from .data_multiarea.Model import compute_Model_params
