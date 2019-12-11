@@ -22,8 +22,8 @@ import nest
 import numpy as np
 
 from copy import copy
-from .default_params import nested_update, theory_params
-from .default_params import check_custom_params
+from .default_params_3 import nested_update, theory_params
+from .default_params_3 import check_custom_params
 from dicthash import dicthash
 from .multiarea_helpers import create_mask, create_vector_mask, dict_to_vector
 from .theory_helpers import d_nu_d_mu_fb_numeric, d_nu_d_sigma_fb_numeric

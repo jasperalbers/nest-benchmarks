@@ -1,4 +1,5 @@
 from . import default_params
+from . import default_params_3
 from .analysis import Analysis
 from .simulation import Simulation
 from .simulation_3 import Simulation
