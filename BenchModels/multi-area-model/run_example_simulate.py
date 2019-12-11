@@ -21,8 +21,8 @@ import shutil
 from config import base_path, data_path
 from multiarea_model import MultiAreaModel, MultiAreaModel3
 
-scale = sys.argv[1]
-num_proc = sys.argv[2]
+scale = float(sys.argv[1])
+num_proc = int(sys.argv[2])
 NEST_version = int(sys.argv[3])
 
 
