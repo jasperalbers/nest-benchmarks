@@ -375,8 +375,6 @@ myrng rdevdict /normal get CreateRDV /normal_dv Set
     /E_detector /spike_detector Create def
     E_detector
     <<
-       /withtime true
-       /to_file false
        /label detector_label
        /start inisimtime presimtime add
     >> SetStatus
