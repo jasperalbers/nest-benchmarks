@@ -101,18 +101,10 @@
     <parameterset name="bench_nest_boost">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        <!--module swap $swap_modules
+        module swap $swap_modules
         module load $modules
         module load $boost_module
-        module unload PrgEnv-gnu
-        module load PrgEnv-intel/6.0.5
-        module load $gsl_module-->
-
-        module swap PrgEnv-cray/6.0.5 PrgEnv-intel
-        module load daint-mc
-        module load daint-mc
-        module load Boost/1.70.0-CrayGNU-19.10
-        module load GSL/2.5-CrayIntel-19.10
+        module load $gsl_module
 
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
         export OMP_NUM_THREADS=$THREADS_PER_TASK

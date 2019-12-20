@@ -63,18 +63,11 @@
     <parameterset name="build_nest_boost">
       <parameter name="job_name" type="string">build-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
-        <!-- module swap $swap_modules
+        module swap $swap_modules
         module load $modules
         module load $boost_module
-        module unload PrgEnv-gnu
-        module load PrgEnv-intel/6.0.5
-        module load $cmake_module -->
-
-        module swap PrgEnv-cray/6.0.5 PrgEnv-intel
-        module load daint-mc
-        module load daint-mc
-        module load Boost/1.70.0-CrayGNU-19.10
-        module load GSL/2.5-CrayIntel-19.10
+        module load $gsl_module
+        module load $cmake_module
         
         export CRAYPE_LINK_TYPE=dynamic
         cd $NEST_SRC_DIR
@@ -138,8 +131,8 @@
     <parameterset name="build_jemalloc">
       <parameter name="job_name" type="string">build-jemalloc-$system_name</parameter>      
       <parameter name="exec">
-    	module purge;
-    	module load $modules
+    	module swap $swap_modules
+      module load $modules
     	cd ${bench_work}/jemalloc
     	rm -rf $JEMALLOC_INSTALL_DIR
     	cd $jemalloc_version
