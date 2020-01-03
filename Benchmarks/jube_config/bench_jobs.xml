@@ -398,7 +398,8 @@
       <pattern name="VSize" type="int">Memory: $jube_pat_int</pattern>  
       <pattern name="N_nrns" type="int">Number of neurons, without TC: $jube_pat_int</pattern> 
       <pattern name="N_conns" type="int">$jube_pat_int # num_connections</pattern>
-      <pattern name="N_spks" type="int">$jube_pat_int # local_spike_counter</pattern> 
+      <pattern name="N_spks" type="int">$jube_pat_int # local_spike_counter</pattern>
+      <pattern name="git" type="string">GIT: (.+)</pattern>
     </patternset>
 
     <!-- Regex pattern -->
@@ -415,6 +416,7 @@
       <pattern name="N_nrns" type="int">Network size: $jube_pat_int</pattern>
       <pattern name="N_conns" type="int">'num_connections': $jube_pat_int</pattern>
       <pattern name="N_spks" type="int">'local_spike_counter': $jube_pat_int</pattern>
+      <pattern name="git" type="string">GIT: (.+)</pattern>
     </patternset>
 
 

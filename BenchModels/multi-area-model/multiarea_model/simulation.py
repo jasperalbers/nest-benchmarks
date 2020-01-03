@@ -54,6 +54,8 @@ class Simulation:
             custom simulation parameters that overwrite the
             default parameters defined in default_params.py
         """
+        print('GIT: ({})'.format(nest.version()))
+
         self.params = deepcopy(sim_params)
         if isinstance(sim_spec, dict):
             check_custom_params(sim_spec, self.params)

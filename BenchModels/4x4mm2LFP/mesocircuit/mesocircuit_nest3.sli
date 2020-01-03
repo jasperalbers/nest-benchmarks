@@ -304,8 +304,7 @@
                 % the GID of the spike detector and the process number
                 % are appended automatically
                 /label spike_detector_label layer_idx 2 mul pop_idx add cvs join
-                /to_file save_cortical_spikes
-                /to_memory false
+                /record_to /ascii
                 /start transient
             >> SetStatus
             % store the GIDCollection
@@ -407,8 +406,7 @@
             this_voltmeter
             <<
                /label voltmeter_label layer_idx 2 mul pop_idx add cvs join
-               /to_file save_voltages
-               /to_memory false
+               /record_to /ascii
                /start rec_voltage_start transient add
                /stop rec_voltage_stop transient add
                /interval dt_voltage
@@ -511,8 +509,7 @@
         {
             /spike_detector Create /th_spike_detector_GID Set
             th_spike_detector_GID << /label th_spike_detector_label
-                                     /to_file save_thalamic_spikes
-                                     /to_memory false
+                                     /record_to /ascii
                                      /start transient
                                   >> SetStatus
         } if % record thalamic spikes
@@ -978,7 +975,7 @@
         % to those thalamic neurons (parrots) chosen by position
         th_input_GID
         /thal_poisson_input Set
-        thal_poisson_input GIDs_th_pos cvgidcollection
+        thal_poisson_input GIDs_th_pos pstack cvnodecollection
         /all_to_all
         Connect
 
@@ -1379,6 +1376,8 @@ Rank 0 eq
         derived_params_K Total
         add
     def
+
+    (GIT: ) =only statusdict/version :: ==
 
     (Number of neurons, without TC: ) num_neurons Flatten Total cvs join ( \n) join
     (Total number of synapses, without TC: ) join total_num_synapses cvs join ( \n) join

@@ -1442,6 +1442,8 @@ Rank 0 eq
         add
     def
 
+    (GIT: ) =only statusdict/version :: ==
+
     (Number of neurons, without TC: ) num_neurons Flatten Total cvs join ( \n) join
     (Total number of synapses, without TC: ) join total_num_synapses cvs join ( \n) join
     (Number of internal synapses, without TC: ) join derived_params_K Total cvs join ( \n) join
