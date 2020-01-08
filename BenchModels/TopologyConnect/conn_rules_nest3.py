@@ -620,9 +620,9 @@ def ConnectAll(pops):
     Connect(pops['STN'], pops['GPi'], syn_spec={'weight': 0.025811344495233646, 'delay': 3.0, 'synapse_model': 'static_synapse'})
 
     #log.info(" sec for connecting ALL populations: %5.1f", time.time() - start_conn_time)
-    #log.info(" number of connections: %5.1d", nest.GetStatus('num_connections'))
+    #log.info(" number of connections: %5.1d", nest.GetKernelStatus('num_connections'))
 
     t_end = time.time() - start_conn_time
-    print('{} # num_connections'.format(nest.GetStatus('num_connections')))
+    print('{} # num_connections'.format(nest.GetKernelStatus('num_connections')))
     print('{} # build_edge_time'.format(t_end))
     print('{} # virt_mem_after_edges'.format(nest.ll_api.sli_func('memory_thisjob')))
