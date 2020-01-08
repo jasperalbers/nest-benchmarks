@@ -149,8 +149,11 @@
         export OMP_NUM_THREADS=$THREADS_PER_TASK
         srun -n 1 python ${bench_model}/4x4mm2LFP/mesocircuit/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
         
-        module purge;
-        module load $modules;
+        module swap $swap_modules
+        module load $modules
+        module load $boost_module
+        module load $gsl_module
+        
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
         srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${bench_model}/4x4mm2LFP/mesocircuit/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
       </parameter>
@@ -164,13 +167,17 @@
         module swap $swap_modules
         module load $modules
         module load $boost_module
+        module load $gsl_module
         module load $python2_module;
 
         export OMP_NUM_THREADS=$THREADS_PER_TASK
         srun -n 1 python ${bench_model}/4x4mm2LFP/mesocircuit/parameterspace_control.py ${SCALE} ${NUM_VPS} ${SIMTIME} ${TRANSIENT}
         
-        module purge;
-        module load $modules;
+        module swap $swap_modules
+        module load $modules
+        module load $boost_module
+        module load $gsl_module
+
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
         srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh ${NEST_INSTALL_DIR}/bin/nest ${bench_model}/4x4mm2LFP/mesocircuit/parameters/${NUM_VPS}-${SCALE}/acd429db3b9ab17b5f5391184e500dc6.sli ${slifile} 
       </parameter>
@@ -197,9 +204,10 @@
     <parameterset name="bench_nest_MAM_srun">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
       <parameter name="exec">
-        module purge;
-        module load $modules;
-        module load $gsl_module;
+        module swap $swap_modules
+        module load $modules
+        module load $boost_module
+        module load $gsl_module
         module load $python_module;
         
         source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
@@ -274,6 +282,7 @@
       module swap $swap_modules
       module load $modules
       module load $boost_module
+      module load $gsl_module
 
     	source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
     	export OMP_NUM_THREADS=$THREADS_PER_TASK
@@ -310,6 +319,7 @@
       module swap $swap_modules
       module load $modules
       module load $boost_module
+      module load $gsl_module
 
       source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
       export OMP_NUM_THREADS=$THREADS_PER_TASK
