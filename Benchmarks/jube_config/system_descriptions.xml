@@ -39,4 +39,24 @@
     <parameter name="build_ppn" type="int">72</parameter>
   </parameterset>
 
+  <parameterset name="system_jureca">
+    <parameter name="system_name" type="string">jureca</parameter>
+    <parameter name="partition" type="string">batch</parameter>
+    <parameter name="modules">ParaStationMPI SciPy-Stack jemalloc</parameter>
+    <parameter name="swap_modules"></parameter>
+    <parameter name="cmake_module">CMake</parameter>
+    <parameter name="gcc_module">GCC</parameter>
+    <parameter name="gsl_module">GSL</parameter>
+    <parameter name="python_module">Python</parameter>
+    <!-- <parameter name="python2_module"></parameter> -->
+    <parameter name="boost_module">Boost/1.69.0-Python-3.6.8</parameter>
+    <parameter name="python_exec">python</parameter>
+    <parameter name="cython_exec"></parameter>
+    <parameter name="pip_exec"></parameter>
+    <parameter name="mpicc_exec">mpicc</parameter>
+    <parameter name="mpicxx_exec">mpic++</parameter>
+    <parameter name="build_nodes" type="int">1</parameter>
+    <parameter name="build_ppn" type="int">24</parameter>
+  </parameterset>
+
 </jube>

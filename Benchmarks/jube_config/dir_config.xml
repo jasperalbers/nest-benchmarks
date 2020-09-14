@@ -2,9 +2,9 @@
   <parameterset name="dir_config">
 
     <!-- Adjust the next four paths according to your setup -->
-    <parameter name="bench_home" type="string">${HOME}/nest-benchmarks/Benchmarks</parameter>
-    <parameter name="bench_work" type="string">${HOME}/BenchWork</parameter>
-    <parameter name="bench_model" type="string">${HOME}/nest-benchmarks/BenchModels</parameter>
+    <parameter name="bench_home" type="string">/p/project/cjinb33/albers2/projects/mam_benchmarking/jube/nest-benchmarks/Benchmarks</parameter>
+    <parameter name="bench_work" type="string">/p/project/cjinb33/albers2/projects/mam_benchmarking/jube/BenchWork</parameter>
+    <parameter name="bench_model" type="string">/p/project/cjinb33/albers2/projects/mam_benchmarking/jube/nest-benchmarks/BenchModels</parameter>
 
     <!-- Parameters below should not need to be modified -->
 

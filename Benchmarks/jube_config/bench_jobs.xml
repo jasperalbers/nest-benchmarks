@@ -87,6 +87,23 @@
       <parameter name="out_file">stdout</parameter>
     </parameterset>
 
+    <parameterset name="bench_base_vp_jureca">
+      <parameter name="submit_cmd">sbatch</parameter>
+      <parameter name="job_file">job.jureca.slurm</parameter>
+      <parameter name="nodes" type="int">$NUMBER_OF_NODES</parameter>
+      <parameter name="num_tasks" type="int" mode="python">${NUM_VPS} // ${THREADS_PER_TASK}</parameter>
+      <parameter name="ppn" type="int" mode="python">${num_tasks} // ${NUMBER_OF_NODES}</parameter>
+
+      <!-- next is alias to make result table template work -->
+      <parameter name="TASKS_PER_NODE" type="int">${ppn}</parameter>
+      <parameter name="cpus_per_task" type="int">$THREADS_PER_TASK</parameter>
+      <parameter name="totVPs" type="int" mode="python">$NUM_VPS</parameter>
+      <parameter name="walltime">00:30:00</parameter>
+      <parameter name="ready_file">ready</parameter>
+      <parameter name="err_file">stderr</parameter>
+      <parameter name="out_file">stdout</parameter>
+    </parameterset>
+
     <parameterset name="bench_nest">
       <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>      
       <parameter name="exec">
@@ -236,6 +253,24 @@
         srun -n 1 python ${bench_model}/multi-area-model/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
 
         srun ${JEMALLOC_INSTALL_DIR}/bin/jemalloc.sh python ${pythonfile} ${SCALE} ${totVPs} ${NEST_VERSION}
+      </parameter>
+    </parameterset>
+
+    <parameterset name="bench_nest_MAM_boost_srun_noswap_nojemalloc">
+      <parameter name="job_name" type="string">bench-${nest_version}-${system_name}-${nest_config}</parameter>
+      <parameter name="exec">
+        module load $modules
+        module load $boost_module
+        module load $gsl_module
+        module load $python_module
+        
+        source ${NEST_INSTALL_DIR}/bin/nest_vars.sh;
+        export PYTHONPATH=${MAM_home}/multi-area-model/:$PYTHONPATH;
+        export OMP_NUM_THREADS=$THREADS_PER_TASK
+       
+        srun -n 1 python ${bench_model}/multi-area-model/run_example_createParams.py ${SCALE} ${totVPs} ${SIMTIME} ${K_SCALE} ${NEST_VERSION}
+
+        srun python ${pythonfile} ${SCALE} ${totVPs} ${NEST_VERSION}
       </parameter>
     </parameterset>
 
