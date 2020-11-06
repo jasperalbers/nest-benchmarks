@@ -2,19 +2,9 @@
   <parameterset name="dir_config">
 
     <!-- Adjust the next four paths according to your setup -->
-    <parameter name="bench_home" type="string">/p/project/cjinb33/albers2/projects/mam_benchmarking/jube/nest-benchmarks/Benchmarks</parameter>
-    <parameter name="bench_work" type="string">/p/project/cjinb33/albers2/projects/mam_benchmarking/jube/BenchWork</parameter>
-    <parameter name="bench_model" type="string">/p/project/cjinb33/albers2/projects/mam_benchmarking/jube/nest-benchmarks/BenchModels</parameter>
-
-    <!-- Parameters below should not need to be modified -->
-
-    <parameter name="NEST_INSTALL_DIR" type="string">${bench_work}/${nest_version}-${system_name}-${nest_config}/install</parameter>
-    <parameter name="NEST_BUILD_DIR" type="string">${bench_work}/jube_builds/${nest_version}/${system_name}-${nest_config}</parameter>
-    <parameter name="NEST_SRC_DIR" type="string">${bench_work}/${nest_version}/src</parameter>
-
-    <!-- Jemalloc cannot be built out-of-tree, thus no BUILD -->
-    <parameter name="JEMALLOC_INSTALL_DIR" type="string">${bench_work}/${jemalloc_version}-${system_name}/install</parameter>
-    <parameter name="JEMALLOC_SRC_DIR" type="string">${bench_work}/${jemalloc_version}</parameter>
+    <parameter name="bench_home" type="string">/p/project/icei-hbp-2020-0006/nest-benchmarks/Benchmarks</parameter>
+    <parameter name="bench_work" type="string">/p/project/icei-hbp-2020-0006/BenchWork</parameter>
+    <parameter name="bench_model" type="string">/p/project/icei-hbp-2020-0006/nest-benchmarks/BenchModels</parameter>
 
   </parameterset>
 </jube>
